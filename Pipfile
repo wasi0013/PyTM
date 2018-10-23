@@ -5,7 +5,10 @@ url = "https://pypi.org/simple"
 
 [packages]
 
+[dev-packages]
+sphinx = "*"
+"m2r" = "*"
+
 [requires]
 python_version = "3.6.7"
 
-[dev-packages]
