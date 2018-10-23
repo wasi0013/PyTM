@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "378b9a61a271f52817d7d09d7f299dce08661d097ce05aa1dfb9fe2856321bee"
+            "sha256": "43842d549e00361db1d593aaaf7db7d3a2e3958aee894bddcc9d131694b06ac7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -45,12 +45,6 @@
             ],
             "version": "==3.0.4"
         },
-        "commonmark": {
-            "hashes": [
-                "sha256:34d73ec8085923c023930dfc0bcd1c4286e28a2a82de094bb72fabcc0281cbe5"
-            ],
-            "version": "==0.5.4"
-        },
         "docutils": {
             "hashes": [
                 "sha256:02aec4bd92ab067f6ff27a38a38a41173bf01bed8f89157768c1573f53e474a6",
@@ -80,11 +74,25 @@
             ],
             "version": "==2.10"
         },
+        "m2r": {
+            "hashes": [
+                "sha256:bf90bad66cda1164b17e5ba4a037806d2443f2a4d5ddc9f6a5554a0322aaed99"
+            ],
+            "index": "pypi",
+            "version": "==0.2.1"
+        },
         "markupsafe": {
             "hashes": [
                 "sha256:a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"
             ],
             "version": "==1.0"
+        },
+        "mistune": {
+            "hashes": [
+                "sha256:59a3429db53c50b5c6bcc8a07f8848cb00d7dc8bdb431a4ab41920d201d4756e",
+                "sha256:88a1051873018da288eee8538d476dffe1262495144b33ecb586c4ab266bb8d4"
+            ],
+            "version": "==0.8.4"
         },
         "packaging": {
             "hashes": [
@@ -113,14 +121,6 @@
                 "sha256:ffb9ef1de172603304d9d2819af6f5ece76f2e85ec10692a524dd876e72bf277"
             ],
             "version": "==2018.5"
-        },
-        "recommonmark": {
-            "hashes": [
-                "sha256:6e29c723abcf5533842376d87c4589e62923ecb6002a8e059eb608345ddaff9d",
-                "sha256:cd8bf902e469dae94d00367a8197fb7b81fcabc9cfb79d520e0d22d0fbeaa8b7"
-            ],
-            "index": "pypi",
-            "version": "==0.4.0"
         },
         "requests": {
             "hashes": [

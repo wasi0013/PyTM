@@ -7,7 +7,7 @@ url = "https://pypi.org/simple"
 
 [dev-packages]
 sphinx = "*"
-recommonmark = "*"
+"m2r" = "*"
 
 [requires]
 python_version = "3.6"
