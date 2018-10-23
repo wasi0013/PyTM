@@ -22,7 +22,7 @@ The full documentation is at http://PyTM.rtfd.org."""
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
-    name='PyTM',
+    name='pytm13',
     version='0.0.1',
     description='PyTM - an Open Source Python Time Management Tool for Mankind',
     long_description=readme + '\n\n' + doclink + '\n\n' + history,
@@ -32,7 +32,7 @@ setup(
     packages=[
         'PyTM',
     ],
-    package_dir={'PyTM': 'PyTM'},
+    package_dir={'pytm13': 'PyTM'},
     include_package_data=True,
     install_requires=[
     ],
