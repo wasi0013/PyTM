@@ -1,10 +1,11 @@
-# PУΓM
-The aim of this project is to build an **Open Source** Python Time Management Tool for _Mankind_
+<img src="/PyTM-logo.png" height="21%" width="21%" alt="PУΓM">
 
-# Goals  
+**PУΓM** - an **Open Source** Python Time Management Tool for _Mankind_
+
+## Goals  
 Primary target is to increase productivity by helping Humanity to monitor their usage of time. 
  
-# TODO LIST
+## TODO LIST
 
 A  TO DO list will be added soon.  
 
@@ -22,15 +23,15 @@ You will need [Python](https://python.org/download) and, the following dependenc
 The installation instruction will be added here later.
 
 
-## Running the tests
+### Running the tests
 
 The instructions to run the automated tests will be added here later.
 
-## Deployment
+### Deployment
 
 Deployment Procedures will be added later.
 
-## Built With <3 using
+### Built With <3 using
 
 * [Python 3](https://python.org/)
 
