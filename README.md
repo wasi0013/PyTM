@@ -1,4 +1,4 @@
-<img src="/PyTM-logo.png" height="21%" width="21%" alt="PУΓM">
+<img src="https://github.com/wasi0013/PyTM/raw/master/PyTM-logo.png" height="21%" width="21%" alt="PУΓM">
 
 **PУΓM** - an **Open Source** Python Time Management Tool for _Mankind_
 
