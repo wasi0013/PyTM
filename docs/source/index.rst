@@ -67,7 +67,9 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 
 --------------
-> **NOTE:** This Project is still a work in progress.
+
+> **NOTE:** This Project is still a work in progress. 
+
 
 User Guide
 ===========
