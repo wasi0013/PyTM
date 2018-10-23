@@ -132,7 +132,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'PM.tex', 'PУ\\(\\Gamma\\)M Documentation',
+    (master_doc, 'PM.tex', 'PУTM Documentation',
      'Wasi Mohammed Abdullah', 'manual'),
 ]
 
