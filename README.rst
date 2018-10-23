@@ -1,4 +1,5 @@
-<img src="https://github.com/wasi0013/PyTM/raw/master/ext/images/PyTM-logo.png" height="30%" width="30%" alt="PУΓM">
+.. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/PyTM-logo.png
+    :target: https://github.com/wasi0013/PyTM/raw/master/ext/images/
 
 .. image:: https://badge.fury.io/py/PyTM.png
     :target: http://badge.fury.io/py/PyTM
