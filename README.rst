@@ -1,14 +1,30 @@
-.. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/PyTM-logo.png
-     :target: https://github.com/wasi0013/PyTM/raw/master/ext/images/
-     :alt: PyTM - Logo
+.. class:: no-web
     
-.. image:: https://badge.fury.io/py/python-pytm.png
-    :target: https://badge.fury.io/py/python-pytm
+    .. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/PyTM-logo.png
+          :target: https://github.com/wasi0013/PyTM/
+          :alt: PyTM - Logo
 
-.. image:: https://travis-ci.org/wasi0013/PyTM.png?branch=master
-    :target: https://travis-ci.org/wasi0013/PyTM
+
+
 
 **PУΓM** - an **Open Source** Python Time Management Tool for *Mankind*
+-----------------------------------------------------------------------
+|Build Status| |image1| |image2| |image3| |image4| |image5|
+
+.. |Build Status| image:: https://travis-ci.org/wasi0013/PyTM.png?branch=master
+   :target: https://travis-ci.org/wasi0013/PyTM
+.. |image1| image:: https://badge.fury.io/py/python-pytm.png
+   :target: https://badge.fury.io/py/python-pytm
+.. |image2| image:: https://img.shields.io/pypi/l/python-pytm.svg
+   :target: https://pypi.org/project/python-pytm/
+.. |image3| image:: https://img.shields.io/pypi/pyversions/python-pytm.svg
+   :target: https://pypi.org/project/python-pytm/
+.. |image4| image:: https://img.shields.io/github/contributors/wasi0013/PyTM.svg
+   :target: https://github.com/wasi0013/PyTM/graphs/contributors
+.. |image5| image:: https://img.shields.io/badge/join%20-slack-orange.svg
+   :target: https://python-pytm.slack.com/
+
+
 
 Goals  
 -----
