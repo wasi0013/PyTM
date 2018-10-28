@@ -41,16 +41,25 @@ Installing PyTM
 ---------------
 You can download it from Python Package Index! For example:  
 
-```
-pip install python-pytm
-```
+.. code-block::
+    pip install python-pytm
 
 or, you can install it using pipenv too!  
 
 
-```
-pipenv install python-pytm
-```
+.. code-block::
+    pipenv install python-pytm
+
+Checkout the version by typing the following in your terminal/command prompt:
+
+.. code-block::
+    pytm --version
+
+
+For a list of all the available options or, arguments try:
+
+.. code-block::
+    pytm --help
 
 
 Running the tests
@@ -60,15 +69,14 @@ Running the tests
 
 * Install dependencies
 
-```
-pip install -r requirements.txt
-```
+.. code-block::
+    pip install -r requirements.txt
+
 
 * run the tests:
 
-```
-py.test
-```
+.. code-block::
+   py.test
 
 Deployment
 ----------
@@ -78,7 +86,7 @@ Deployment Procedures will be added later.
 Built With :heart: using
 ------------------------
 
-* `Python 3 <https://python.org/>`_
+* `Python <https://python.org/>`_
 
 Contributing  
 ------------
@@ -91,9 +99,9 @@ Version
 -------
 We use `SemVer <http://semver.org/>`_. For the versions available, see the `tags on this repository <https://github.com/wasi0013/PyTM/tags>`_
 
-Authors
--------
-* **`Wasi Mohammed Abdullah <https://www.wasi0013.com/>`_** - *Core Contributor* - (`wasi0013 <https://github.com/wasi0013>`_)
+Author
+------
+* **`Wasi Mohammed Abdullah <https://www.wasi0013.com/>`_ ** - (`wasi0013 <https://github.com/wasi0013>`_)
 
 See also the list of `contributors <https://github.com/wasi0013/PyTM/contributors>`_ who participated in this project.
 
