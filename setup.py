@@ -35,10 +35,16 @@ setup(
     package_dir={'python-pytm': 'PyTM'},
     include_package_data=True,
     install_requires=[
+        'click',
+
     ],
     license='MIT',
     zip_safe=False,
     keywords='PyTM',
+    entry_points={
+        'console_scripts': ['pytm=PyTM.cli:cli'],
+    }
+    ,
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -51,4 +57,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: Implementation :: PyPy',
     ],
+
+
 )
