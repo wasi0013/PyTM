@@ -41,41 +41,41 @@ Installing PyTM
 ---------------
 You can download it from Python Package Index! For example:  
 
-.. code-block::
+.. code-block:: shell-session
     pip install python-pytm
 
 or, you can install it using pipenv too!  
 
 
-.. code-block::
+.. code-block:: shell-session
     pipenv install python-pytm
 
 Checkout the version by typing the following in your terminal/command prompt:
 
-.. code-block::
+.. code-block:: shell-session
     pytm --version
 
 
 For a list of all the available options or, arguments try:
 
-.. code-block::
+.. code-block:: shell-session
     pytm --help
 
 
 Running the tests
 -----------------
 
-* Clone this `repository <https://github.com/wasi0013/PyTM>`
+* Clone this `repository <https://github.com/wasi0013/PyTM>`_
 
 * Install dependencies
 
-.. code-block::
+.. code-block:: shell-session
     pip install -r requirements.txt
 
 
 * run the tests:
 
-.. code-block::
+.. code-block:: shell-session
    py.test
 
 Deployment
