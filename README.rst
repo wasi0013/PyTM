@@ -39,44 +39,35 @@ Features
 
 Installing PyTM  
 ---------------
-You can download it from Python Package Index! For example:  
+You can download it from Python Package Index! For example::
 
-.. code-block:: shell-session
     pip install python-pytm
 
-or, you can install it using pipenv too!  
+or, you can install it using pipenv too!::
 
-
-.. code-block:: shell-session
     pipenv install python-pytm
 
-Checkout the version by typing the following in your terminal/command prompt:
+Checkout the version by typing the following in your terminal/command prompt::
 
-.. code-block:: shell-session
     pytm --version
 
 
-For a list of all the available options or, arguments try:
+For a list of all the available options or, arguments try::
 
-.. code-block:: shell-session
     pytm --help
-
 
 Running the tests
 -----------------
 
 * Clone this `repository <https://github.com/wasi0013/PyTM>`_
 
-* Install dependencies
+* Install dependencies::
 
-.. code-block:: shell-session
     pip install -r requirements.txt
 
+* run the tests::
 
-* run the tests:
-
-.. code-block:: shell-session
-   py.test
+    py.test
 
 Deployment
 ----------
@@ -101,7 +92,7 @@ We use `SemVer <http://semver.org/>`_. For the versions available, see the `tags
 
 Author
 ------
-* **`Wasi Mohammed Abdullah <https://www.wasi0013.com/>`_ ** - (`wasi0013 <https://github.com/wasi0013>`_)
+* `**Wasi Mohammed Abdullah** <https://www.wasi0013.com/>`_ - (`wasi0013 <https://github.com/wasi0013>`_)
 
 See also the list of `contributors <https://github.com/wasi0013/PyTM/contributors>`_ who participated in this project.
 
