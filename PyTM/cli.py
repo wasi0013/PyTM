@@ -1,7 +1,3 @@
-"""
-PyTM - CLI
-
-"""
 from .__version__ import __version__
 import click
 from click import secho
@@ -18,7 +14,11 @@ def greet():
 @click.command()
 @click.version_option(version=__version__)
 def cli():
+    """
+    PyTM - CLI
+    """
     greet()
+
+
 if __name__ == "__main__":
     cli()
-
