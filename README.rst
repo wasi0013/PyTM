@@ -8,7 +8,7 @@
 **PУΓM** - an **Open Source** Python Time Management Tool for *Mankind*
 -----------------------------------------------------------------------
 
-|Build Status| |image1| |image2| |image3| |image4| |image5|
+|Build Status| |image1| |image2| |image3| |Contributors| |Join Slack| |Download Stats|
 
 .. |Build Status| image:: https://travis-ci.org/wasi0013/PyTM.png?branch=master
    :target: https://travis-ci.org/wasi0013/PyTM
@@ -18,14 +18,15 @@
    :target: https://pypi.org/project/python-pytm/
 .. |image3| image:: https://img.shields.io/pypi/pyversions/python-pytm.svg
    :target: https://pypi.org/project/python-pytm/
-.. |image4| image:: https://img.shields.io/github/contributors/wasi0013/PyTM.svg
+.. |Contributors| image:: https://img.shields.io/github/contributors/wasi0013/PyTM.svg
    :target: https://github.com/wasi0013/PyTM/graphs/contributors
-.. |image5| image:: https://img.shields.io/badge/join%20-slack-orange.svg
+.. |Join Slack| image:: https://img.shields.io/badge/join%20-slack-orange.svg
    :target: https://python-pytm.slack.com/
+.. |Download Stats| image:: https://pepy.tech/badge/python-pytm
+   :target: https://pepy.tech/project/python-pytm
 
 
-
-Goals  
+Goals
 -----
 
 Primary target is to increase productivity by helping *Humanity* to monitor their usage of time
@@ -35,9 +36,9 @@ without compromising privacy.
 Features
 --------
 
-* TODO 
+* TODO
 
-Installing PyTM  
+Installing PyTM
 ---------------
 You can download it from Python Package Index! For example::
 
@@ -79,10 +80,10 @@ Built With :heart: using
 
 * `Python <https://python.org/>`_
 
-Contributing  
+Contributing
 ------------
 
-Please read `CONTRIBUTING.rst <CONTRIBUTING.rst>`_ for details on our code of conduct, and the process for submitting pull requests to us. You are encouraged to contribute or, try it out. 
+Please read `CONTRIBUTING.rst <CONTRIBUTING.rst>`_ for details on our code of conduct, and the process for submitting pull requests to us. You are encouraged to contribute or, try it out.
 
 Any bug reports/suggestions/improvements/feature requests are highly appreciated. Just let us know by `creating issues <https://github.com/wasi0013/PyTM/issues/new/>`_
 
@@ -104,6 +105,7 @@ This project is licensed under the MIT License - see the `LICENSE <LICENSE>`_ fi
 Acknowledgments
 ---------------
 * Inspiration -   `Time Doctor <https://www.timedoctor.com/>`_
+* This project is bootstrapped using `this cookiecutter package <https://github.com/audreyr/cookiecutter-pypackage>`_
 
 
 **NOTE:** "*This Project is still a work in progress.*"
