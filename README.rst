@@ -93,7 +93,7 @@ We use `SemVer <http://semver.org/>`_. For the versions available, see the `tags
 
 Author
 ------
-* `**Wasi Mohammed Abdullah** <https://www.wasi0013.com/>`_ - (`wasi0013 <https://github.com/wasi0013>`_)
+* `Wasi Mohammed Abdullah <https://www.wasi0013.com/>`_ - (`wasi0013 <https://github.com/wasi0013>`_)
 
 See also the list of `contributors <https://github.com/wasi0013/PyTM/contributors>`_ who participated in this project.
 
