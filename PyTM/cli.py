@@ -1,9 +1,15 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from .__version__ import __version__
 import click
 from click import secho
 
 
 def greet():
+    """
+    shows Greeting Texts
+    :return: None
+    """
     secho("\n\033[1m✨ PyTM ✨\033[0m ", fg="green", nl=False)
     secho("CLI V-", nl=False)
     secho(__version__)
@@ -12,6 +18,13 @@ def greet():
 
 
 def print_version(ctx, param, value):
+    """
+    shows version and exits the CLI
+    :param ctx:
+    :param param:
+    :param value:
+    :return: None
+    """
     if not value:
         return
     secho("\n\033[1m✨ PyTM ✨\033[0m ", fg="green", nl=False)

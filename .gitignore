@@ -1,5 +1,6 @@
 *.py[cod]
 .pytest_cache/
+.py2_env/
 .idea/
 .env/
 .cli_env/
