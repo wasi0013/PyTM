@@ -8,22 +8,30 @@
 **PУΓM** - an **Open Source** Python Time Management Tool for *Mankind*
 -----------------------------------------------------------------------
 
-|Build Status| |image1| |image2| |image3| |Contributors| |Join Slack| |Download Stats|
+|BuildStatus| |image1| |image2| |image3| |Contributors| |JoinSlack| |DownloadStats| |DocsStats|
 
-.. |Build Status| image:: https://travis-ci.org/wasi0013/PyTM.png?branch=master
+.. |BuildStatus| image:: https://travis-ci.org/wasi0013/PyTM.png?branch=master
    :target: https://travis-ci.org/wasi0013/PyTM
+   :alt: Travis CI Build Status
 .. |image1| image:: https://badge.fury.io/py/python-pytm.png
    :target: https://badge.fury.io/py/python-pytm
 .. |image2| image:: https://img.shields.io/pypi/l/python-pytm.svg
    :target: https://pypi.org/project/python-pytm/
 .. |image3| image:: https://img.shields.io/pypi/pyversions/python-pytm.svg
    :target: https://pypi.org/project/python-pytm/
+   :alt: Supported Python Versions
 .. |Contributors| image:: https://img.shields.io/github/contributors/wasi0013/PyTM.svg
    :target: https://github.com/wasi0013/PyTM/graphs/contributors
-.. |Join Slack| image:: https://img.shields.io/badge/join%20-slack-orange.svg
+   :alt: List of Contributors
+.. |JoinSlack| image:: https://img.shields.io/badge/join%20-slack-orange.svg
    :target: https://python-pytm.slack.com/
-.. |Download Stats| image:: https://pepy.tech/badge/python-pytm
+   :alt: Join The PyTM discussion on Slack
+.. |DownloadStats| image:: https://pepy.tech/badge/python-pytm
    :target: https://pepy.tech/project/python-pytm
+   :alt: Download Stats
+.. |DocsStats| image:: https://readthedocs.org/projects/pytm/badge/?version=latest
+   :target: https://pytm.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
 
 Goals

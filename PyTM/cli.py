@@ -19,6 +19,7 @@ def print_version(ctx, param, value):
     secho(__version__)
     ctx.exit()
 
+
 @click.command()
 @click.option('--version', '-v', '--v', is_flag=True, callback=print_version,
               expose_value=False, is_eager=True, help="Shows version and exit")
