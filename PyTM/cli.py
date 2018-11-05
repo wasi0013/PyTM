@@ -44,7 +44,10 @@ def cli():
     """
     greet()
 
+
 cli.add_command(project)
 cli.add_command(task)
+
+
 if __name__ == "__main__":
     cli()
