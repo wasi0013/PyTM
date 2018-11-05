@@ -3,6 +3,8 @@
 from .__version__ import __version__
 import click
 from click import secho
+from .commands.project import project
+from .commands.task import task
 
 
 def greet():
@@ -33,7 +35,7 @@ def print_version(ctx, param, value):
     ctx.exit()
 
 
-@click.command()
+@click.group()
 @click.option('--version', '-v', '--v', is_flag=True, callback=print_version,
               expose_value=False, is_eager=True, help="Shows version and exit")
 def cli():
@@ -42,6 +44,7 @@ def cli():
     """
     greet()
 
-
+cli.add_command(project)
+cli.add_command(task)
 if __name__ == "__main__":
     cli()
