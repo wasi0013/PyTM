@@ -23,3 +23,9 @@ def test_version():
     result = runner.invoke(cli, ['--version'])
     assert __version__ in result.output
     assert result.exit_code is 0
+    result = runner.invoke(cli, ['--v'])
+    assert __version__ in result.output
+    assert result.exit_code is 0
+    result = runner.invoke(cli, ['-v'])
+    assert __version__ in result.output
+    assert result.exit_code is 0
