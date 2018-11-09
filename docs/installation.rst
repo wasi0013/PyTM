@@ -1,13 +1,21 @@
-============
-Installation
-============
+===============
+Installing PyTM
+===============
 
-At the command line either via easy_install or pip::
+You can download it from Python Package Index! For example::
 
-    $ easy_install PyTM
-    $ pip install PyTM
+    pip install python-pytm
 
-Or, if you have virtualenvwrapper installed::
+or, you can install it using pipenv too!::
 
-    $ mkvirtualenv PyTM
-    $ pip install PyTM
+    pipenv install python-pytm
+
+Checkout the version by typing the following in your terminal/command prompt::
+
+    pytm --version
+
+
+For a list of all the available options or, arguments try::
+
+    pytm --help
+

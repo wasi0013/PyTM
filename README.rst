@@ -44,10 +44,11 @@ without compromising privacy.
 Features
 --------
 
-* TODO
+* Initial Command Line Interface (using Click)
 
 Installing PyTM
 ---------------
+
 You can download it from Python Package Index! For example::
 
     pip install python-pytm
@@ -65,6 +66,8 @@ For a list of all the available options or, arguments try::
 
     pytm --help
 
+
+
 Running the tests
 -----------------
 
@@ -78,10 +81,6 @@ Running the tests
 
     py.test
 
-Deployment
-----------
-
-Deployment Procedures will be added later.
 
 Built With :heart: using
 ------------------------
