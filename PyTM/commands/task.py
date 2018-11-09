@@ -22,7 +22,7 @@ def abort(task_name):
 @click.argument("task_name")
 def finish(task_name):
     """
-    Finish a Task by marking all its task completed
+    Finish a Task
     """
     click.secho("Finished Task "+task_name)
 
