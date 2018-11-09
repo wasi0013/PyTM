@@ -41,6 +41,6 @@ nosetests.xml
 # Complexity
 output/*.html
 output/*/index.html
-
+htmlcov/
 # Sphinx
 docs/_build

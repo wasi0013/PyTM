@@ -36,7 +36,7 @@ coverage:
 	coverage run --source PyTM setup.py test
 	coverage report -m
 	coverage html
-	open htmlcov/index.html
+	sensible-browser 'htmlcov/index.html'
 
 docs:
 	rm -f docs/PyTM.rst
@@ -44,7 +44,7 @@ docs:
 	sphinx-apidoc -o docs/ PyTM
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	open docs/_build/html/index.html
+	sensible-browser 'docs/_build/html/index.html'
 
 release: clean
 	python setup.py sdist upload

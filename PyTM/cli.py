@@ -41,6 +41,7 @@ def print_version(ctx, param, value):
 def cli():
     """
     PyTM - CLI
+    docs: https://pytm.rtfd.org
     """
     greet()
 

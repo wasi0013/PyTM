@@ -29,3 +29,15 @@ def test_version():
     result = runner.invoke(cli, ['-v'])
     assert __version__ in result.output
     assert result.exit_code is 0
+
+
+def test_command_project():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['project'])
+    assert result.exit_code is 0
+
+
+def test_command_task():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['task'])
+    assert result.exit_code is 0
