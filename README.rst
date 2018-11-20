@@ -24,7 +24,7 @@
    :target: https://github.com/wasi0013/PyTM/graphs/contributors
    :alt: List of Contributors
 .. |JoinSlack| image:: https://img.shields.io/badge/join%20-slack-orange.svg
-   :target: https://python-pytm.slack.com/
+   :target: https://join.slack.com/t/python-pytm/shared_invite/enQtNDg1NzY0NTg5NDk0LTYwMDIxMjc1YzlmMzNiMDJkMTQ3NjIzMzFmMDM5Y2M1N2M4MWUyZjU1NzZkMWExZWE5OWZjMDA0ZWU5ZDlhYmQ
    :alt: Join The PyTM discussion on Slack
 .. |DownloadStats| image:: https://pepy.tech/badge/python-pytm
    :target: https://pepy.tech/project/python-pytm
