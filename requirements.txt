@@ -1,5 +1,5 @@
 atomicwrites==1.2.1
-attrs==18.2.0
+attrs==19.1.0
 bleach==3.0.2
 certifi==2018.10.15
 cffi==1.11.5
