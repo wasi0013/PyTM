@@ -8,7 +8,7 @@ Click==7.0
 cmarkgfm==0.4.2
 coverage==4.5.1
 docutils==0.14
-flake8==3.6.0
+flake8==3.7.8
 future==0.16.0
 idna==2.7
 mccabe==0.6.1
