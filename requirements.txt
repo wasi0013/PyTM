@@ -21,7 +21,7 @@ pycparser==2.19
 pyflakes==2.1.1
 Pygments==2.4.2
 pytest==3.9.3
-pytest-cov==2.6.0
+pytest-cov==2.8.1
 readme-renderer==24.0
 requests==2.20.0
 requests-toolbelt==0.8.0
