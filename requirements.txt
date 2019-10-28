@@ -7,7 +7,7 @@ chardet==3.0.4
 Click==7.0
 cmarkgfm==0.4.2
 coverage==4.5.1
-docutils==0.14
+docutils==0.15.2
 flake8==3.7.8
 future==0.16.0
 idna==2.7
