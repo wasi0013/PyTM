@@ -6,7 +6,7 @@ cffi==1.13.1
 chardet==3.0.4
 Click==7.0
 cmarkgfm==0.4.2
-coverage==4.5.1
+coverage==5.0.4
 docutils==0.15.2
 flake8==3.7.8
 future==0.16.0
