@@ -10,6 +10,7 @@ help:
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
 	@echo "release - package and upload a release"
 	@echo "sdist - package"
+	@echo "upgrade-all - upgrades all python packages to the latest version"
 
 clean: clean-build clean-pyc
 
@@ -54,3 +55,9 @@ sdist: clean
 	python setup.py sdist
 	python setup.py bdist_wheel upload
 	ls -l dist
+
+upgrade-all:
+	sed -i 's/==/>=/g' requirements.txt    
+	python -m pip install -r requirements.txt --upgrade
+	python -m pip freeze > requirements.txt
+  
