@@ -18,7 +18,7 @@ idna==3.2
 importlib-metadata==4.7.1
 iniconfig==1.1.1
 jeepney==0.7.1
-keyring==23.1.0
+keyring==23.2.1
 mccabe==0.6.1
 more-itertools==8.8.0
 packaging==21.0
