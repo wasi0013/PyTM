@@ -12,9 +12,6 @@
 |image1| |image2| |image3| |Contributors| |JoinSlack| |DownloadStats| |DocsStats|
 =======
 
-.. |BuildStatus| image:: https://travis-ci.org/wasi0013/PyTM.png?branch=master
-   :target: https://travis-ci.org/wasi0013/PyTM
-   :alt: Travis CI Build Status
 .. |image1| image:: https://badge.fury.io/py/python-pytm.png
    :target: https://badge.fury.io/py/python-pytm
 .. |image2| image:: https://img.shields.io/pypi/l/python-pytm.svg
