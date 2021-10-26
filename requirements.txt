@@ -12,7 +12,7 @@ cmarkgfm==0.6.0
 colorama==0.4.4
 coverage==5.5
 cryptography==35.0.0
-docutils==0.17.1
+docutils==0.18
 entrypoints==0.3
 flake8==3.9.2
 future==0.18.2
