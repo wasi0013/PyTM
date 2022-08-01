@@ -14,7 +14,7 @@ coverage==5.5
 cryptography==35.0.0
 docutils==0.17.1
 entrypoints==0.3
-flake8==3.9.2
+flake8==5.0.2
 future==0.18.2
 idna==3.3
 imagesize==1.2.0
