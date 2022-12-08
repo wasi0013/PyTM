@@ -3,7 +3,7 @@ atomicwrites==1.4.0
 attrs==21.2.0
 Babel==2.9.1
 bleach==4.1.0
-certifi==2021.10.8
+certifi==2022.12.7
 cffi==1.15.0
 chardet==4.0.0
 charset-normalizer==2.0.7
