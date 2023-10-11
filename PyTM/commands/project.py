@@ -1,6 +1,7 @@
 import click
 from PyTM.core import project
 
+
 @click.group()
 def project():
     """
@@ -15,7 +16,7 @@ def abort(project_name):
     """
     Abort an Ongoing Project with incomplete tasks
     """
-    click.secho("Pause Project "+project_name)
+    click.secho("Pause Project " + project_name)
 
 
 @project.command()
@@ -24,7 +25,7 @@ def finish(project_name):
     """
     Finish a Project by marking all its task completed
     """
-    click.secho("Finished Project "+project_name)
+    click.secho("Finished Project " + project_name)
 
 
 @project.command()
@@ -33,7 +34,7 @@ def pause(project_name):
     """
     Pause a Project so, no new task can be added to this project
     """
-    click.secho("Paused Project "+project_name)
+    click.secho("Paused Project " + project_name)
 
 
 @project.command()
@@ -42,7 +43,7 @@ def start(project_name):
     """
     Start the Project
     """
-    click.secho("Created Project "+project_name)
+    click.secho("Created Project " + project_name)
 
 
 @project.command()
@@ -51,4 +52,4 @@ def remove(project_name):
     """
     Remove a Project and, related task
     """
-    click.secho("Removed Project "+project_name)
+    click.secho("Removed Project " + project_name)

@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from .__version__ import __version__
 import click
 from click import secho
 from .commands.project import project
 from .commands.task import task
+from . import __version__
 
 
 def greet():
@@ -36,8 +36,16 @@ def print_version(ctx, param, value):
 
 
 @click.group()
-@click.option('--version', '-v', '--v', is_flag=True, callback=print_version,
-              expose_value=False, is_eager=True, help="Shows version and exit")
+@click.option(
+    "--version",
+    "-v",
+    "--v",
+    is_flag=True,
+    callback=print_version,
+    expose_value=False,
+    is_eager=True,
+    help="Shows version and exit",
+)
 def cli():
     """
     PyTM - CLI
