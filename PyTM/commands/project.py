@@ -1,5 +1,4 @@
 import click
-from PyTM.core import project
 
 
 @click.group()
