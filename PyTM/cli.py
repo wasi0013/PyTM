@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 import click
 from click import secho
-from .commands.project import project
-from .commands.task import task
-from . import __version__
+from PyTM.commands.project import project
+from PyTM.commands.task import task
+from PyTM import __version__
 import os
-from core.data_handler import init_data
-from settings import data_folder, data_filepath 
+from PyTM.core.data_handler import init_data
+from PyTM.settings import data_folder, data_filepath 
 
 def greet():
     """

@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from settings import data_filepath
+from PyTM.settings import data_filepath
 
 def init_data(path=data_filepath):
     """
