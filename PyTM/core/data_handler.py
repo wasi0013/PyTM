@@ -1,18 +1,18 @@
 import os
 import sys
 import json
+from settings import data_filepath
 
-
-def init_data(path):
+def init_data(path=data_filepath):
     """
     Creates the data to the given path.
     """
-    data = []
+    data = {}
     with open(path, "w") as f:
         json.dump(data, f)
 
 
-def load_data(path):
+def load_data(path=data_filepath):
     """
     Loads the data from the given path.
     """
@@ -20,10 +20,10 @@ def load_data(path):
         with open(path, "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        return []
+        return {}
 
 
-def save_data(path, data):
+def save_data(data, path=data_filepath):
     """
     Saves the data to the given path.
     """
@@ -32,9 +32,9 @@ def save_data(path, data):
             json.dump(data, f)
 
 
-def update(path, func):
+def update(func, path=data_filepath):
     """
     Decorator for updating the data.
     """
     data = load_data(path)
-    save_data(path, func(data))
+    save_data(func(data), path)

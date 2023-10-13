@@ -5,7 +5,9 @@ from click import secho
 from .commands.project import project
 from .commands.task import task
 from . import __version__
-
+import os
+from core.data_handler import init_data
+from settings import data_folder, data_filepath 
 
 def greet():
     """
@@ -53,7 +55,16 @@ def cli():
     """
     greet()
 
+@click.command()
+def init():
+    """
+    Initialize the pytm data store.
+    """
+    os.makedirs(data_folder)
+    os.chdir(data_folder)
+    init_data(data_filepath)
 
+cli.add_command(init)
 cli.add_command(project)
 cli.add_command(task)
 
