@@ -1,5 +1,8 @@
 import click
-
+from PyTM.core.project_handler import create_project, pause_project, finish_project, project_summary, project_status, remove_project, abort_project
+from functools import partial
+from PyTM.core.data_handler import update, load_data
+import json
 
 @click.group()
 def project():
@@ -15,25 +18,27 @@ def abort(project_name):
     """
     Abort an Ongoing Project with incomplete tasks
     """
-    click.secho("Pause Project " + project_name)
-
+    update(partial(abort_project, project_name=project_name))
+    click.secho(f"{project_name} aborted.")
 
 @project.command()
 @click.argument("project_name")
 def finish(project_name):
     """
-    Finish a Project by marking all its task completed
+    Finish a Project
     """
-    click.secho("Finished Project " + project_name)
+    update(partial(finish_project, project_name=project_name))
+    click.secho(f"{project_name} finished.")
 
 
 @project.command()
 @click.argument("project_name")
 def pause(project_name):
     """
-    Pause a Project so, no new task can be added to this project
+    Pause a Project
     """
-    click.secho("Paused Project " + project_name)
+    update(partial(pause_project, project_name=project_name))
+    click.secho(f"{project_name} paused.")
 
 
 @project.command()
@@ -42,13 +47,31 @@ def start(project_name):
     """
     Start the Project
     """
-    click.secho("Created Project " + project_name)
+    update(partial(create_project, project_name=project_name))
+    click.secho(f"{project_name} started.")
 
 
 @project.command()
 @click.argument("project_name")
 def remove(project_name):
     """
-    Remove a Project and, related task
+    Remove a Project 
     """
-    click.secho("Removed Project " + project_name)
+    update(partial(remove_project, project_name=project_name))
+    click.secho(f"{project_name} removed.")
+
+@project.command()
+@click.argument("project_name")
+def status(project_name):
+    """
+    Status of the Project
+    """
+    click.secho(f"{project_name} status: {project_status(load_data(), project_name)}")
+
+@project.command()
+@click.argument("project_name")
+def summary(project_name):
+    """
+    Summary of the Project
+    """
+    click.secho(f"{json.dumps(project_summary(load_data(), project_name), indent=4)}")

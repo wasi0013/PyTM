@@ -6,7 +6,7 @@ import sys
 try:
     from setuptools import setup
 except ImportError:
-    from distutils.core import setup
+    from setuptools._distutils import setup
 
 
 if sys.argv[-1] == "publish":
@@ -23,7 +23,7 @@ history = open("HISTORY.rst").read().replace(".. :changelog:", "")
 
 setup(
     name="python-pytm",
-    version="0.0.2",
+    version="0.0.3",
     description="PyTM - an Open Source Python Time Management Tool for Mankind",
     long_description=readme + "\n\n" + doclink + "\n\n" + history,
     author="Wasi",
@@ -48,9 +48,7 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
 )

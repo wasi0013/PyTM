@@ -53,16 +53,26 @@ def cli():
     PyTM - CLI
     docs: https://pytm.rtfd.org
     """
-    greet()
+    # greet()
 
 @click.command()
 def init():
     """
     Initialize the pytm data store.
     """
-    os.makedirs(data_folder)
+    click.secho("Initializing pytm-data.")
+    try:
+        os.makedirs(data_folder)
+        click.secho(f"Created data folder: {data_folder}")
+    except:
+        click.secho(f"Data folder already exists: {data_folder}", fg="red")
     os.chdir(data_folder)
-    init_data(data_filepath)
+    if os.path.exists(data_filepath):
+        click.secho(f"Data file already exists: {data_filepath}", fg="red")
+    else: 
+        init_data(data_filepath)
+        click.secho(f"Created data file: {data_filepath}")        
+        click.secho("Done.")
 
 cli.add_command(init)
 cli.add_command(project)
