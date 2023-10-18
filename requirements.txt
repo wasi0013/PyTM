@@ -45,7 +45,6 @@ Pygments==2.16.1
 pyparsing==3.1.1
 pytest==7.4.2
 pytest-cov==4.1.0
--e git+ssh://git@github.com/wasi0013/PyTM.git@062f87901216d21a4ef7aa2bbfd2c141ce50ebf7#egg=python_pytm
 pytz==2023.3.post1
 readline==6.2.4.1
 readme-renderer==42.0
