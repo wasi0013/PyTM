@@ -67,7 +67,7 @@ def init():
         click.secho("Folder already exist", fg="red")
     os.chdir(data_folder)
     if os.path.exists(data_filepath):
-        click.secho("data file already exists." fg="red")
+        click.secho("data file already exists.", fg="red")
     else: 
         click.secho(f"Creating data file: {data_filepath}")
         init_data(data_filepath)
