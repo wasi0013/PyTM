@@ -60,9 +60,12 @@ def init():
     """
     Initialize the pytm data store.
     """
+    click.secho(f"creating data folder: {data_folder}")
     os.makedirs(data_folder)
     os.chdir(data_folder)
+    click.secho(f"Creating data file: {data_filepath}")
     init_data(data_filepath)
+    click.secho("Done.")
 
 cli.add_command(init)
 cli.add_command(project)
