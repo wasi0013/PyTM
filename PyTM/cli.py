@@ -60,18 +60,19 @@ def init():
     """
     Initialize the pytm data store.
     """
-    click.secho(f"creating data folder: {data_folder}")
+    click.secho("Initializing pytm-data.")
     try:
         os.makedirs(data_folder)
+        click.secho(f"Created data folder: {data_folder}")
     except:
-        click.secho("Folder already exist", fg="red")
+        click.secho("Data folder already exists", fg="red")
     os.chdir(data_folder)
     if os.path.exists(data_filepath):
-        click.secho("data file already exists.", fg="red")
+        click.secho("Data file already exists.", fg="red")
     else: 
-        click.secho(f"Creating data file: {data_filepath}")
         init_data(data_filepath)
-    click.secho("Done.")
+        click.secho(f"Created data file: {data_filepath}")        
+        click.secho("Done.")
 
 cli.add_command(init)
 cli.add_command(project)
