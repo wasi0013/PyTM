@@ -10,7 +10,7 @@ def create_project(data, project_name):
     else:
         data[project_name] = {
             "tasks": [],
-            "created_at": datetime.now(),
+            "created_at": f"{datetime.now()}",
             "status":  PROJECT_STARTED
         }
     return data
