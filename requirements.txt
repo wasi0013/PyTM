@@ -2,7 +2,7 @@ alabaster==0.7.13
 atomicwrites==1.4.1
 attrs==23.1.0
 Babel==2.13.0
-black==23.9.1
+black==23.10.0
 bleach==6.1.0
 certifi==2023.7.22
 cffi==1.16.0
@@ -45,6 +45,7 @@ Pygments==2.16.1
 pyparsing==3.1.1
 pytest==7.4.2
 pytest-cov==4.1.0
+-e git+ssh://git@github.com/wasi0013/PyTM.git@062f87901216d21a4ef7aa2bbfd2c141ce50ebf7#egg=python_pytm
 pytz==2023.3.post1
 readline==6.2.4.1
 readme-renderer==42.0
@@ -67,7 +68,7 @@ toml==0.10.2
 tqdm==4.66.1
 twine==4.0.2
 typing_extensions==4.8.0
-urllib3==2.0.6
+urllib3==2.0.7
 wcwidth==0.2.8
 webencodings==0.5.1
 zipp==3.17.0
