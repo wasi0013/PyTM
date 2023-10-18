@@ -1,6 +1,6 @@
 from datetime import datetime
-from PyTM.settings import PROJECT_ABORTED, PROJECT_FINISHED, PROJECT_STARTED
-from PyTM.settings import PROJECT_PAUSED
+from PyTM.settings import PROJECT_ABORTED, PROJECT_FINISHED, PROJECT_STARTED, PROJECT_PAUSED
+
 
 def create(data, project_name):
     """Create & Start the project
