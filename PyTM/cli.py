@@ -53,7 +53,7 @@ def cli():
     PyTM - CLI
     docs: https://pytm.rtfd.org
     """
-    greet()
+    # greet()
 
 @click.command()
 def init():
