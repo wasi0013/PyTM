@@ -26,6 +26,7 @@ setup(
     version="0.0.3",
     description="PyTM - an Open Source Python Time Management Tool for Mankind",
     long_description=readme + "\n\n" + doclink + "\n\n" + history,
+    long_description_content_type="text/x-rst",
     author="Wasi",
     author_email="wasi0013@gmail.com",
     url="https://github.com/wasi0013/PyTM",

@@ -48,12 +48,11 @@ docs:
 	sensible-browser 'docs/_build/html/index.html'
 
 release: clean
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+	python setup.py sdist
+	twine upload --verbose dist/*
 
 sdist: clean
 	python setup.py sdist
-	python setup.py bdist_wheel upload
 	ls -l dist
 
 upgrade-all:

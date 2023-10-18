@@ -10,7 +10,7 @@
 
 
 |image1| |image2| |image3| |Contributors| |DownloadStats| |DocsStats|
-=======
+=====================================================================
 
 .. |image1| image:: https://badge.fury.io/py/python-pytm.png
    :target: https://badge.fury.io/py/python-pytm
