@@ -65,10 +65,10 @@ def init():
         os.makedirs(data_folder)
         click.secho(f"Created data folder: {data_folder}")
     except:
-        click.secho("Data folder already exists", fg="red")
+        click.secho(f"Data folder already exists: {data_folder}", fg="red")
     os.chdir(data_folder)
     if os.path.exists(data_filepath):
-        click.secho("Data file already exists.", fg="red")
+        click.secho(f"Data file already exists: {data_filepath}", fg="red")
     else: 
         init_data(data_filepath)
         click.secho(f"Created data file: {data_filepath}")        
