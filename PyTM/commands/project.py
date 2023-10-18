@@ -1,7 +1,8 @@
 import click
 from PyTM.core.project_handler import create_project, pause_project, finish_project, project_summary, project_status, remove_project, abort_project
 from functools import partial
-from PyTM.core.data_handler import update
+from PyTM.core.data_handler import update, load_data
+import json
 
 @click.group()
 def project():
@@ -24,7 +25,7 @@ def abort(project_name):
 @click.argument("project_name")
 def finish(project_name):
     """
-    Finish a Project by marking all its task completed
+    Finish a Project
     """
     update(partial(finish_project, project_name=project_name))
     click.secho(f"{project_name} finished.")
@@ -34,7 +35,7 @@ def finish(project_name):
 @click.argument("project_name")
 def pause(project_name):
     """
-    Pause a Project so, no new task can be added to this project
+    Pause a Project
     """
     update(partial(pause_project, project_name=project_name))
     click.secho(f"{project_name} paused.")
@@ -54,7 +55,7 @@ def start(project_name):
 @click.argument("project_name")
 def remove(project_name):
     """
-    Remove a Project and, related task
+    Remove a Project 
     """
     update(partial(remove_project, project_name=project_name))
     click.secho(f"{project_name} removed.")
@@ -63,6 +64,14 @@ def remove(project_name):
 @click.argument("project_name")
 def status(project_name):
     """
-    Remove a Project and, related task
+    Status of the Project
     """
-    click.secho(f"{project_name} status: {project_status(project_name)}")
+    click.secho(f"{project_name} status: {project_status(load_data(), project_name)}")
+
+@project.command()
+@click.argument("project_name")
+def summary(project_name):
+    """
+    Summary of the Project
+    """
+    click.secho(f"{json.dumps(project_summary(load_data(), project_name), indent=4)}")
