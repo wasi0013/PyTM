@@ -43,7 +43,7 @@ pycparser==2.21
 pyflakes==3.1.0
 Pygments==2.16.1
 pyparsing==3.1.1
-pytest==7.4.2
+pytest==7.4.3
 pytest-cov==4.1.0
 pytz==2023.3.post1
 readline==6.2.4.1
