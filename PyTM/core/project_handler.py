@@ -1,17 +1,16 @@
 from datetime import datetime
-from PyTM.settings import PROJECT_ABORTED, PROJECT_FINISHED, PROJECT_STARTED, PROJECT_PAUSED
-
+import PyTM.settings as settings
 
 def create_project(data, project_name):
     """Create & Start the project
     """
     if data.get(project_name):
-        data[project_name]['status'] = PROJECT_STARTED
+        data[project_name]['status'] = settings.STARTED
     else:
         data[project_name] = {
             "tasks": [],
             "created_at": f"{datetime.now()}",
-            "status":  PROJECT_STARTED
+            "status":  settings.STARTED
         }
     return data
 
@@ -19,14 +18,14 @@ def create_project(data, project_name):
 def pause_project(data, project_name):
     """Pause the project"""
     if data.get(project_name):
-        data[project_name]['status'] = PROJECT_PAUSED
+        data[project_name]['status'] = settings.PAUSED
     return data
 
 
 def finish_project(data, project_name):
     """Finish the project"""
     if data.get(project_name):
-        data[project_name]['status'] = PROJECT_FINISHED
+        data[project_name]['status'] = settings.FINISHED
     return data
 
 
@@ -44,7 +43,7 @@ def project_status(data, project_name):
 def abort_project(data, project_name):
     """Abort the project"""
     if data.get(project_name):
-        data.get(project_name)['status'] = PROJECT_ABORTED
+        data.get(project_name)['status'] = settings.ABORTED
     return data
 
 

@@ -7,7 +7,7 @@ from PyTM.commands.task import task
 from PyTM import __version__
 import os
 from PyTM.core.data_handler import init_data
-from PyTM.settings import data_folder, data_filepath 
+from PyTM.settings import data_folder, data_filepath, state_filepath
 
 def greet():
     """
@@ -72,6 +72,12 @@ def init():
     else: 
         init_data(data_filepath)
         click.secho(f"Created data file: {data_filepath}")        
+        click.secho("Done.")
+    if os.path.exists(state_filepath):
+        click.secho(f"State file already exists: {state_filepath}", fg="red")
+    else: 
+        init_data(state_filepath, {"current_project": "", "current_task": ""})
+        click.secho(f"Created data file: {state_filepath}")        
         click.secho("Done.")
 
 cli.add_command(init)
