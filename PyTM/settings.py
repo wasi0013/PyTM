@@ -13,3 +13,7 @@ STOPPED = "stopped"
 FINISHED = "finished"
 PAUSED = "paused"
 ABORTED = "aborted"
+
+# State keys
+CURRENT_PROJECT = "current_project"
+CURRENT_TASK = "current_task"
