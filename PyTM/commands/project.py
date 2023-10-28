@@ -64,6 +64,9 @@ def start(project_name):
     Start the Project
     """
     update(partial(create_project, project_name=project_name))
+    state = load_data(settings.state_filepath)
+    state[settings.CURRENT_PROJECT] = project_name
+    save_data(state, settings.state_filepath)
     click.secho(f"{project_name} started.")
 
 
