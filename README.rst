@@ -5,8 +5,8 @@
 
 
 
-**PУΓM** - an **Open Source** Python Time Management Tool for *Mankind*
------------------------------------------------------------------------
+**PУΓM** - an **Open Source** Python Time Management Tool
+---------------------------------------------------------
 
 
 |image1| |image2| |image3| |Contributors| |DownloadStats| |DocsStats|
@@ -33,8 +33,7 @@
 Goals
 -----
 
-Primary target is to increase productivity by helping *Humanity* to monitor their usage of time
-without compromising privacy.
+Project time management, billing and invoice generations.
 
 
 Features
@@ -107,7 +106,6 @@ This project is licensed under the MIT License - see the `LICENSE <LICENSE>`_ fi
 
 Acknowledgments
 ---------------
-* Inspiration -   `Time Doctor <https://www.timedoctor.com/>`_
 * This project is bootstrapped using `this cookiecutter package <https://github.com/audreyr/cookiecutter-pypackage>`_
 
 
