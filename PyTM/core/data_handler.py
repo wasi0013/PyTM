@@ -1,13 +1,10 @@
-import os
-import sys
 import json
 from PyTM.settings import data_filepath
 
-def init_data(path=data_filepath):
+def init_data(path=data_filepath, data={}):
     """
     Creates the data to the given path.
     """
-    data = {}
     with open(path, "w") as f:
         json.dump(data, f)
 

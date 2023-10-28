@@ -1,7 +1,8 @@
 import click
 from PyTM.core.project_handler import create_project, pause_project, finish_project, project_summary, project_status, remove_project, abort_project
 from functools import partial
-from PyTM.core.data_handler import update, load_data
+from PyTM.core.data_handler import update, load_data, save_data
+import PyTM.settings as settings
 import json
 
 @click.group()
@@ -11,35 +12,50 @@ def project():
     """
     pass
 
-
 @project.command()
-@click.argument("project_name")
-def abort(project_name):
+def abort():
     """
     Abort an Ongoing Project with incomplete tasks
     """
-    update(partial(abort_project, project_name=project_name))
-    click.secho(f"{project_name} aborted.")
+    state = load_data(settings.state_filepath)
+    project_name = state.get(settings.CURRENT_PROJECT)
+    if project_name:
+        update(partial(abort_project, project_name=project_name))
+        state[settings.CURRENT_PROJECT] = ""
+        save_data(state, settings.state_filepath)
+        click.secho(f"{project_name} aborted.")
+    else:
+        click.secho("No active project.")
 
 @project.command()
-@click.argument("project_name")
-def finish(project_name):
+def finish():
     """
-    Finish a Project
+    Finish current Project
     """
-    update(partial(finish_project, project_name=project_name))
-    click.secho(f"{project_name} finished.")
-
+    state = load_data(settings.state_filepath)
+    project_name = state.get(settings.CURRENT_PROJECT)
+    if project_name:
+        update(partial(finish_project, project_name=project_name))
+        state[settings.CURRENT_PROJECT] = ""
+        save_data(state, settings.state_filepath)
+        click.secho(f"{project_name} finished.")
+    else:
+        click.secho("No active project.")
 
 @project.command()
-@click.argument("project_name")
-def pause(project_name):
+def pause():
     """
     Pause a Project
     """
-    update(partial(pause_project, project_name=project_name))
-    click.secho(f"{project_name} paused.")
-
+    state = load_data(settings.state_filepath)
+    project_name = state.get(settings.CURRENT_PROJECT)
+    if project_name:
+        update(partial(pause_project, project_name=project_name))
+        state[settings.CURRENT_PROJECT] = ""
+        save_data(state, settings.state_filepath)
+        click.secho(f"{project_name} paused.")
+    else:
+        click.secho("No active project.")
 
 @project.command()
 @click.argument("project_name")
@@ -48,6 +64,9 @@ def start(project_name):
     Start the Project
     """
     update(partial(create_project, project_name=project_name))
+    state = load_data(settings.state_filepath)
+    state[settings.CURRENT_PROJECT] = project_name
+    save_data(state, settings.state_filepath)
     click.secho(f"{project_name} started.")
 
 
