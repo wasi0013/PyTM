@@ -5,8 +5,8 @@
 
 
 
-**PУΓM** - an **Open Source** Python Time Management Tool
----------------------------------------------------------
+**PУΓM** - a Time Management Tool
+---------------------------------
 
 
 |image1| |image2| |image3| |Contributors| |DownloadStats| |DocsStats|
@@ -95,7 +95,7 @@ We use `SemVer <http://semver.org/>`_. For the versions available, see the `tags
 
 Author
 ------
-* `Wasi Mohammed Abdullah <https://www.wasi0013.com/>`_ - (`wasi0013 <https://github.com/wasi0013>`_)
+* `Wasi <https://www.wasi0013.com/>`_ - (`wasi0013 <https://github.com/wasi0013>`_)
 
 See also the list of `contributors <https://github.com/wasi0013/PyTM/contributors>`_ who participated in this project.
 
