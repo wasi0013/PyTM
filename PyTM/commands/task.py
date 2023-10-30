@@ -75,6 +75,7 @@ def pause():
 
 
 @task.command()
+@click.argument("task_name")
 def start(task_name):
     """
     Start a new/existing Task
@@ -102,7 +103,7 @@ def remove(project_name, task_name):
     if state[settings.CURRENT_TASK] == task_name: 
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-            click.secho("Aborted Task " + task_name)
+    click.secho("Removed Task " + task_name)
 
 @task.command()
 def status():
