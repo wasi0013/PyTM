@@ -77,7 +77,7 @@ def init():
         click.secho(f"State file already exists: {state_filepath}", fg="red")
     else: 
         init_data(state_filepath, {CURRENT_PROJECT: "", CURRENT_TASK: ""})
-        click.secho(f"Created data file: {state_filepath}")        
+        click.secho(f"Created state file: {state_filepath}")        
         click.secho("Done.")
 
 cli.add_command(init)
