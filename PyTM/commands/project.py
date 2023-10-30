@@ -76,7 +76,11 @@ def remove(project_name):
     """
     Remove a Project 
     """
+    state = load_data(settings.state_filepath)
     update(partial(remove_project, project_name=project_name))
+    if state[settings.CURRENT_PROJECT] == project_name:
+        state[settings.CURRENT_PROJECT] = ""
+        save_data(state, settings.state_filepath)
     click.secho(f"{project_name} removed.")
 
 @project.command()
@@ -93,4 +97,21 @@ def summary(project_name):
     """
     Summary of the Project
     """
+    project_data = project_summary(load_data(), project_name)['tasks']
+    click.secho(f"Project: {project_name}")
+    sum_of_durations = int(sum([t.get('duration', 0) for _, t in project_data.items()]))
+    m, s = divmod(sum_of_durations, 60)
+    duration = ''
+    if m > 60:
+        h, m = divmod(m, 60)
+        if h > 24:
+            d, h = divmod(h, 24)
+            duration = f'{d:d} days {h:d} hours {m:02d} mins {s:02d} secs'
+        else:
+            duration = f'{h:d} hours {m:02d} mins {s:02d} secs'
+    elif m < 1:
+        duration = f'{s:02d} seconds'
+    else:
+        duration = f'{m:02d} mins {s:02d} secs'
+    click.secho(f"Total duration: {duration}")
     click.secho(f"{json.dumps(project_summary(load_data(), project_name), indent=4)}")
