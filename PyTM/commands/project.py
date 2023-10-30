@@ -76,7 +76,11 @@ def remove(project_name):
     """
     Remove a Project 
     """
+    state = load_data(settings.state_filepath)
     update(partial(remove_project, project_name=project_name))
+    if state[settings.CURRENT_PROJECT] == project_name:
+        state[settings.CURRENT_PROJECT] = ""
+        save_data(state, settings.state_filepath)
     click.secho(f"{project_name} removed.")
 
 @project.command()
