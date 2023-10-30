@@ -97,4 +97,11 @@ def summary(project_name):
     """
     Summary of the Project
     """
+    project_data = project_summary(load_data(), project_name)
+    click.secho(f"Project: {project_name}")
+    sum_of_durations = [t['duration'] for _, t in project_data]
+    m, s = divmod(sum_of_durations, 60)
+    h, m = divmod(m, 60)
+    duration = f'{h:d}:{m:02d}:{s:02d}'
+    click.secho(f"Total duration: {duration}")
     click.secho(f"{json.dumps(project_summary(load_data(), project_name), indent=4)}")
