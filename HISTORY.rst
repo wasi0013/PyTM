@@ -32,3 +32,10 @@ History
 * Made task commands functional.
 * Improved project summary.
 * Project summary now shows total duration of the project.
+
+0.0.6 (2023-10-31)
+------------------
+
+* bug fix
+* readme and doc update
+* Improved Command line interface outputs.
