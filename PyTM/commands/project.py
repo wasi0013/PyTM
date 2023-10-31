@@ -4,7 +4,26 @@ from functools import partial
 from PyTM.core.data_handler import update, load_data, save_data
 import PyTM.settings as settings
 from PyTM.console import console
+from rich.tree import Tree
+from rich.panel import Panel
 import json
+
+
+def _get_duration_str(sum_of_durations):
+    m, s = divmod(sum_of_durations, 60)
+    duration = ''
+    if m > 60:
+        h, m = divmod(m, 60)
+        if h > 24:
+            d, h = divmod(h, 24)
+            duration = f'{d:d} days {h:d} hours {m:02d} mins {s:02d} secs'
+        else:
+            duration = f'{h:d} hours {m:02d} mins {s:02d} secs'
+    elif m < 1:
+        duration = f'{s:02d} seconds'
+    else:
+        duration = f'{m:02d} mins {s:02d} secs'
+    return duration
 
 @click.group()
 def project():
@@ -98,21 +117,14 @@ def summary(project_name):
     """
     Summary of the Project
     """
-    project_data = project_summary(load_data(), project_name)['tasks']
-    console.print(f"Project: [blue]{project_name}")
-    sum_of_durations = int(sum([t.get('duration', 0) for _, t in project_data.items()]))
-    m, s = divmod(sum_of_durations, 60)
-    duration = ''
-    if m > 60:
-        h, m = divmod(m, 60)
-        if h > 24:
-            d, h = divmod(h, 24)
-            duration = f'{d:d} days {h:d} hours {m:02d} mins {s:02d} secs'
-        else:
-            duration = f'{h:d} hours {m:02d} mins {s:02d} secs'
-    elif m < 1:
-        duration = f'{s:02d} seconds'
-    else:
-        duration = f'{m:02d} mins {s:02d} secs'
-    console.print(f"Total duration: {duration}")
-    console.print_json(data=project_summary(load_data(), project_name))
+    project = project_summary(load_data(), project_name)
+    project_data = project['tasks']
+    tree = Tree(f"[bold blue]{project_name}[/bold blue] ([i]{project["status"]}[/i])")
+    duration = 0
+    for task, t in project_data.items():
+        task_duration = int(round(t['duration']))
+        duration += task_duration
+        tree.add(f"[green]{task}[/green]: {_get_duration_str(task_duration)} ([i]{t['status']}[/i])")
+    console.print(Panel.fit(tree))
+    console.print(f"[blue bold]Total time[/blue bold]: {_get_duration_str(duration)}")
+    # console.print_json(data=project_summary(load_data(), project_name))
