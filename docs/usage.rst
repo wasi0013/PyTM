@@ -78,4 +78,3 @@ Check version::
 For a list of all the available options or, arguments try::
 
     pytm --help
-
