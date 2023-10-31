@@ -56,13 +56,14 @@ For a list of all the available options or, arguments try::
 
     pytm --help
 
+
 Basic commands:
 ---------------
 
 Currently available commands are listed below:
 
 Commands related to project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+===========================
 
 * Start a new/existing project::
 
@@ -93,7 +94,7 @@ Commands related to project
     pytm project abort
 
 Commands related to Task
-~~~~~~~~~~~~~~~~~~~~~~~~
+========================
 
 * Start a new or existing task in the current active project::
 
@@ -120,7 +121,7 @@ Commands related to Task
     pytm task abort
 
 Others
-~~~~~~
+======
 Check version::
 
     pytm --version
@@ -130,6 +131,7 @@ Check version::
 For a list of all the available options or, arguments try::
 
     pytm --help
+
 
 Running the tests
 -----------------
