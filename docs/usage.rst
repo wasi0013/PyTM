@@ -4,61 +4,72 @@ Usage
 
 For installation information Checkout: `this instruction <installation.html>`_
 
-Basic Commands:
+Basic commands:
 ---------------
 
-The available commands for the command line interface is listed below:
+Currently available commands are listed below:
 
-Commands related to Project
+Commands related to project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Start a Project::
+
+* Start a new/existing project::
 
     pytm project start PROJECT_NAME
 
-* Finish a Project::
-
-    pytm project finish PROJECT_NAME
-
-* Pause a Project::
-
-    pytm project pause PROJECT_NAME
-
-* Remove a Project::
+* Remove a project::
 
     pytm project remove PROJECT_NAME
 
-* Abort a Project::
+* Check status of a project::
 
-    pytm project abort PROJECT_NAME
+    pytm project status PROJECT_NAME
+
+* Check summary of a project::
+
+    pytm project summary PROJECT_NAME
+
+* Finish active project::
+
+    pytm project finish
+
+* Pause active project::
+
+    pytm project pause
+
+* Abort active project::
+
+    pytm project abort
 
 Commands related to Task
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Start a Task::
+* Start a new or existing task in the current active project::
 
-    pytm task start PROJECT_NAME TASK_NAME
+    pytm task start TASK_NAME
 
-* Finish a Task::
-
-    pytm task finish TASK_NAME
-
-* Pause a Task::
-
-    pytm task pause TASK_NAME
-
-* Remove a Task::
+* Remove a task::
 
     pytm task remove TASK_NAME
 
-* Abort a Task::
+* current task's status::
 
-    pytm task abort TASK_NAME
+    pytm task status
 
+* Finish active task::
 
+    pytm task finish
+
+* Pause active task::
+
+    pytm task pause
+
+* Abort active task::
+
+    pytm task abort
 
 Others
 ~~~~~~
-Checkout version::
+Check version::
 
     pytm --version
     pytm -v
@@ -67,4 +78,3 @@ Checkout version::
 For a list of all the available options or, arguments try::
 
     pytm --help
-

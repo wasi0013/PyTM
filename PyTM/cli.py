@@ -1,24 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import click
-from click import secho
 from PyTM.commands.project import project
 from PyTM.commands.task import task
 from PyTM import __version__
 import os
 from PyTM.core.data_handler import init_data
 from PyTM.settings import data_folder, data_filepath, state_filepath, CURRENT_PROJECT, CURRENT_TASK
-
+from PyTM.console import console
 def greet():
     """
     shows Greeting Texts
     :return: None
     """
-    secho("\n\033[1m✨ PyTM ✨\033[0m ", fg="green", nl=False)
-    secho("CLI V-", nl=False)
-    secho(__version__)
-    secho("\033[1m----------------\033[0m")
-    secho("\nTry 'pytm --help' for usage information.\n\n")
+    console.print("\n\033[1m✨ PyTM ✨\033[0m ")
+    console.print(f"CLI V- {__version__}")
+    console.print("\033[1m----------------\033[0m")
+    console.print("\nTry 'pytm --help' for usage information.\n\n")
 
 
 def print_version(ctx, param, value):
@@ -31,9 +29,8 @@ def print_version(ctx, param, value):
     """
     if not value:
         return
-    secho("\n\033[1m✨ PyTM ✨\033[0m ", fg="green", nl=False)
-    secho("version ", nl=False)
-    secho(__version__)
+    console.print("\n[bold green]✨ PyTM ✨")
+    console.print(f"version {__version__}")
     ctx.exit()
 
 
@@ -60,25 +57,24 @@ def init():
     """
     Initialize the pytm data store.
     """
-    click.secho("Initializing pytm-data.")
+    console.print("[green on white]Initializing pytm-data.")
     try:
         os.makedirs(data_folder)
-        click.secho(f"Created data folder: {data_folder}")
+        console.print(f"Created data folder: {data_folder}")
     except:
-        click.secho(f"Data folder already exists: {data_folder}", fg="red")
-    os.chdir(data_folder)
+        console.print(f"Data folder already exists: {data_folder}")
     if os.path.exists(data_filepath):
-        click.secho(f"Data file already exists: {data_filepath}", fg="red")
+        console.print(f"Data file already exists: {data_filepath}")
     else: 
         init_data(data_filepath)
-        click.secho(f"Created data file: {data_filepath}")        
-        click.secho("Done.")
+        console.print(f"Created data file: {data_filepath}")        
+        console.print("Done.")
     if os.path.exists(state_filepath):
-        click.secho(f"State file already exists: {state_filepath}", fg="red")
+        console.print(f"State file already exists: {state_filepath}")
     else: 
         init_data(state_filepath, {CURRENT_PROJECT: "", CURRENT_TASK: ""})
-        click.secho(f"Created state file: {state_filepath}")        
-        click.secho("Done.")
+        console.print(f"Created state file: {state_filepath}")        
+        console.print("Done.")
 
 cli.add_command(init)
 cli.add_command(project)

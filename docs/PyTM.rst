@@ -21,6 +21,14 @@ PyTM.cli module
    :undoc-members:
    :show-inheritance:
 
+PyTM.console module
+-------------------
+
+.. automodule:: PyTM.console
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 PyTM.settings module
 --------------------
 
