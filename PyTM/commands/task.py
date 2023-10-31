@@ -28,11 +28,11 @@ def abort():
             data_handler.update(partial(task_handler.abort, project_name=project_name, task_name=task_name))
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-            console.print("Aborted Task " + task_name)
+            console.print(f"Aborted Task [green]{task_name}[/green]")
         else:
-            console.print("No active tasks.")
+            console.print("[red bold] No active  tasks.")
     else:
-        console.print("No active projects.")
+        console.print("[red bold] No active  projects.")
 
 
 @task.command()
@@ -48,11 +48,11 @@ def finish():
             data_handler.update(partial(task_handler.finish, project_name=project_name, task_name=task_name))
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-            console.print("Finished Task " + task_name)
+            console.print(f"Finished Task [green]{task_name}[/green]")
         else:
-            console.print("No active tasks.")
+            console.print("[red bold] No active  tasks.")
     else:
-        console.print("No active projects.")
+        console.print("[red bold] No active  projects.")
 
 
 @task.command()
@@ -68,11 +68,11 @@ def pause():
             data_handler.update(partial(task_handler.pause, project_name=project_name, task_name=task_name))
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-            console.print("Paused Task " + task_name)
+            console.print(f"Paused Task [green]{task_name}[/green]")
         else:
-            console.print("No active tasks.")
+            console.print("[red bold] No active  tasks.")
     else:
-        console.print("No active projects.")
+        console.print("[red bold] No active  projects.")
 
 
 @task.command()
@@ -87,9 +87,9 @@ def start(task_name):
         data_handler.update(partial(task_handler.create, project_name=project_name, task_name=task_name))
         state[settings.CURRENT_TASK] = task_name
         data_handler.save_data(state, settings.state_filepath)
-        console.print("Started Task " + task_name)
+        console.print(f"Started Task [green]{task_name}[/green]")
     else:
-        console.print("No active projects.")
+        console.print("[red bold] No active  projects.")
 
 
 @task.command()
@@ -104,7 +104,7 @@ def remove(project_name, task_name):
     if state[settings.CURRENT_TASK] == task_name: 
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-    console.print("Removed Task " + task_name)
+    console.print(f"Removed Task [green]{task_name}[/green]")
 
 @task.command()
 def status():
@@ -117,8 +117,8 @@ def status():
     
     if project_name:
         if task_name:
-            console.print(f"Status of {task_name}: {task_handler.status(data_handler.load_data(), project_name=project_name, task_name=task_name)}")
+            console.print(f"Status of [green]{task_name}[/green]: {task_handler.status(data_handler.load_data(), project_name=project_name, task_name=task_name)}")
         else:
-            console.print("No active tasks.")
+            console.print("[red bold] No active  tasks.")
     else:
-        console.print("No active projects.")
+        console.print("[red bold] No active  projects.")
