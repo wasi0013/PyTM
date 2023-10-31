@@ -3,6 +3,7 @@ from functools import partial
 import PyTM.core.task_handler as task_handler
 import PyTM.core.data_handler as data_handler
 import PyTM.settings as settings
+from PyTM.console import console
 import json
 
 
@@ -27,11 +28,11 @@ def abort():
             data_handler.update(partial(task_handler.abort, project_name=project_name, task_name=task_name))
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-            click.secho("Aborted Task " + task_name)
+            console.print("Aborted Task " + task_name)
         else:
-            click.secho("No active tasks.")
+            console.print("No active tasks.")
     else:
-        click.secho("No active projects.")
+        console.print("No active projects.")
 
 
 @task.command()
@@ -47,11 +48,11 @@ def finish():
             data_handler.update(partial(task_handler.finish, project_name=project_name, task_name=task_name))
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-            click.secho("Finished Task " + task_name)
+            console.print("Finished Task " + task_name)
         else:
-            click.secho("No active tasks.")
+            console.print("No active tasks.")
     else:
-        click.secho("No active projects.")
+        console.print("No active projects.")
 
 
 @task.command()
@@ -67,11 +68,11 @@ def pause():
             data_handler.update(partial(task_handler.pause, project_name=project_name, task_name=task_name))
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-            click.secho("Paused Task " + task_name)
+            console.print("Paused Task " + task_name)
         else:
-            click.secho("No active tasks.")
+            console.print("No active tasks.")
     else:
-        click.secho("No active projects.")
+        console.print("No active projects.")
 
 
 @task.command()
@@ -86,9 +87,9 @@ def start(task_name):
         data_handler.update(partial(task_handler.create, project_name=project_name, task_name=task_name))
         state[settings.CURRENT_TASK] = task_name
         data_handler.save_data(state, settings.state_filepath)
-        click.secho("Started Task " + task_name)
+        console.print("Started Task " + task_name)
     else:
-        click.secho("No active projects.")
+        console.print("No active projects.")
 
 
 @task.command()
@@ -103,7 +104,7 @@ def remove(project_name, task_name):
     if state[settings.CURRENT_TASK] == task_name: 
             state[settings.CURRENT_TASK] = ''
             data_handler.save_data(state, settings.state_filepath)
-    click.secho("Removed Task " + task_name)
+    console.print("Removed Task " + task_name)
 
 @task.command()
 def status():
@@ -116,8 +117,8 @@ def status():
     
     if project_name:
         if task_name:
-            click.secho(f"Status of {task_name}: {task_handler.status(data_handler.load_data(), project_name=project_name, task_name=task_name)}")
+            console.print(f"Status of {task_name}: {task_handler.status(data_handler.load_data(), project_name=project_name, task_name=task_name)}")
         else:
-            click.secho("No active tasks.")
+            console.print("No active tasks.")
     else:
-        click.secho("No active projects.")
+        console.print("No active projects.")

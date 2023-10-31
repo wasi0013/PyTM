@@ -3,6 +3,7 @@ from PyTM.core.project_handler import create_project, pause_project, finish_proj
 from functools import partial
 from PyTM.core.data_handler import update, load_data, save_data
 import PyTM.settings as settings
+from PyTM.console import console
 import json
 
 @click.group()
@@ -23,9 +24,9 @@ def abort():
         update(partial(abort_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-        click.secho(f"{project_name} aborted.")
+        console.print(f"{project_name} aborted.")
     else:
-        click.secho("No active project.")
+        console.print("No active project.")
 
 @project.command()
 def finish():
@@ -38,9 +39,9 @@ def finish():
         update(partial(finish_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-        click.secho(f"{project_name} finished.")
+        console.print(f"{project_name} finished.")
     else:
-        click.secho("No active project.")
+        console.print("No active project.")
 
 @project.command()
 def pause():
@@ -53,9 +54,9 @@ def pause():
         update(partial(pause_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-        click.secho(f"{project_name} paused.")
+        console.print(f"{project_name} paused.")
     else:
-        click.secho("No active project.")
+        console.print("No active project.")
 
 @project.command()
 @click.argument("project_name")
@@ -67,7 +68,7 @@ def start(project_name):
     state = load_data(settings.state_filepath)
     state[settings.CURRENT_PROJECT] = project_name
     save_data(state, settings.state_filepath)
-    click.secho(f"{project_name} started.")
+    console.print(f"{project_name} started.")
 
 
 @project.command()
@@ -81,7 +82,7 @@ def remove(project_name):
     if state[settings.CURRENT_PROJECT] == project_name:
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-    click.secho(f"{project_name} removed.")
+    console.print(f"{project_name} removed.")
 
 @project.command()
 @click.argument("project_name")
@@ -89,7 +90,7 @@ def status(project_name):
     """
     Status of the Project
     """
-    click.secho(f"{project_name} status: {project_status(load_data(), project_name)}")
+    console.print(f"{project_name} status: {project_status(load_data(), project_name)}")
 
 @project.command()
 @click.argument("project_name")
@@ -98,7 +99,7 @@ def summary(project_name):
     Summary of the Project
     """
     project_data = project_summary(load_data(), project_name)['tasks']
-    click.secho(f"Project: {project_name}")
+    console.print(f"Project: [blue]{project_name}")
     sum_of_durations = int(sum([t.get('duration', 0) for _, t in project_data.items()]))
     m, s = divmod(sum_of_durations, 60)
     duration = ''
@@ -113,5 +114,5 @@ def summary(project_name):
         duration = f'{s:02d} seconds'
     else:
         duration = f'{m:02d} mins {s:02d} secs'
-    click.secho(f"Total duration: {duration}")
-    click.secho(f"{json.dumps(project_summary(load_data(), project_name), indent=4)}")
+    console.print(f"Total duration: {duration}")
+    console.print_json(data=project_summary(load_data(), project_name))
