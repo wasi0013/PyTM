@@ -43,7 +43,7 @@ def abort():
         update(partial(abort_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-        console.print(f"{project_name} aborted.")
+        console.print(f"[bold blue]{project_name}[/bold blue] aborted.")
     else:
         console.print("No active project.")
 
@@ -58,7 +58,7 @@ def finish():
         update(partial(finish_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-        console.print(f"{project_name} finished.")
+        console.print(f"[bold blue]{project_name}[/bold blue] finished.")
     else:
         console.print("No active project.")
 
@@ -73,7 +73,7 @@ def pause():
         update(partial(pause_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-        console.print(f"{project_name} paused.")
+        console.print(f"[bold blue]{project_name}[/bold blue] paused.")
     else:
         console.print("No active project.")
 
@@ -87,7 +87,7 @@ def start(project_name):
     state = load_data(settings.state_filepath)
     state[settings.CURRENT_PROJECT] = project_name
     save_data(state, settings.state_filepath)
-    console.print(f"{project_name} started.")
+    console.print(f"[bold blue]{project_name}[/bold blue] started.")
 
 
 @project.command()
@@ -101,7 +101,7 @@ def remove(project_name):
     if state[settings.CURRENT_PROJECT] == project_name:
         state[settings.CURRENT_PROJECT] = ""
         save_data(state, settings.state_filepath)
-    console.print(f"{project_name} removed.")
+    console.print(f"[bold blue]{project_name}[/bold blue] removed.")
 
 @project.command()
 @click.argument("project_name")
@@ -109,7 +109,7 @@ def status(project_name):
     """
     Status of the Project
     """
-    console.print(f"{project_name} status: {project_status(load_data(), project_name)}")
+    console.print(f"[bold blue]{project_name}[/bold blue] status: {project_status(load_data(), project_name)}")
 
 @project.command()
 @click.argument("project_name")
