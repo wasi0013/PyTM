@@ -39,3 +39,11 @@ History
 * bug fix
 * readme and doc update
 * Improved Command line interface outputs.
+
+0.0.7 (2023-11-01)
+------------------
+
+* Added show sub command for project.
+* Added json sub command for project.
+* refactored project and task commands output messages.
+* fixed bugs in project sub commands.
