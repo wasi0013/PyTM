@@ -40,11 +40,13 @@ coverage:
 	sensible-browser 'htmlcov/index.html'
 
 docs:
-	rm -f docs/PyTM.rst
 	rm -f docs/modules.rst
 	sphinx-apidoc -o docs/ PyTM
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
+	rm -f docs/PyTM.rst
+	rm -f docs/PyTM.commands.rst
+	rm -f docs/PyTM.core.rst
 	rm -f docs/modules.rst
 	sensible-browser 'docs/_build/html/index.html'
 
