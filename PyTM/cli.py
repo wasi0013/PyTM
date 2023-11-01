@@ -79,7 +79,7 @@ def init():
         init_data(state_filepath, {CURRENT_PROJECT: "", CURRENT_TASK: ""})
         console.print(f"Created state file: {state_filepath}")        
         console.print("Done.")
-    console.print("\n[bold blue i on white]You also might want to run: 'pytm config user' to configure default user data.[/bold blue i on white]")
+    console.print("\n[bold blue i on white]You also might want to run: `pytm config user` to configure default user data.[/bold blue i on white]")
 
 @click.command()
 def show():

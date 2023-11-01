@@ -93,11 +93,14 @@ def start(project_name):
     """
     - starts an existing project or creates a new project.
     """
+    data = load_data()
     update(partial(create_project, project_name=project_name))
     state = load_data(settings.state_filepath)
     state[settings.CURRENT_PROJECT] = project_name
     save_data(state, settings.state_filepath)
     console.print(f"[bold blue]{project_name}[/bold blue] started.")
+    if project_name not in data.keys():
+        console.print(f"\n[bold blue i on white]You also might want to run: `pytm config project {project_name}` to configure project meta data.[/bold blue i on white]")
 
 
 @project.command()
