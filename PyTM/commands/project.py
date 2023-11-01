@@ -2,6 +2,7 @@ import click
 from PyTM.core.project_handler import create_project, pause_project, finish_project, project_summary, project_status, remove_project, abort_project
 from functools import partial
 from PyTM.core.data_handler import update, load_data, save_data
+import PyTM.core.task_handler as task_handler 
 import PyTM.settings as settings
 from PyTM.console import console
 from rich.tree import Tree
@@ -35,13 +36,16 @@ def project():
 @project.command()
 def abort():
     """
-    Abort an Ongoing Project with incomplete tasks
+    - aborts the current project and task.
     """
     state = load_data(settings.state_filepath)
     project_name = state.get(settings.CURRENT_PROJECT)
     if project_name:
         update(partial(abort_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
+        if state[settings.CURRENT_TASK]:
+            update(partial(task_handler.abort, project_name=project_name, task_name=state[settings.CURRENT_TASK])) 
+            state[settings.CURRENT_TASK] = ""
         save_data(state, settings.state_filepath)
         console.print(f"[bold blue]{project_name}[/bold blue] aborted.")
     else:
@@ -50,13 +54,16 @@ def abort():
 @project.command()
 def finish():
     """
-    Finish current Project
+    - marks the current project as finished.
     """
     state = load_data(settings.state_filepath)
     project_name = state.get(settings.CURRENT_PROJECT)
     if project_name:
         update(partial(finish_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
+        if state[settings.CURRENT_TASK]:
+            update(partial(task_handler.finish, project_name=project_name, task_name=state[settings.CURRENT_TASK])) 
+            state[settings.CURRENT_TASK] = ""
         save_data(state, settings.state_filepath)
         console.print(f"[bold blue]{project_name}[/bold blue] finished.")
     else:
@@ -65,13 +72,16 @@ def finish():
 @project.command()
 def pause():
     """
-    Pause a Project
+     - pauses the current project, so new tasks can't be started.
     """
     state = load_data(settings.state_filepath)
     project_name = state.get(settings.CURRENT_PROJECT)
     if project_name:
         update(partial(pause_project, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
+        if state[settings.CURRENT_TASK]:
+            update(partial(task_handler.pause, project_name=project_name, task_name=state[settings.CURRENT_TASK])) 
+            state[settings.CURRENT_TASK] = ""
         save_data(state, settings.state_filepath)
         console.print(f"[bold blue]{project_name}[/bold blue] paused.")
     else:
@@ -81,7 +91,7 @@ def pause():
 @click.argument("project_name")
 def start(project_name):
     """
-    Start the Project
+    - starts an existing project or creates a new project.
     """
     update(partial(create_project, project_name=project_name))
     state = load_data(settings.state_filepath)
@@ -94,7 +104,7 @@ def start(project_name):
 @click.argument("project_name")
 def remove(project_name):
     """
-    Remove a Project 
+    - deletes a project and related tasks 
     """
     state = load_data(settings.state_filepath)
     update(partial(remove_project, project_name=project_name))
@@ -107,7 +117,7 @@ def remove(project_name):
 @click.argument("project_name")
 def status(project_name):
     """
-    Status of the Project
+    - of the project (running, paused, finished, etc). 
     """
     console.print(f"[bold blue]{project_name}[/bold blue] status: {project_status(load_data(), project_name)}")
 
@@ -115,7 +125,7 @@ def status(project_name):
 @click.argument("project_name")
 def summary(project_name):
     """
-    Summary of the Project
+    - shows total time of the project with task and duration.
     """
     project = project_summary(load_data(), project_name)
     project_data = project['tasks']
