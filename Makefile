@@ -45,6 +45,7 @@ docs:
 	sphinx-apidoc -o docs/ PyTM
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
+	rm -f docs/modules.rst
 	sensible-browser 'docs/_build/html/index.html'
 
 release: clean
