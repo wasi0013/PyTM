@@ -137,4 +137,11 @@ def summary(project_name):
         tree.add(f"[green]{task}[/green]: {_get_duration_str(task_duration)} ([i]{t['status']}[/i])")
     console.print(Panel.fit(tree))
     console.print(f"[blue bold]Total time[/blue bold]: {_get_duration_str(duration)}")
-    # console.print_json(data=project_summary(load_data(), project_name))
+
+@project.command()
+@click.argument("project_name")
+def json(project_name):
+    """
+    - shows project data in json format.
+    """
+    console.print_json(data=project_summary(load_data(), project_name))
