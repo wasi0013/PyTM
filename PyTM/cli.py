@@ -123,9 +123,9 @@ def user():
     save_data(state, state_filepath)
     console.print("\n[green]Default user info updated.")
         
-@config.command()
+@config.command(name="project")
 @click.argument("project_name")
-def project(project_name):
+def config_project(project_name):
     """
     - config project meta data.
     """
