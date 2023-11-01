@@ -47,3 +47,12 @@ History
 * Added json sub command for project.
 * refactored project and task commands output messages.
 * fixed bugs in project sub commands.
+
+0.0.8 (2023-11-01)
+------------------
+
+* Added config sub command.
+* added command to save default user information.
+* refactored project and task commands.
+* fixed bugs.
+* added config command to configure project meta data such as title, billable? etc.
