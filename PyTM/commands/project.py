@@ -49,7 +49,7 @@ def abort():
         save_data(state, settings.state_filepath)
         console.print(f"[bold blue]{project_name}[/bold blue] aborted.")
     else:
-        console.print("No active project.")
+        console.print("[bold red]No active project.")
 
 @project.command()
 def finish():
@@ -67,7 +67,7 @@ def finish():
         save_data(state, settings.state_filepath)
         console.print(f"[bold blue]{project_name}[/bold blue] finished.")
     else:
-        console.print("No active project.")
+        console.print("[bold red]No active project.")
 
 @project.command()
 def pause():
@@ -85,7 +85,7 @@ def pause():
         save_data(state, settings.state_filepath)
         console.print(f"[bold blue]{project_name}[/bold blue] paused.")
     else:
-        console.print("No active project.")
+        console.print("[bold red]No active project.")
 
 @project.command()
 @click.argument("project_name")
