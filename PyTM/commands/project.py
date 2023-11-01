@@ -29,7 +29,7 @@ def _get_duration_str(sum_of_durations):
 @click.group()
 def project():
     """
-    pytm sub-command for managing projects
+    pytm sub-command for managing projects.
     """
     pass
 
@@ -104,7 +104,7 @@ def start(project_name):
 @click.argument("project_name")
 def remove(project_name):
     """
-    - deletes a project and related tasks 
+    - deletes a project and related tasks.
     """
     state = load_data(settings.state_filepath)
     update(partial(remove_project, project_name=project_name))
