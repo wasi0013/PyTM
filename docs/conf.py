@@ -47,7 +47,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "PyTM"
-copyright = "2018, Wasi Mohammed Abdullah"
+copyright = "2023, Wasi"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -147,7 +147,7 @@ html_static_path = ["_static"]
 # html_additional_pages = {}
 
 # If false, no module index is generated.
-# html_domain_indices = True
+html_domain_indices = False
 
 # If false, no index is generated.
 # html_use_index = True
@@ -190,7 +190,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ("index", "PyTM.tex", "PyTM Documentation", "Wasi Mohammed Abdullah", "manual"),
+    ("index", "PyTM.tex", "PyTM Documentation", "Wasi", "manual"),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -218,7 +218,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "PyTM", "PyTM Documentation", ["Wasi Mohammed Abdullah"], 1)]
+man_pages = [("index", "PyTM", "PyTM Documentation", ["Wasi"], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -234,7 +234,7 @@ texinfo_documents = [
         "index",
         "PyTM",
         "PyTM Documentation",
-        "Wasi Mohammed Abdullah",
+        "Wasi",
         "PyTM",
         "One line description of project.",
         "Miscellaneous",

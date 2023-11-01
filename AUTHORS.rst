@@ -5,9 +5,9 @@ Credits
 Development Lead
 ----------------
 
-* Wasi Mohammed Abdullah <wasi0013@gmail.com>
+* `Wasi <https://hellowasi.com>`
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+* `Ashutosh <https://github.com/pyprism>`

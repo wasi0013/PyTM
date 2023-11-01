@@ -5,9 +5,11 @@ from PyTM.commands.project import project
 from PyTM.commands.task import task
 from PyTM import __version__
 import os
-from PyTM.core.data_handler import init_data
+import datetime
+from PyTM.core.data_handler import init_data, load_data
 from PyTM.settings import data_folder, data_filepath, state_filepath, CURRENT_PROJECT, CURRENT_TASK
 from PyTM.console import console
+from rich.table import Table
 def greet():
     """
     shows Greeting Texts
@@ -76,10 +78,24 @@ def init():
         console.print(f"Created state file: {state_filepath}")        
         console.print("Done.")
 
+@click.command()
+def show():
+    """
+    shows list of projects and status
+    """
+    data = load_data()
+    table = Table()
+    table.add_column("Project Name", style='blue bold')
+    table.add_column("Created at")
+    table.add_column("Status")
+    for key, value in data.items():
+        table.add_row(key, f'{datetime.datetime.fromisoformat(value['created_at']).strftime("%Y, %B, %d, %H:%M:%S %p")}', value['status'])
+    console.print(table)
+
 cli.add_command(init)
 cli.add_command(project)
 cli.add_command(task)
-
+cli.add_command(show)
 
 if __name__ == "__main__":
     cli()
