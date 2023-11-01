@@ -6,10 +6,11 @@ from PyTM.commands.task import task
 from PyTM import __version__
 import os
 import datetime
-from PyTM.core.data_handler import init_data, load_data
+from PyTM.core.data_handler import init_data, load_data, save_data
 from PyTM.settings import data_folder, data_filepath, state_filepath, CURRENT_PROJECT, CURRENT_TASK
 from PyTM.console import console
 from rich.table import Table
+from rich.prompt import Prompt
 def greet():
     """
     shows Greeting Texts
@@ -57,7 +58,7 @@ def cli():
 @click.command()
 def init():
     """
-    Initialize the pytm data store.
+    - initializes the pytm data store.
     """
     console.print("[green on white]Initializing pytm-data.")
     try:
@@ -81,7 +82,7 @@ def init():
 @click.command()
 def show():
     """
-    shows list of projects and status
+    - shows list of projects and status
     """
     data = load_data()
     table = Table()
@@ -92,10 +93,41 @@ def show():
         table.add_row(key, f'{datetime.datetime.fromisoformat(value['created_at']).strftime("%Y, %B, %d, %H:%M:%S %p")}', value['status'])
     console.print(table)
 
+@click.group()
+def config():
+    """
+    - pytm sub-commands for configuration.
+    """
+    ...
+
+@config.command()
+def user():
+    """
+    - config default user.
+    """
+    state = load_data(state_filepath)
+    current_user = {}
+    if state.get("config"):
+        current_user = state.get("config").get("user", {})
+        current_user["name"] = Prompt.ask("Name", default=current_user.get("name", ""))
+        current_user["email"] = Prompt.ask("Email", default=current_user.get("email", ""))
+        current_user["phone"] = Prompt.ask("Phone", default=current_user.get("phone", ""))
+        current_user["address"] = Prompt.ask("Address", default=current_user.get("address", ""))
+        current_user["website"] = Prompt.ask("Address", default=current_user.get("address", ""))
+        current_user["hourly_rate"] = Prompt.ask("Email", default=current_user.get("hourly_rate", ""))
+    else:
+        state['config'] = dict()
+    state['config']['user'] = current_user
+    save_data(state, state_filepath)
+    console.print("[green] Default user info updated.")
+        
+
+
 cli.add_command(init)
 cli.add_command(project)
 cli.add_command(task)
 cli.add_command(show)
+cli.add_command(config)
 
 if __name__ == "__main__":
     cli()
