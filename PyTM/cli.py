@@ -60,7 +60,7 @@ def init():
     """
     - initializes the pytm data store.
     """
-    console.print("[green on white]Initializing pytm-data.")
+    console.print("[green on white]Initializing pytm-data.\n")
     try:
         os.makedirs(data_folder)
         console.print(f"Created data folder: {data_folder}")
@@ -78,6 +78,7 @@ def init():
         init_data(state_filepath, {CURRENT_PROJECT: "", CURRENT_TASK: ""})
         console.print(f"Created state file: {state_filepath}")        
         console.print("Done.")
+    console.print("\n[bold blue i on white]You also might wanna run: 'pytm config user' to configure default user data.[/bold blue i on white]")
 
 @click.command()
 def show():
@@ -109,17 +110,17 @@ def user():
     current_user = {}
     if state.get("config"):
         current_user = state.get("config").get("user", {})
-        current_user["name"] = Prompt.ask("Name", default=current_user.get("name", ""))
-        current_user["email"] = Prompt.ask("Email", default=current_user.get("email", ""))
-        current_user["phone"] = Prompt.ask("Phone", default=current_user.get("phone", ""))
-        current_user["address"] = Prompt.ask("Address", default=current_user.get("address", ""))
-        current_user["website"] = Prompt.ask("Address", default=current_user.get("address", ""))
-        current_user["hourly_rate"] = Prompt.ask("Email", default=current_user.get("hourly_rate", ""))
     else:
         state['config'] = dict()
+    current_user["name"] = Prompt.ask("Name", default=current_user.get("name", ""))
+    current_user["email"] = Prompt.ask("Email", default=current_user.get("email", ""))
+    current_user["phone"] = Prompt.ask("Phone", default=current_user.get("phone", ""))
+    current_user["address"] = Prompt.ask("Address", default=current_user.get("address", ""))
+    current_user["website"] = Prompt.ask("Website", default=current_user.get("website", ""))
+    current_user["hourly_rate"] = Prompt.ask("Hourly rate in USD", default=current_user.get("hourly_rate", ""))
     state['config']['user'] = current_user
     save_data(state, state_filepath)
-    console.print("[green] Default user info updated.")
+    console.print("\n[green]Default user info updated.")
         
 
 
