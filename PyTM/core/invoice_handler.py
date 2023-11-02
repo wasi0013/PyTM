@@ -3,7 +3,8 @@ import PyTM.core.data_handler as data_handler
 from PyTM.commands.project import _get_duration_str
 import datetime
 
-def generate(title, logo, foot_note, invoice_number, user, project, discount=0):
+def generate(invoice_number, invoice_texts, user, project, discount=0):
+    title, logo, foot_note = invoice_texts['title'], invoice_texts['logo'], invoice_texts['foot_note']
     tasks = project['tasks']
     duration = 0
     sub_total = 0
@@ -12,7 +13,9 @@ def generate(title, logo, foot_note, invoice_number, user, project, discount=0):
         if t['status'] != settings.ABORTED:
             task_duration = int(round(t['duration']))
             duration += task_duration
-            sub_total += int(t['duration']/360) * user['hourly_rate']
+            sub_total += float(t['duration']/360) * float(user['hourly_rate'])
+    if discount == "": discount = 0
+    else: discount = float(discount)
     total = sub_total - discount
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -27,7 +30,7 @@ def generate(title, logo, foot_note, invoice_number, user, project, discount=0):
         <div class="bg-white rounded-lg shadow-lg p-8">
             <div class="flex justify-between">
                 <div class="flex items-center">
-                    <img src="{logo}" width=100 height=100 alt="{user["name"]}" class="h-12 mr-4">
+                    <img src="{logo}" width=150 alt="{user["name"]}" class="h-12 mr-4" style="height:auto;">
                     <div>
                         <h1 class="text-2xl font-semibold">{user["name"]}</h1>
                         {f"<p>{user['address']}</p>"if user['address'] else ''}
@@ -60,7 +63,7 @@ def generate(title, logo, foot_note, invoice_number, user, project, discount=0):
                             <th class="p-2 border border-gray-300">Description</th>
                             <th class="p-2 border border-gray-300">Hours</th>
                             <th class="p-2 border border-gray-300">Hourly Rate</th>
-                            <th class="p-2 border border-gray-300">Total</th>
+                            <th class="p-2 border border-gray-300">Fee</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,8 +72,8 @@ def generate(title, logo, foot_note, invoice_number, user, project, discount=0):
                             <td class="p-2 border border-gray-300">{task.replace("_", " ").replace("-", " ").title()}</td>
                             <td class="p-2 border border-gray-300">{t['description']}</td>
                             <td class="p-2 border border-gray-300">{int(t['duration']/360)}</td>
-                            <td class="p-2 border border-gray-300">{user['hourly_rate']}</td>
-                            <td class="p-2 border border-gray-300">{int(t['duration']/360) * user['hourly_rate']}</td>
+                            <td class="p-2 border border-gray-300">{user['hourly_rate']}$</td>
+                            <td class="p-2 border border-gray-300">{int(t['duration']/360) * float(user['hourly_rate'])}</td>
                         </tr>""" for task, t in tasks.items())}
                         
                     </tbody>
@@ -82,15 +85,15 @@ def generate(title, logo, foot_note, invoice_number, user, project, discount=0):
                         <table class="w-full">
                             <tr>
                                 <td class="py-1">Subtotal:</td>
-                                <td class="text-right py-1">{sub_total}</td>
+                                <td class="text-right py-1">{sub_total}$</td>
                             </tr>
                             <tr>
                                 <td class="py-1">Discount:</td>
-                                <td class="text-right py-1">{discount}</td>
+                                <td class="text-right py-1">{discount}$</td>
                             </tr>
                             <tr>
                                 <td class="py-1"><strong>Total:</strong></td>
-                                <td class="text-right py-1">{total}</td>
+                                <td class="text-right py-1">{total}$</td>
                             </tr>
                         </table>
                     </div>

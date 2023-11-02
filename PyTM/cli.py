@@ -1,11 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import click
+from PyTM import settings
 from PyTM.commands.project import project
 from PyTM.commands.task import task
 from PyTM import __version__
 import os
 import datetime
+from PyTM.core import invoice_handler
 from PyTM.core.data_handler import init_data, load_data, save_data
 from PyTM.settings import data_folder, data_filepath, state_filepath, CURRENT_PROJECT, CURRENT_TASK
 from PyTM.console import console
@@ -183,13 +185,73 @@ def manual():
     """
     - generates invoice Solely based on prompts
     """
-    ...
+    title, logo, foot_note, invoice_number = [''] * 4
+    discount = 0
+    state = load_data(state_filepath)
+    config = state.get("config", {})
+    user = config.get("user", {})
+    invoice_texts = config.get("invoice", {})
+    invoice_number = Prompt.ask("Invoice Number", default=invoice_texts.get("invoice_number", "13"))
+    if state.get("config"):
+        if state.get("config").get("invoice"):
+            if invoice_number == state.get("config").get("invoice").get("invoice_number"):
+                try:
+                    state["config"]["invoice"]["invoice_number"] = f"{int(state.get("config").get("invoice").get("invoice_number")) + 1}"
+                    save_data(state, state_filepath)
+                except:
+                    pass                
+    
+    invoice_texts['title'] = Prompt.ask("Invoice Title", default=invoice_texts.get("title", ""))
+    invoice_texts['foot_note'] = Prompt.ask("Foot note", default=invoice_texts.get("foot_note", ""))
+    invoice_texts['logo'] = Prompt.ask("Logo Absolute path", default=invoice_texts.get("logo", "")) 
+
+    project, user = {}, config.get("user", {})
+    project['meta'] = {}
+    project['meta']['title'] = Prompt.ask("Project Name", default="")
+    project['created_at'] = Prompt.ask("Project Date (YYYY-MM-DD)", default=f"{datetime.datetime.now()}") 
+    user["name"] = Prompt.ask("Your Name", default=user.get("name", ""))
+    user["email"] = Prompt.ask("Email", default=user.get("email", ""))
+    user["phone"] = Prompt.ask("Phone", default=user.get("phone", ""))
+    user["address"] = Prompt.ask("Address", default=user.get("address", ""))
+    user["website"] = Prompt.ask("Website", default=user.get("website", ""))
+    user["hourly_rate"] = Prompt.ask("Hourly rate in USD", default=user.get("hourly_rate", ""))
+    project['client_name'] = Prompt.ask("Bill To Name", default="Anonymous Client") 
+    project['client_address'] = Prompt.ask("Address(street, state, zip, country)", default="Earth")
+    project['client_phone'] = Prompt.ask("Phone", default="")
+    project['client_email'] = Prompt.ask("Email", default="")
+    project['client_website'] = Prompt.ask("Website", default="")
+    tasks = dict()
+    number = 1
+    while Confirm.ask("Add a task?", default=True):
+        task = dict()
+        task_name = Prompt.ask("Task name?", default=f"Task {number}")
+        if task_name.startswith("Task"): number += 1
+        task['description'] = Prompt.ask("Task description?", default="-")
+        task['duration'] = Prompt.ask("How many hours of work? (float)", default=0.0)
+        task['duration'] = float(task['duration']) * 360
+        task['status'] = settings.FINISHED
+        tasks[task_name] = task
+    project['tasks'] = tasks
+    discount = Prompt.ask("Discount?", default="")
+    html = invoice_handler.generate(invoice_number, invoice_texts, user, project, discount)
+    html_file = os.path.join(os.getcwd(), f"{invoice_texts['title']}.html")
+    with open(html_file, "w") as f:
+        f.write(html)
+    console.print(f"The invoice is available in {html_file}")
+    os.system(f"sensible-browser {html_file}")
+    
+
+
+
+
+
 
 cli.add_command(init)
 cli.add_command(project)
 cli.add_command(task)
 cli.add_command(show)
 cli.add_command(config)
+cli.add_command(invoice)
 
 if __name__ == "__main__":
     cli()
