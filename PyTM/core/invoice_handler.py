@@ -70,10 +70,10 @@ def generate(invoice_number, invoice_texts, user, project, discount=0):
 
                         {"\n".join(f"""<tr>
                             <td class="p-2 border border-gray-300">{task.replace("_", " ").replace("-", " ").title()}</td>
-                            <td class="p-2 border border-gray-300">{t['description']}</td>
-                            <td class="p-2 border border-gray-300">{int(t['duration']/360)}</td>
-                            <td class="p-2 border border-gray-300">{user['hourly_rate']}$</td>
-                            <td class="p-2 border border-gray-300">{int(t['duration']/360) * float(user['hourly_rate'])}</td>
+                            <td class="p-2 border border-gray-300">{t.get('description', '-')}</td>
+                            <td class="p-2 border border-gray-300">{float(t['duration']/360):,.02f}</td>
+                            <td class="p-2 border border-gray-300">{float(user['hourly_rate']):,.02f}$</td>
+                            <td class="p-2 border border-gray-300">{float(t['duration']/360) * float(user['hourly_rate']):,.02f}</td>
                         </tr>""" for task, t in tasks.items())}
                         
                     </tbody>
@@ -85,15 +85,15 @@ def generate(invoice_number, invoice_texts, user, project, discount=0):
                         <table class="w-full">
                             <tr>
                                 <td class="py-1">Subtotal:</td>
-                                <td class="text-right py-1">{sub_total}$</td>
+                                <td class="text-right py-1">{sub_total:,.02f}$</td>
                             </tr>
                             <tr>
                                 <td class="py-1">Discount:</td>
-                                <td class="text-right py-1">{discount}$</td>
+                                <td class="text-right py-1">{discount:,.02f}$</td>
                             </tr>
                             <tr>
                                 <td class="py-1"><strong>Total:</strong></td>
-                                <td class="text-right py-1">{total}$</td>
+                                <td class="text-right py-1">{total:,.02f}$</td>
                             </tr>
                         </table>
                     </div>

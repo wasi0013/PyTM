@@ -147,6 +147,7 @@ def invoice():
         console.print_exception(e)
 
     invoice["foot_note"] = Prompt.ask("Foot Note?", default=invoice.get("foot_note", "Thank you for your business."))
+    invoice['invoice_number'] = Prompt.ask("Default invoice number to start from? (integer)", default="13") 
     state['config']['invoice'] = invoice
     save_data(state, state_filepath)
     console.print("\n[green]invoice texts are updated.")
@@ -179,11 +180,65 @@ def invoice():
     - pytm sub-commands for invoice.
     """
     ...
+@invoice.command()
+@click.argument("project_name")
+def auto(project_name):
+    """
+    - generates invoice for existing projects.
+    """
+    data = load_data()
+    if not data.get(project_name):
+        console.print(f"[bold red] {project_name} doesn't exist.")
+        return None
+    title, logo, foot_note, invoice_number = [''] * 4
+    discount = 0
+    state = load_data(state_filepath)
+    config = state.get("config", {})
+    user = config.get("user", {})
+    invoice_texts = config.get("invoice", {})
+    invoice_number = Prompt.ask("Invoice Number", default=invoice_texts.get("invoice_number", "13"))
+    if state.get("config"):
+        if state.get("config").get("invoice"):
+            if invoice_number == state.get("config").get("invoice").get("invoice_number"):
+                try:
+                    state["config"]["invoice"]["invoice_number"] = f"{int(state.get("config").get("invoice").get("invoice_number", "13")) + 1}"
+                    save_data(state, state_filepath)
+                except:
+                    pass                
+    
+    invoice_texts['title'] = Prompt.ask("Invoice Title", default=invoice_texts.get("title", ""))
+    invoice_texts['foot_note'] = Prompt.ask("Foot note", default=invoice_texts.get("foot_note", ""))
+    invoice_texts['logo'] = Prompt.ask("Logo Absolute path", default=invoice_texts.get("logo", "")) 
 
+    project, user = data[project_name], config.get("user", {})
+
+    if not project['meta']:
+        project['meta'] = {}
+    project['meta']['title'] = Prompt.ask("Project Name", default=f"{project['meta']['title']}")
+    project['created_at'] = Prompt.ask("Project Date (YYYY-MM-DD)", default=f"{project['meta'].get("created_at", datetime.datetime.now())}")
+    user["name"] = Prompt.ask("Your Name", default=user.get("name", ""))
+    user["email"] = Prompt.ask("Email", default=user.get("email", ""))
+    user["phone"] = Prompt.ask("Phone", default=user.get("phone", ""))
+    user["address"] = Prompt.ask("Address", default=user.get("address", ""))
+    user["website"] = Prompt.ask("Website", default=user.get("website", ""))
+    user["hourly_rate"] = Prompt.ask("Hourly rate in USD", default=user.get("hourly_rate", ""))
+    project['client_name'] = Prompt.ask("Bill To Name", default=f"{project.get('client_name', 'Anonymous Client')}") 
+    project['client_address'] = Prompt.ask("Address(street, state, zip, country)", default=f"{project.get('client_address', 'earth')}")
+    project['client_phone'] = Prompt.ask("Phone", default=f"{project.get('client_phone', '')}")
+    project['client_email'] = Prompt.ask("Email", default=f"{project.get('client_email', '')}")
+    project['client_website'] = Prompt.ask("Website", default=f"{project.get('client_website', '')}")
+    discount = Prompt.ask("Discount?", default="")
+    html = invoice_handler.generate(invoice_number, invoice_texts, user, project, discount)
+    html_file = os.path.join(os.getcwd(), f"{invoice_texts['title']}.html")
+    with open(html_file, "w") as f:
+        f.write(html)
+    console.print(f"The invoice is available in {html_file}")
+    os.system(f"sensible-browser {html_file}")
+    
 @invoice.command()
 def manual():
     """
-    - generates invoice Solely based on prompts
+    - generates invoice Solely based on prompts and config data.
     """
     title, logo, foot_note, invoice_number = [''] * 4
     discount = 0
