@@ -122,6 +122,31 @@ def user():
     state['config']['user'] = current_user
     save_data(state, state_filepath)
     console.print("\n[green]Default user info updated.")
+
+@config.command()
+def invoice():
+    """
+    - configure invoice texts and logo.
+    """
+    state = load_data(state_filepath)
+    invoice = {}
+    if state.get("config"):
+        invoice = state.get("config").get("invoice", {})
+    else:
+        state['config'] = dict()
+    invoice["title"] = Prompt.ask("Invoice Title", default=invoice.get("title", "Invoice"))
+    invoice["logo"] = Prompt.ask("Absolute path of a logo in .png format", default=invoice.get("logo", ""))
+    try:
+        os.replace(invoice["logo"], os.path.join(data_folder, "invoice-logo.png"))
+        invoice["logo"] = os.path.join(data_folder, "invoice-logo.png")
+    except Exception as e:
+        console.print("[bold red] Error occured while saving the logo.")
+        console.print_exception(e)
+
+    invoice["foot_note"] = Prompt.ask("Foot Note?", default=invoice.get("foot_note", "Thank you for your business."))
+    state['config']['invoice'] = invoice
+    save_data(state, state_filepath)
+    console.print("\n[green]invoice texts are updated.")
         
 @config.command(name="project")
 @click.argument("project_name")
