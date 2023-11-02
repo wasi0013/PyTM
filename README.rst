@@ -35,6 +35,12 @@ Goals
 
 Project time management, billing and invoice generations.
 
+Demo Invoice
+------------
+
+ .. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/Demo-Invoice.png
+    :target: https://github.com/wasi0013/PyTM/
+    :alt: PyTM - Demo Invoice
 
 Installing PyTM
 ---------------
@@ -56,6 +62,11 @@ For a list of all the available options or, arguments try::
 
     pytm --help
 
+After installing python-pytm for the first time run the command::
+
+    pytm init
+
+This command will create a folder in the home directory with necessary data store files.
 
 Basic commands:
 ---------------
@@ -122,6 +133,17 @@ Commands related to Task
 
 Others
 ======
+Configure project, user and invoice info::
+
+    pytm config project PROJECT_NAME
+    pytm config user
+    pytm config invoice
+
+Generate Invoice::
+    
+    pytm invoice auto PROJECT_NAME
+    pytm invoice manual
+
 Check version::
 
     pytm --version

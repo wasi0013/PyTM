@@ -56,3 +56,12 @@ History
 * refactored project and task commands.
 * fixed bugs.
 * added config command to configure project meta data such as title, billable? etc.
+  
+0.0.9 (2023-11-02)
+------------------
+
+* Added config invoice command for configuring default invoice texts and logo.
+* Added invoice sub command.
+* Added invoice manual command to generate manual invoice using prompts.
+* Added invoice auto <Project> command to generate invoice from existing projects.
+* invoice manual and auto command generates HTML invoices using Tailwind CSS and opens it in a Browser.
