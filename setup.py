@@ -23,7 +23,7 @@ history = open("HISTORY.rst").read().replace(".. :changelog:", "")
 
 setup(
     name="python-pytm",
-    version="0.0.8",
+    version="0.0.9",
     description="PyTM - an Open Source Python Time Management Tool for Mankind",
     long_description=readme + "\n\n" + doclink + "\n\n" + history,
     long_description_content_type="text/x-rst",
