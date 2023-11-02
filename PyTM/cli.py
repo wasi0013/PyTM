@@ -102,6 +102,7 @@ def config():
     """
     ...
 
+
 @config.command()
 def user():
     """
@@ -168,6 +169,21 @@ def config_project(project_name):
         console.print(f"[bold red] Project {project_name} doesn't exist.")
     save_data(data)
     console.print("\n[green]Project Meta data updated.")
+
+
+@click.group()
+def invoice():
+    """
+    - pytm sub-commands for invoice.
+    """
+    ...
+
+@invoice.command()
+def manual():
+    """
+    - generates invoice Solely based on prompts
+    """
+    ...
 
 cli.add_command(init)
 cli.add_command(project)
