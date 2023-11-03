@@ -72,3 +72,8 @@ History
 * open invoices using python's standard library.
 * code refactor
 * bug fix
+
+0.0.11 (2023-11-03)
+-------------------
+
+* Major bug fix.
