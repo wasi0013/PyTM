@@ -14,6 +14,7 @@ from PyTM.console import console
 from rich.table import Table
 from rich.prompt import Prompt
 from rich.prompt import Confirm
+import webbrowser
 def greet():
     """
     shows Greeting Texts
@@ -233,8 +234,7 @@ def auto(project_name):
     with open(html_file, "w") as f:
         f.write(html)
     console.print(f"The invoice is available in {html_file}")
-    os.system(f"sensible-browser {html_file}")
-    
+    webbrowser.open(f"file:///{html_file}", autoraise=True)
 @invoice.command()
 def manual():
     """
@@ -293,7 +293,7 @@ def manual():
     with open(html_file, "w") as f:
         f.write(html)
     console.print(f"The invoice is available in {html_file}")
-    os.system(f"sensible-browser {html_file}")
+    webbrowser.open(f"file:///{html_file}", autoraise=True)
     
 
 
