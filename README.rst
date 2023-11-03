@@ -33,7 +33,7 @@
 Goals
 -----
 
-Project time management, billing and invoice generations.
+Project time management, billing, and invoice generation.
 
 Demo Invoice
 ------------
@@ -45,91 +45,46 @@ Demo Invoice
 Installing PyTM
 ---------------
 
-You can download it from Python Package Index! For example::
+You can download it from `PyPI <https://pypi.org/project/python-pytm/>`_ using :code:`pip`::
 
-    pip install python-pytm
+    python -m pip install python-pytm
 
-or, you can install it using pipenv too!::
+Check the version by typing the following in your terminal.::
+    
+     pytm --version
 
-    pipenv install python-pytm
-
-Checkout the version by typing the following in your terminal/command prompt::
-
-    pytm --version
-
-
-For a list of all the available options or, arguments try::
-
-    pytm --help
-
-After installing python-pytm for the first time run the command::
+After installing python-pytm for the first time run the command to create the data files in the home directory::
 
     pytm init
-
-This command will create a folder in the home directory with necessary data store files.
 
 Basic commands:
 ---------------
 
-Currently available commands are listed below:
+To see the available commands type::
 
-Commands related to project
-===========================
+    pytm --help
 
-* Start a new/existing project::
 
-    pytm project start PROJECT_NAME
+Commands related to projects
+============================
 
-* Remove a project::
-
-    pytm project remove PROJECT_NAME
-
-* Check status of a project::
-
-    pytm project status PROJECT_NAME
-
-* Check summary of a project::
-
-    pytm project summary PROJECT_NAME
-
-* Finish active project::
-
-    pytm project finish
-
-* Pause active project::
-
-    pytm project pause
-
-* Abort active project::
-
-    pytm project abort
+* Start a new/existing project: :code:`pytm project start PROJECT_NAME`
+* Remove a project: :code:`pytm project remove PROJECT_NAME`
+* Check the status of a project: :code:`pytm project status PROJECT_NAME`
+* Check the list of tasks and duration of a project: :code:`pytm project summary PROJECT_NAME`
+* Finish active project: :code:`pytm project finish`
+* Pause active project: :code:`pytm project pause`
+* Abort active project: :code:`pytm project abort`
 
 Commands related to Task
 ========================
 
-* Start a new or existing task in the current active project::
-
-    pytm task start TASK_NAME
-
-* Remove a task::
-
-    pytm task remove TASK_NAME
-
-* current task's status::
-
-    pytm task status
-
-* Finish active task::
-
-    pytm task finish
-
-* Pause active task::
-
-    pytm task pause
-
-* Abort active task::
-
-    pytm task abort
+* Start a new or existing task in the current active project: :code:`pytm task start TASK_NAME`
+* Remove a task: :code:`pytm task remove TASK_NAME`
+* current task's status: :code:`pytm task status`
+* Finish active task: :code:`pytm task finish`
+* Pause active task: :code:`pytm task pause`
+* Abort active task: :code:`pytm task abort`
 
 Others
 ======
@@ -150,7 +105,7 @@ Check version::
     pytm -v
 
 
-For a list of all the available options or, arguments try::
+For a list of all the available commands try::
 
     pytm --help
 
@@ -169,36 +124,12 @@ Running the tests
     py.test
 
 
-Built With :heart: using
-------------------------
+Notes
+-----
 
-* `Python <https://python.org/>`_
-
-Contributing
-------------
-
-Please read `CONTRIBUTING.rst <CONTRIBUTING.rst>`_ for details on our code of conduct, and the process for submitting pull requests to us. You are encouraged to contribute or, try it out.
-
-Any bug reports/suggestions/improvements/feature requests are highly appreciated. Just let us know by `creating issues <https://github.com/wasi0013/PyTM/issues/new/>`_
-
-Version
--------
-We use `SemVer <http://semver.org/>`_. For the versions available, see the `tags on this repository <https://github.com/wasi0013/PyTM/tags>`_
-
-Author
-------
-* `Wasi <https://www.wasi0013.com/>`_ - (`wasi0013 <https://github.com/wasi0013>`_)
-
-See also the list of `contributors <https://github.com/wasi0013/PyTM/contributors>`_ who participated in this project.
-
-License
--------
-This project is licensed under the MIT License - see the `LICENSE <LICENSE>`_ file for details.
-
-
-Acknowledgments
----------------
-* This project is bootstrapped using `this cookiecutter package <https://github.com/audreyr/cookiecutter-pypackage>`_
-
-
-**NOTE:** "*This Project is still a work in progress.*"
+* **Author** - `Wasi <https://www.wasi0013.com/>`_ - (`wasi0013 <https://github.com/wasi0013>`_).
+* **License** - see the `LICENSE <LICENSE>`_ file.
+* **Contributing** - see `CONTRIBUTING.rst <CONTRIBUTING.rst>`_ for detail. You can also help by creating `issues <https://github.com/wasi0013/PyTM/issues/new/>`_.
+* **Version** - see the `tags on this repository <https://github.com/wasi0013/PyTM/tags>`_.
+* **Acknowledgments** - bootstrapped using `this cookiecutter package <https://github.com/audreyr/cookiecutter-pypackage>`_.
+* Built With :heart: using `Python <https://python.org/>`_.
