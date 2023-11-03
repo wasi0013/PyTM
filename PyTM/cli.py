@@ -230,7 +230,12 @@ def auto(project_name):
     project['client_website'] = Prompt.ask("Website", default=f"{project.get('client_website', '')}")
     discount = Prompt.ask("Discount?", default="")
     html = invoice_handler.generate(invoice_number, invoice_texts, user, project, discount)
-    html_file = os.path.join(os.getcwd(), f"{invoice_texts['title']}.html")
+    try:
+        os.makedirs(os.path.join(data_folder, "invoices"))
+    except:
+        pass
+    
+    html_file = os.path.join(data_folder, "invoices", f"{invoice_texts['title']}.html")
     with open(html_file, "w") as f:
         f.write(html)
     console.print(f"The invoice is available in {html_file}")
@@ -289,7 +294,11 @@ def manual():
     project['tasks'] = tasks
     discount = Prompt.ask("Discount?", default="")
     html = invoice_handler.generate(invoice_number, invoice_texts, user, project, discount)
-    html_file = os.path.join(os.getcwd(), f"{invoice_texts['title']}.html")
+    try:
+        os.makedirs(os.path.join(data_folder, "invoices"))
+    except:
+        pass
+    html_file = os.path.join(data_folder,"invoices", f"{invoice_texts['title']}.html")
     with open(html_file, "w") as f:
         f.write(html)
     console.print(f"The invoice is available in {html_file}")
