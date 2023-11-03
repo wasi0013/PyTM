@@ -25,8 +25,12 @@ def abort():
     task_name = state.get(settings.CURRENT_TASK)
     if project_name:
         if task_name:
-            data_handler.update(partial(task_handler.abort, project_name=project_name, task_name=task_name))
-            state[settings.CURRENT_TASK] = ''
+            data_handler.update(
+                partial(
+                    task_handler.abort, project_name=project_name, task_name=task_name
+                )
+            )
+            state[settings.CURRENT_TASK] = ""
             data_handler.save_data(state, settings.state_filepath)
             console.print(f"Aborted Task [green]{task_name}[/green].")
         else:
@@ -45,8 +49,12 @@ def finish():
     task_name = state.get(settings.CURRENT_TASK)
     if project_name:
         if task_name:
-            data_handler.update(partial(task_handler.finish, project_name=project_name, task_name=task_name))
-            state[settings.CURRENT_TASK] = ''
+            data_handler.update(
+                partial(
+                    task_handler.finish, project_name=project_name, task_name=task_name
+                )
+            )
+            state[settings.CURRENT_TASK] = ""
             data_handler.save_data(state, settings.state_filepath)
             console.print(f"Finished task: [green]{task_name}[/green].")
         else:
@@ -65,8 +73,12 @@ def pause():
     task_name = state.get(settings.CURRENT_TASK)
     if project_name:
         if task_name:
-            data_handler.update(partial(task_handler.pause, project_name=project_name, task_name=task_name))
-            state[settings.CURRENT_TASK] = ''
+            data_handler.update(
+                partial(
+                    task_handler.pause, project_name=project_name, task_name=task_name
+                )
+            )
+            state[settings.CURRENT_TASK] = ""
             data_handler.save_data(state, settings.state_filepath)
             console.print(f"Paused task: [green]{task_name}[/green].")
         else:
@@ -84,7 +96,9 @@ def start(task_name):
     state = data_handler.load_data(settings.state_filepath)
     project_name = state.get(settings.CURRENT_PROJECT)
     if project_name:
-        data_handler.update(partial(task_handler.create, project_name=project_name, task_name=task_name))
+        data_handler.update(
+            partial(task_handler.create, project_name=project_name, task_name=task_name)
+        )
         state[settings.CURRENT_TASK] = task_name
         data_handler.save_data(state, settings.state_filepath)
         console.print(f"Started task: [green]{task_name}[/green].")
@@ -100,11 +114,14 @@ def remove(project_name, task_name):
     - deletes a task from a project.
     """
     state = data_handler.load_data(settings.state_filepath)
-    data_handler.update(partial(task_handler.remove, project_name=project_name, task_name=task_name))
-    if state[settings.CURRENT_TASK] == task_name: 
-            state[settings.CURRENT_TASK] = ''
-            data_handler.save_data(state, settings.state_filepath)
+    data_handler.update(
+        partial(task_handler.remove, project_name=project_name, task_name=task_name)
+    )
+    if state[settings.CURRENT_TASK] == task_name:
+        state[settings.CURRENT_TASK] = ""
+        data_handler.save_data(state, settings.state_filepath)
     console.print(f"Removed task [green]{task_name}[/green].")
+
 
 @task.command()
 def status():
@@ -114,10 +131,12 @@ def status():
     state = data_handler.load_data(settings.state_filepath)
     project_name = state.get(settings.CURRENT_PROJECT)
     task_name = state.get(settings.CURRENT_TASK)
-    
+
     if project_name:
         if task_name:
-            console.print(f"Status of [green]{task_name}[/green]: {task_handler.status(data_handler.load_data(), project_name=project_name, task_name=task_name)}")
+            console.print(
+                f"Status of [green]{task_name}[/green]: {task_handler.status(data_handler.load_data(), project_name=project_name, task_name=task_name)}"
+            )
         else:
             console.print("[red bold]No active task.")
     else:

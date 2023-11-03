@@ -30,17 +30,10 @@ setup(
     author="Wasi",
     author_email="wasi0013@gmail.com",
     url="https://github.com/wasi0013/PyTM",
-    packages=[
-        "PyTM",
-        "PyTM.commands",
-        "PyTM.core"
-    ],
+    packages=["PyTM", "PyTM.commands", "PyTM.core"],
     package_dir={"python-pytm": "PyTM"},
     include_package_data=True,
-    install_requires=[
-        "click",
-        "rich"
-    ],
+    install_requires=["click", "rich"],
     license="MIT",
     zip_safe=False,
     keywords="PyTM",
