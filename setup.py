@@ -32,6 +32,8 @@ setup(
     url="https://github.com/wasi0013/PyTM",
     packages=[
         "PyTM",
+        "PyTM.commands",
+        "PyTM.core"
     ],
     package_dir={"python-pytm": "PyTM"},
     include_package_data=True,
