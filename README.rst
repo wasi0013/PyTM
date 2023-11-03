@@ -57,7 +57,7 @@ After installing python-pytm for the first time run the command to create the da
 
     pytm init
 
-Basic commands:
+Basic commands
 ---------------
 
 To see the available commands type::
