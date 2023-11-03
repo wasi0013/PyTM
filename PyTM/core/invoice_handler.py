@@ -43,11 +43,11 @@ def generate(invoice_number, invoice_texts, user, project, discount=0):
                     <p class="text-sm">Invoice {invoice_number}</p>
                     <p class="text-sm">Date: {datetime.datetime.now().date()}</p>
                     <h2 class="font-semibold">Bill to</h2>
-                    <p>{project['client_name']}</p>
-                    {f"<p>{project['client_address']}</p>"if project['client_address'] else ''}
-                    {f"<p>{project['client_email']}</p>"if project['client_email'] else ''}
-                    {f"<p>{project['client_phone']}</p>"if project['client_phone'] else ''}
-                    {f"<p>{project['client_website']}</p>"if project['client_website'] else ''}
+                    <p>{project['meta']['client_name']}</p>
+                    {f"<p>{project['meta']['client_address']}</p>"if project['meta']['client_address'] else ''}
+                    {f"<p>{project['meta']['client_email']}</p>"if project['meta']['client_email'] else ''}
+                    {f"<p>{project['meta']['client_phone']}</p>"if project['meta']['client_phone'] else ''}
+                    {f"<p>{project['meta']['client_website']}</p>"if project['meta']['client_website'] else ''}
                 </div>
             </div>
             <div class="text-left mb-4">

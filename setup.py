@@ -23,24 +23,17 @@ history = open("HISTORY.rst").read().replace(".. :changelog:", "")
 
 setup(
     name="python-pytm",
-    version="0.0.11",
+    version="0.0.12",
     description="PyTM - an Open Source Python Time Management Tool for Mankind",
     long_description=readme + "\n\n" + doclink + "\n\n" + history,
     long_description_content_type="text/x-rst",
     author="Wasi",
     author_email="wasi0013@gmail.com",
     url="https://github.com/wasi0013/PyTM",
-    packages=[
-        "PyTM",
-        "PyTM.commands",
-        "PyTM.core"
-    ],
+    packages=["PyTM", "PyTM.commands", "PyTM.core"],
     package_dir={"python-pytm": "PyTM"},
     include_package_data=True,
-    install_requires=[
-        "click",
-        "rich"
-    ],
+    install_requires=["click", "rich"],
     license="MIT",
     zip_safe=False,
     keywords="PyTM",
