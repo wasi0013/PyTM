@@ -65,3 +65,10 @@ History
 * Added invoice manual command to generate manual invoice using prompts.
 * Added invoice auto <Project> command to generate invoice from existing projects.
 * invoice manual and auto command generates HTML invoices using Tailwind CSS and opens it in a Browser.
+
+0.0.10 (2023-11-03)
+-------------------
+
+* open invoices using python's standard library.
+* code refactor
+* bug fix
