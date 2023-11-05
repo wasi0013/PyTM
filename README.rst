@@ -35,6 +35,13 @@ Goals
 
 Project time management, billing, and invoice generation.
 
+Preview
+-------
+
+ .. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/demo.gif
+    :target: https://github.com/wasi0013/PyTM/raw/master/ext/images/demo.gif
+    :alt: PyTM - Preview
+    
 Demo Invoice
 ------------
 
