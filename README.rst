@@ -41,13 +41,17 @@ Preview
  .. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/demo.gif
     :target: https://github.com/wasi0013/PyTM/raw/master/ext/images/demo.gif
     :alt: PyTM - Preview
-    
-Demo Invoice
-------------
+
+Screenshots
+-----------
+
+ .. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/demo.png
+    :target: https://github.com/wasi0013/PyTM/
+    :alt: PyTM - Screenshot
 
  .. image:: https://github.com/wasi0013/PyTM/raw/master/ext/images/Demo-Invoice.png
     :target: https://github.com/wasi0013/PyTM/
-    :alt: PyTM - Demo Invoice
+    :alt: PyTM - Invoice
 
 Installing PyTM
 ---------------
