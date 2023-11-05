@@ -5,8 +5,8 @@
 
 
 
-**PУΓM** - a Time Management Tool
----------------------------------
+**PУΓM** -  A CLI time tracker for projects with invoice generation
+-------------------------------------------------------------------
 
 
 |image1| |image2| |image3| |Contributors| |DownloadStats| |DocsStats|
