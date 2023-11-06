@@ -64,9 +64,6 @@ Check the version by typing the following in your terminal.::
     
      pytm --version
 
-After installing python-pytm for the first time run the command to create the data files in the home directory::
-
-    pytm init
 
 Basic commands
 ---------------
