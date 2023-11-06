@@ -15,15 +15,34 @@ from rich.table import Table
 from rich.prompt import Prompt
 from rich.prompt import Confirm
 import webbrowser
-def greet():
+
+
+def _init(show_messages=False):
     """
-    shows Greeting Texts
-    :return: None
+    - initializes the pytm data store.
     """
-    console.print("\n\033[1m✨ PyTM ✨\033[0m ")
-    console.print(f"CLI V- {__version__}")
-    console.print("\033[1m----------------\033[0m")
-    console.print("\nTry 'pytm --help' for usage information.\n\n")
+    messages = []
+    messages.append("[green on white]Initializing pytm-data.\n")
+    try:
+        os.makedirs(data_folder)
+        messages.append(f"Created data folder: {data_folder}")
+    except:
+        messages.append(f"Data folder already exists: {data_folder}")
+    if not os.path.exists(data_filepath):
+        init_data(data_filepath)
+        messages.append(f"Created data file: {data_filepath}")        
+    else:
+        messages.append(f"Data file already exists: {data_filepath}")
+    
+    if not os.path.exists(state_filepath):
+        init_data(state_filepath, {CURRENT_PROJECT: "", CURRENT_TASK: ""})
+        messages.append(f"Created state file: {state_filepath}")        
+    else: 
+        messages.append(f"State file already exists: {state_filepath}")
+    
+    if show_messages:
+        for message in  messages:
+            console.print(message)
 
 
 def print_version(ctx, param, value):
@@ -57,32 +76,17 @@ def cli():
     PyTM - CLI
     docs: https://pytm.rtfd.org
     """
-    # greet()
+    _init()
+
 
 @click.command()
 def init():
-    """
-    - initializes the pytm data store.
-    """
-    console.print("[green on white]Initializing pytm-data.\n")
-    try:
-        os.makedirs(data_folder)
-        console.print(f"Created data folder: {data_folder}")
-    except:
-        console.print(f"Data folder already exists: {data_folder}")
-    if os.path.exists(data_filepath):
-        console.print(f"Data file already exists: {data_filepath}")
-    else: 
-        init_data(data_filepath)
-        console.print(f"Created data file: {data_filepath}")        
-        console.print("Done.")
-    if os.path.exists(state_filepath):
-        console.print(f"State file already exists: {state_filepath}")
-    else: 
-        init_data(state_filepath, {CURRENT_PROJECT: "", CURRENT_TASK: ""})
-        console.print(f"Created state file: {state_filepath}")        
-        console.print("Done.")
+    console.print("[green on white]\nDone.")
+    console.print(f"PyTM Data is stored in: {data_folder}")
+    console.print(f"Data file: {data_filepath}")
+    console.print(f"State file: {state_filepath}")
     console.print("\n[bold blue i on white]You also might want to run: `pytm config user` to configure default user data.[/bold blue i on white]")
+
 
 @click.command()
 def show():
