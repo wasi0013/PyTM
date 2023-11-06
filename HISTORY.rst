@@ -82,3 +82,8 @@ History
 -------------------
 
 * Bug fix.
+
+0.0.13 (2023-11-07)
+-------------------
+
+* Made the init command optional.
