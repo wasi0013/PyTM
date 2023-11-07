@@ -56,7 +56,8 @@ Screenshots
 Installing PyTM
 ---------------
 
-You can download it from `PyPI <https://pypi.org/project/python-pytm/>`_ using :code:`pip`::
+* First download and install the latest version of `Python <https://python.org/download/>`_ (Python 3.12+ is required). 
+* Next, install PyTM from `PyPI <https://pypi.org/project/python-pytm/>`_ using :code:`pip`::
 
     python -m pip install python-pytm
 
