@@ -1,21 +1,28 @@
-import PyTM.settings as settings 
-import PyTM.core.data_handler as data_handler
+from PyTM import settings
+from PyTM.core import data_handler
 from PyTM.commands.project import _get_duration_str
 import datetime
 
+
 def generate(invoice_number, invoice_texts, user, project, discount=0):
-    title, logo, foot_note = invoice_texts['title'], invoice_texts['logo'], invoice_texts['foot_note']
-    tasks = project['tasks']
+    title, logo, foot_note = (
+        invoice_texts["title"],
+        invoice_texts["logo"],
+        invoice_texts["foot_note"],
+    )
+    tasks = project["tasks"]
     duration = 0
     sub_total = 0
-    
+
     for task, t in tasks.items():
-        if t['status'] != settings.ABORTED:
-            task_duration = int(round(t['duration']))
+        if t["status"] != settings.ABORTED:
+            task_duration = int(round(t["duration"]))
             duration += task_duration
-            sub_total += float(t['duration']/360) * float(user['hourly_rate'])
-    if discount == "": discount = 0
-    else: discount = float(discount)
+            sub_total += float(t["duration"] / 360) * float(user["hourly_rate"])
+    if discount == "":
+        discount = 0
+    else:
+        discount = float(discount)
     total = sub_total - discount
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -68,13 +75,13 @@ def generate(invoice_number, invoice_texts, user, project, discount=0):
                     </thead>
                     <tbody>
 
-                        {"\n".join(f"""<tr>
+                        {"\n".join(f'''<tr>
                             <td class="p-2 border border-gray-300">{task.replace("_", " ").replace("-", " ").title()}</td>
                             <td class="p-2 border border-gray-300">{t.get('description', '-')}</td>
                             <td class="p-2 border border-gray-300">{float(t['duration']/360):,.02f}</td>
                             <td class="p-2 border border-gray-300">{float(user['hourly_rate']):,.02f}$</td>
                             <td class="p-2 border border-gray-300">{float(t['duration']/360) * float(user['hourly_rate']):,.02f}</td>
-                        </tr>""" for task, t in tasks.items())}
+                        </tr>''' for task, t in tasks.items())}
                         
                     </tbody>
                 </table>

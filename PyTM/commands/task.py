@@ -1,8 +1,8 @@
 import click
 from functools import partial
-import PyTM.core.task_handler as task_handler
-import PyTM.core.data_handler as data_handler
-import PyTM.settings as settings
+from PyTM.core import task_handler
+from PyTM.core import data_handler
+from PyTM import settings
 from PyTM.console import console
 import json
 

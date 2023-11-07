@@ -1,5 +1,6 @@
 from datetime import datetime
-import PyTM.settings as settings
+
+from PyTM import settings
 
 
 def _calc_duration(date1, date2):
