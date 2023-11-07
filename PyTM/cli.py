@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 import os
+import shutil
 import webbrowser
 
 import click
@@ -169,14 +170,15 @@ def config_invoice():
     invoice["logo"] = Prompt.ask(
         "Absolute path of a logo in .png format", default=invoice.get("logo", "")
     )
-    try:
-        os.replace(
-            invoice["logo"], os.path.join(settings.data_folder, "invoice-logo.png")
-        )
-        invoice["logo"] = os.path.join(settings.data_folder, "invoice-logo.png")
-    except Exception as e:
-        console.print("[bold red] Error occured while saving the logo.")
-        console.print_exception(e)
+    if invoice["logo"]:
+        try:
+            shutil.copy2(
+                invoice["logo"], os.path.join(settings.data_folder, "invoice-logo.png")
+            )
+            invoice["logo"] = os.path.join(settings.data_folder, "invoice-logo.png")
+        except Exception as e:
+            console.print("[bold red] Error occured while saving the logo.")
+            console.print_exception()
 
     invoice["foot_note"] = Prompt.ask(
         "Foot Note?", default=invoice.get("foot_note", "Thank you for your business.")
