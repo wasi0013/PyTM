@@ -1,50 +1,45 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import click
-from PyTM import settings
-from PyTM.commands.project import project
-from PyTM.commands.task import task
-from PyTM import __version__
-import os
 import datetime
-from PyTM.core import invoice_handler
-from PyTM.core.data_handler import init_data, load_data, save_data
-from PyTM.settings import (
-    data_folder,
-    data_filepath,
-    state_filepath,
-    CURRENT_PROJECT,
-    CURRENT_TASK,
-)
-from PyTM.console import console
-from rich.table import Table
-from rich.prompt import Prompt
-from rich.prompt import Confirm
+import os
 import webbrowser
 
+import click
+from rich.prompt import Confirm, Prompt
+from rich.table import Table
 
-def _init(show_messages=False):
+from PyTM import __version__, settings
+from PyTM.commands.project import project
+from PyTM.commands.task import task
+from PyTM.console import console
+from PyTM.core import data_handler, invoice_handler
+
+
+def init_data_store(show_messages=False):
     """
     - initializes the pytm data store.
     """
     messages = []
     messages.append("[green on white]Initializing pytm-data.\n")
     try:
-        os.makedirs(data_folder)
-        messages.append(f"Created data folder: {data_folder}")
+        os.makedirs(settings.data_folder)
+        messages.append(f"Created data folder: {settings.data_folder}")
     except:
-        messages.append(f"Data folder already exists: {data_folder}")
-    if not os.path.exists(data_filepath):
-        init_data(data_filepath)
-        messages.append(f"Created data file: {data_filepath}")
+        messages.append(f"Data folder already exists: {settings.data_folder}")
+    if not os.path.exists(settings.data_filepath):
+        data_handler.init_data(settings.data_filepath)
+        messages.append(f"Created data file: {settings.data_filepath}")
     else:
-        messages.append(f"Data file already exists: {data_filepath}")
+        messages.append(f"Data file already exists: {settings.data_filepath}")
 
-    if not os.path.exists(state_filepath):
-        init_data(state_filepath, {CURRENT_PROJECT: "", CURRENT_TASK: ""})
-        messages.append(f"Created state file: {state_filepath}")
+    if not os.path.exists(settings.state_filepath):
+        data_handler.init_data(
+            settings.state_filepath,
+            {settings.CURRENT_PROJECT: "", settings.CURRENT_TASK: ""},
+        )
+        messages.append(f"Created state file: {settings.state_filepath}")
     else:
-        messages.append(f"State file already exists: {state_filepath}")
+        messages.append(f"State file already exists: {settings.state_filepath}")
 
     if show_messages:
         for message in messages:
@@ -63,6 +58,7 @@ def print_version(ctx, param, value):
         return
     console.print("\n[bold green]✨ PyTM ✨")
     console.print(f"version {__version__}")
+    console.print(f"docs: https://pytm.rtfd.org")
     ctx.exit()
 
 
@@ -75,22 +71,27 @@ def print_version(ctx, param, value):
     callback=print_version,
     expose_value=False,
     is_eager=True,
-    help="Shows version and exit",
+    help="Shows version",
 )
 def cli():
     """
-    PyTM - CLI
-    docs: https://pytm.rtfd.org
+    docs: https://pytm.rtfd.org\n
+    Config:\n
+       default user data (optional): `pytm config user`\n
+       default invoice texts & logo (optional): `pytm config invoice`
     """
-    _init()
+    init_data_store()
 
 
-@click.command()
+@click.command(hidden=True)
 def init():
+    """
+    - initializes & prints data files & folder.
+    """
     console.print("[green on white]\nDone.")
-    console.print(f"PyTM Data is stored in: {data_folder}")
-    console.print(f"Data file: {data_filepath}")
-    console.print(f"State file: {state_filepath}")
+    console.print(f"PyTM Data is stored in: {settings.data_folder}")
+    console.print(f"Data file: {settings.data_filepath}")
+    console.print(f"State file: {settings.state_filepath}")
     console.print(
         "\n[bold blue i on white]You also might want to run: `pytm config user` to configure default user data.[/bold blue i on white]"
     )
@@ -101,7 +102,7 @@ def show():
     """
     - shows list of projects and status
     """
-    data = load_data()
+    data = data_handler.load_data()
     table = Table()
     table.add_column("Project Name", style="blue bold")
     table.add_column("Created at")
@@ -128,7 +129,7 @@ def user():
     """
     - config default user.
     """
-    state = load_data(state_filepath)
+    state = data_handler.load_data(settings.state_filepath)
     current_user = {}
     if state.get("config"):
         current_user = state.get("config").get("user", {})
@@ -147,16 +148,16 @@ def user():
         "Hourly rate in USD", default=current_user.get("hourly_rate", "")
     )
     state["config"]["user"] = current_user
-    save_data(state, state_filepath)
+    data_handler.save_data(state, settings.state_filepath)
     console.print("\n[green]Default user info updated.")
 
 
-@config.command()
-def invoice():
+@config.command("invoice")
+def config_invoice():
     """
     - configure invoice texts and logo.
     """
-    state = load_data(state_filepath)
+    state = data_handler.load_data(settings.state_filepath)
     invoice = {}
     if state.get("config"):
         invoice = state.get("config").get("invoice", {})
@@ -169,8 +170,10 @@ def invoice():
         "Absolute path of a logo in .png format", default=invoice.get("logo", "")
     )
     try:
-        os.replace(invoice["logo"], os.path.join(data_folder, "invoice-logo.png"))
-        invoice["logo"] = os.path.join(data_folder, "invoice-logo.png")
+        os.replace(
+            invoice["logo"], os.path.join(settings.data_folder, "invoice-logo.png")
+        )
+        invoice["logo"] = os.path.join(settings.data_folder, "invoice-logo.png")
     except Exception as e:
         console.print("[bold red] Error occured while saving the logo.")
         console.print_exception(e)
@@ -182,7 +185,7 @@ def invoice():
         "Default invoice number to start from? (integer)", default="13"
     )
     state["config"]["invoice"] = invoice
-    save_data(state, state_filepath)
+    data_handler.save_data(state, settings.state_filepath)
     console.print("\n[green]invoice texts are updated.")
 
 
@@ -192,7 +195,7 @@ def config_project(project_name):
     """
     - config project meta data.
     """
-    data = load_data()
+    data = data_handler.load_data()
     if data.get(project_name):
         data[project_name]["meta"] = data.get(project_name).get("meta", {})
         data[project_name]["meta"]["title"] = Prompt.ask(
@@ -220,7 +223,7 @@ def config_project(project_name):
         )
     else:
         console.print(f"[bold red] Project {project_name} doesn't exist.")
-    save_data(data)
+    data_handler.save_data(data)
     console.print("\n[green]Project Meta data updated.")
 
 
@@ -238,13 +241,13 @@ def auto(project_name):
     """
     - generates invoice for existing projects.
     """
-    data = load_data()
+    data = data_handler.load_data()
     if not data.get(project_name):
         console.print(f"[bold red] {project_name} doesn't exist.")
         return None
     title, logo, foot_note, invoice_number = [""] * 4
     discount = 0
-    state = load_data(state_filepath)
+    state = data_handler.load_data(settings.state_filepath)
     config = state.get("config", {})
     user = config.get("user", {})
     invoice_texts = config.get("invoice", {})
@@ -260,7 +263,7 @@ def auto(project_name):
                     state["config"]["invoice"][
                         "invoice_number"
                     ] = f'{int(state.get("config").get("invoice").get("invoice_number", "13")) + 1}'
-                    save_data(state, state_filepath)
+                    data_handler.save_data(state, settings.state_filepath)
                 except:
                     pass
 
@@ -315,11 +318,13 @@ def auto(project_name):
         invoice_number, invoice_texts, user, project, discount
     )
     try:
-        os.makedirs(os.path.join(data_folder, "invoices"))
+        os.makedirs(os.path.join(settings.data_folder, "invoices"))
     except:
         pass
 
-    html_file = os.path.join(data_folder, "invoices", f"{invoice_texts['title']}.html")
+    html_file = os.path.join(
+        settings.data_folder, "invoices", f"{invoice_texts['title']}.html"
+    )
     with open(html_file, "w") as f:
         f.write(html)
     console.print(f"The invoice is available in {html_file}")
@@ -333,7 +338,7 @@ def manual():
     """
     title, logo, foot_note, invoice_number = [""] * 4
     discount = 0
-    state = load_data(state_filepath)
+    state = data_handler.load_data(settings.state_filepath)
     config = state.get("config", {})
     user = config.get("user", {})
     invoice_texts = config.get("invoice", {})
@@ -349,7 +354,7 @@ def manual():
                     state["config"]["invoice"][
                         "invoice_number"
                     ] = f'{int(state.get("config").get("invoice").get("invoice_number")) + 1}'
-                    save_data(state, state_filepath)
+                    data_handler.save_data(state, settings.state_filepath)
                 except:
                     pass
 
@@ -404,10 +409,12 @@ def manual():
         invoice_number, invoice_texts, user, project, discount
     )
     try:
-        os.makedirs(os.path.join(data_folder, "invoices"))
+        os.makedirs(os.path.join(settings.data_folder, "invoices"))
     except:
         pass
-    html_file = os.path.join(data_folder, "invoices", f"{invoice_texts['title']}.html")
+    html_file = os.path.join(
+        settings.data_folder, "invoices", f"{invoice_texts['title']}.html"
+    )
     with open(html_file, "w") as f:
         f.write(html)
     console.print(f"The invoice is available in {html_file}")
