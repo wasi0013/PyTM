@@ -1,5 +1,5 @@
-import PyTM.settings as settings
-import PyTM.core.data_handler as data_handler
+from PyTM import settings
+from PyTM.core import data_handler
 from PyTM.commands.project import _get_duration_str
 import datetime
 
