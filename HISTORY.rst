@@ -87,3 +87,12 @@ History
 -------------------
 
 * Made the init command optional.
+
+0.0.14 (2023-11-07)
+-------------------
+
+* config invoice command bug fix.
+* copy logo instead of moving it permanently when configuring invoice.
+* fixed f strings quote issue.
+* made init command hidden.
+* improved doc strings and help texts.
