@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from PyTM import settings
 
@@ -10,7 +10,7 @@ def create(data, project_name):
     else:
         data[project_name] = {
             "tasks": {},
-            "created_at": f"{datetime.now()}",
+            "created_at": f"{datetime.datetime.now()}",
             "status": settings.STARTED,
         }
     return data
