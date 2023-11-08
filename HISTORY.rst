@@ -96,3 +96,17 @@ History
 * fixed f strings quote issue.
 * made init command hidden.
 * improved doc strings and help texts.
+
+0.0.15 (2023-11-08)
+-------------------
+
+* added new command rename for renaming existing projects.
+* added new command rename for renaming existing tasks.
+* updated show command to show active task and project when available.
+* Simplified project start command.
+* New projects can be started without project name. 
+* Project started without a name will now have a default name which can be renamed later.
+* Simplified task start command.
+* New tasks can be started without task name. 
+* Task started without a name will have a default name which can be renamed later at ease.
+* Bug fix
