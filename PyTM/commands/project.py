@@ -183,3 +183,32 @@ def json(project_name):
     console.print_json(
         data=project_handler.summary(data_handler.load_data(), project_name)
     )
+
+
+@project.command()
+@click.argument("project_name")
+@click.argument("new_name")
+def rename(project_name, new_name):
+    """
+    - Renames an existing project.
+    """
+    data = data_handler.load_data()
+    state = data_handler.load_data(settings.state_filepath)
+
+    if not data.get(project_name):
+        console.print(
+            f"[bold red] {project_name} doesn't exists. Make sure the spelling is correct."
+        )
+        return
+    if data.get(new_name):
+        console.print(
+            f"[bold red] {new_name} already exists. Choose a different project name."
+        )
+        return
+    data_handler.update(
+        partial(project_handler.rename, project_name=project_name, new_name=new_name)
+    )
+    console.print(f"The project: {project_name} is renamed to {new_name}.")
+    if state[settings.CURRENT_PROJECT] == project_name:
+        state[settings.CURRENT_PROJECT] = new_name
+        data_handler.save_data(state, settings.state_filepath)

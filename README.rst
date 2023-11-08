@@ -56,7 +56,7 @@ Screenshots
 Installing PyTM
 ---------------
 
-* First download and install the latest version of `Python <https://python.org/download/>`_ (Python 3.12+ is required). 
+* First download and install the latest version of `Python 3 <https://python.org/download/>`_ (Python 3.12+ is required). 
 * Next, install PyTM from `PyPI <https://pypi.org/project/python-pytm/>`_ using :code:`pip`::
 
     python -m pip install python-pytm
@@ -84,6 +84,7 @@ Commands related to projects
 * Finish active project: :code:`pytm project finish`
 * Pause active project: :code:`pytm project pause`
 * Abort active project: :code:`pytm project abort`
+* Rename a project: :code:`pytm project rename OLD_PROJECT_NAME NEW_NAME`
 
 Commands related to Task
 ========================
@@ -94,6 +95,7 @@ Commands related to Task
 * Finish active task: :code:`pytm task finish`
 * Pause active task: :code:`pytm task pause`
 * Abort active task: :code:`pytm task abort`
+* Rename a task of the active project: :code:`pytm task rename OLD_TASK_NAME NEW_NAME`
 
 Others
 ======
