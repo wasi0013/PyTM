@@ -104,6 +104,7 @@ def show():
     - shows list of projects and status
     """
     data = data_handler.load_data()
+    state = data_handler.load_data(settings.state_filepath)
     table = Table()
     table.add_column("Project Name", style="blue bold")
     table.add_column("Created at")
@@ -114,6 +115,13 @@ def show():
             f'{datetime.datetime.fromisoformat(value["created_at"]).strftime("%Y, %B, %d, %H:%M:%S %p")}',
             value["status"],
         )
+    message = ""
+    if state[settings.CURRENT_PROJECT]:
+        message += f"Active Project: [bold blue]{state[settings.CURRENT_PROJECT]}[/bold blue]\n"
+    if state[settings.CURRENT_TASK]:
+        message += f"Active Task: [bold green]{state[settings.CURRENT_TASK]}"
+    if message:
+        console.print(message)
     console.print(table)
 
 

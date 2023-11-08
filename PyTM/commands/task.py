@@ -88,14 +88,22 @@ def pause():
 
 
 @task.command()
-@click.argument("task_name")
+@click.argument("task_name", required=False)
 def start(task_name):
     """
     - starts a new/existing task in current project.
     """
+    data = data_handler.load_data()
     state = data_handler.load_data(settings.state_filepath)
     project_name = state.get(settings.CURRENT_PROJECT)
-    if project_name:
+    if project_name and data.get(project_name):
+        if task_name is None:
+            num = len(data.get(project_name).get("tasks", {}).keys())
+            while task_name is None or data.get(project_name).get("tasks", {}).get(
+                task_name, ""
+            ):
+                num += 1
+                task_name = f"UNTITLED_{num}"
         data_handler.update(
             partial(task_handler.create, project_name=project_name, task_name=task_name)
         )
@@ -139,5 +147,42 @@ def status():
             )
         else:
             console.print("[red bold]No active task.")
+    else:
+        console.print("[red bold]No active project.")
+
+
+@task.command()
+@click.argument("task_name")
+@click.argument("new_name")
+def rename(task_name, new_name):
+    """
+    - Renames a task of the active project.
+    """
+    state = data_handler.load_data(settings.state_filepath)
+    data = data_handler.load_data()
+    project_name = state.get(settings.CURRENT_PROJECT)
+    if project_name:
+        if not data.get(project_name):
+            console.print(f"[red bold]Project doesn't exist.")
+            state[settings.CURRENT_PROJECT] = ""
+            data_handler.save_data(state, settings.state_filepath)
+            return
+        if task_name not in data.get(project_name).get("tasks", []):
+            console.print(f"[bold red] {task_name} doesn't exists.")
+            return
+        if new_name in data.get(project_name).get("tasks", []):
+            console.print(f"Task {new_name} already exists. Choose a different name.")
+            return
+        data_handler.update(
+            partial(
+                task_handler.rename,
+                project_name=project_name,
+                task_name=task_name,
+                new_name=new_name,
+            )
+        )
+        state[settings.CURRENT_TASK] = new_name
+        data_handler.save_data(state, settings.state_filepath)
+        console.print(f"Renamed task: [green]{task_name}[/green] to {new_name}.")
     else:
         console.print("[red bold]No active project.")

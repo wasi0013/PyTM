@@ -56,7 +56,17 @@ Screenshots
 Installing PyTM
 ---------------
 
-* First download and install the latest version of `Python <https://python.org/download/>`_ (Python 3.12+ is required). 
+* First download and install `pyenv <https://github.com/pyenv/pyenv#installation>`_. Use the command::
+
+    curl https://pyenv.run | bash
+
+* Next, install Python 3.12 using the command::
+
+    pyenv install 3.12.0
+
+  Alternatively, you can skip pyenv installation and download python 3.12 or above from the official website and setup a virtualenv as well. 
+
+
 * Next, install PyTM from `PyPI <https://pypi.org/project/python-pytm/>`_ using :code:`pip`::
 
     python -m pip install python-pytm
@@ -76,8 +86,9 @@ To see the available commands type::
 
 Commands related to projects
 ============================
-
-* Start a new/existing project: :code:`pytm project start PROJECT_NAME`
+* Start a new project with a default name: :code:`pytm project start`
+* Start a new project with the given name or, start an existing project: :code:`pytm project start PROJECT_NAME`
+* Rename a project: :code:`pytm project rename OLD_PROJECT_NAME NEW_NAME`
 * Remove a project: :code:`pytm project remove PROJECT_NAME`
 * Check the status of a project: :code:`pytm project status PROJECT_NAME`
 * Check the list of tasks and duration of a project: :code:`pytm project summary PROJECT_NAME`
@@ -87,8 +98,9 @@ Commands related to projects
 
 Commands related to Task
 ========================
-
-* Start a new or existing task in the current active project: :code:`pytm task start TASK_NAME`
+* Start a new task with a default name in the current active project: :code:`pytm task start`
+* Start a new task with the given name or existing task in the current active project: :code:`pytm task start TASK_NAME`
+* Rename a task of the active project: :code:`pytm task rename OLD_TASK_NAME NEW_NAME`
 * Remove a task: :code:`pytm task remove TASK_NAME`
 * current task's status: :code:`pytm task status`
 * Finish active task: :code:`pytm task finish`

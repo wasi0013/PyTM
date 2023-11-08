@@ -76,3 +76,13 @@ def remove(data, project_name, task_name):
         if data.get(project_name)["tasks"].get(task_name):
             del data.get(project_name)["tasks"][task_name]
     return data
+
+
+def rename(data, project_name, task_name, new_name):
+    if data.get(project_name):
+        if data.get(project_name).get("tasks"):
+            if not data.get(project_name).get("tasks").get(new_name):
+                data[project_name]["tasks"][new_name] = data[project_name]["tasks"].pop(
+                    task_name
+                )
+    return data

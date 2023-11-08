@@ -52,3 +52,10 @@ def remove(data, project_name):
     if data.get(project_name):
         del data[project_name]
     return data
+
+
+def rename(data, project_name, new_name):
+    if not new_name in data.keys():
+        if data.get(project_name):
+            data[new_name] = data.pop(project_name)
+    return data
