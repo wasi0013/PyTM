@@ -117,7 +117,7 @@ def show():
         )
     message = ""
     if state[settings.CURRENT_PROJECT]:
-        message += f"Active Project: [bold blue]{state[settings.CURRENT_PROJECT]}\n"
+        message += f"Active Project: [bold blue]{state[settings.CURRENT_PROJECT]}[/bold blue]\n"
     if state[settings.CURRENT_TASK]:
         message += f"Active Task: [bold green]{state[settings.CURRENT_TASK]}"
     if message:

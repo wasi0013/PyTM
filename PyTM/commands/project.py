@@ -112,15 +112,23 @@ def pause():
 
 
 @project.command()
-@click.argument("project_name")
+@click.argument("project_name", required=False)
 def start(project_name):
     """
     - starts an existing project or creates a new project.
     """
     data = data_handler.load_data()
+
+    if project_name is None:
+        num = len(data.keys())
+        while project_name is None or data.get(project_name):
+            num += 1
+            project_name = f"UNNAMED_{num}"
+
     data_handler.update(partial(project_handler.create, project_name=project_name))
     state = data_handler.load_data(settings.state_filepath)
     state[settings.CURRENT_PROJECT] = project_name
+    state[settings.CURRENT_TASK] = ""
     data_handler.save_data(state, settings.state_filepath)
     console.print(f"[bold blue]{project_name}[/bold blue] started.")
     if project_name not in data.keys():
