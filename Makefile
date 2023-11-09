@@ -28,10 +28,11 @@ lint:
 	flake8 PyTM test
 
 test:
-	py.test
-
+	py.test --cov-report json --cov                                                                                                                                                                      
+	sed -i "s/coverage-[0-9]\+%25/coverage-$(jq .totals.percent_covered_display coverage.json)%25/g" README.rst
+	rm -rf coverage.json
 test-all:
-	tox
+	py.test -vv
 
 coverage:
 	coverage run --source PyTM setup.py test
