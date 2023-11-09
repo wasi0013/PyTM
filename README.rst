@@ -9,8 +9,8 @@
 -------------------------------------------------------------------
 
 
-|image1| |image2| |image3| |Contributors| |DownloadStats| |DocsStats|
-=====================================================================
+|image1| |coverage| |image3| |Contributors| |DownloadStats| |DocsStats| |image2|
+================================================================================
 
 .. |image1| image:: https://badge.fury.io/py/python-pytm.png
    :target: https://badge.fury.io/py/python-pytm
@@ -28,7 +28,9 @@
 .. |DocsStats| image:: https://readthedocs.org/projects/pytm/badge/?version=latest
    :target: https://pytm.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
-
+.. |coverage| image:: https://img.shields.io/badge/coverage-56%25-blue
+   :target: https://pytm.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
 Goals
 -----
