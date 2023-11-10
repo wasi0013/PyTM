@@ -110,3 +110,13 @@ History
 * New tasks can be started without task name. 
 * Task started without a name will have a default name which can be renamed later at ease.
 * Bug fix
+
+0.0.16 (2023-11-11)
+-------------------
+
+* added new command summary.
+* fixed bug and refactored invoice handler.
+* added tests for project handler.
+* added tests for task handler.
+* added tests for invoice handler.
+* updated make command to update README coverage percentage while testing.
