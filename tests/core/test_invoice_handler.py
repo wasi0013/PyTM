@@ -1,7 +1,27 @@
+import datetime
+
+import pytest
+
 from PyTM.core import invoice_handler
 
+TEST_TIME_NOW = datetime.datetime(
+    2023,
+    11,
+    9,
+)
 
-def test_generate(test_data):
+
+@pytest.fixture
+def patch_datetime_now(monkeypatch):
+    class mydatetime(datetime.datetime):
+        @classmethod
+        def now(cls):
+            return TEST_TIME_NOW
+
+    monkeypatch.setattr(invoice_handler.datetime, "datetime", mydatetime)
+
+
+def test_generate(test_data, patch_datetime_now):
     invoice_texts = {
         "title": "Invoice",
         "logo": "",

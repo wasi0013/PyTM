@@ -28,7 +28,7 @@
 .. |DocsStats| image:: https://readthedocs.org/projects/pytm/badge/?version=latest
    :target: https://pytm.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
-.. |coverage| image:: https://img.shields.io/badge/coverage-56%25-blue
+.. |coverage| image:: https://img.shields.io/badge/coverage-57%25-blue
    :target: https://pytm.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
