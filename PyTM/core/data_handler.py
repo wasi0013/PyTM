@@ -1,8 +1,9 @@
 import json
-from PyTM.settings import data_filepath
+
+from PyTM import settings
 
 
-def init_data(path=data_filepath, data={}):
+def init_data(path=settings.data_filepath, data={}):
     """
     Creates the data to the given path.
     """
@@ -10,7 +11,7 @@ def init_data(path=data_filepath, data={}):
         json.dump(data, f)
 
 
-def load_data(path=data_filepath):
+def load_data(path=settings.data_filepath):
     """
     Loads the data from the given path.
     """
@@ -21,7 +22,7 @@ def load_data(path=data_filepath):
         return {}
 
 
-def save_data(data, path=data_filepath):
+def save_data(data, path=settings.data_filepath):
     """
     Saves the data to the given path.
     """
@@ -30,7 +31,7 @@ def save_data(data, path=data_filepath):
             json.dump(data, f)
 
 
-def update(func, path=data_filepath):
+def update(func, path=settings.data_filepath):
     """
     Decorator for updating the data.
     """

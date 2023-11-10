@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from PyTM import settings
 
@@ -10,7 +10,7 @@ def create(data, project_name):
     else:
         data[project_name] = {
             "tasks": {},
-            "created_at": f"{datetime.now()}",
+            "created_at": f"{datetime.datetime.now()}",
             "status": settings.STARTED,
         }
     return data
@@ -55,7 +55,7 @@ def remove(data, project_name):
 
 
 def rename(data, project_name, new_name):
-    if not new_name in data.keys():
+    if new_name not in data.keys():
         if data.get(project_name):
             data[new_name] = data.pop(project_name)
     return data

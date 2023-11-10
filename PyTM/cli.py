@@ -8,9 +8,12 @@ import webbrowser
 import click
 from rich.prompt import Confirm, Prompt
 from rich.table import Table
+from rich.tree import Tree
+from rich.panel import Panel
+from rich.layout import Layout
 
 from PyTM import __version__, settings
-from PyTM.commands.project import project
+from PyTM.commands.project import project, get_duration_str
 from PyTM.commands.task import task
 from PyTM.console import console
 from PyTM.core import data_handler, invoice_handler
@@ -25,7 +28,7 @@ def init_data_store(show_messages=False):
     try:
         os.makedirs(settings.data_folder)
         messages.append(f"Created data folder: {settings.data_folder}")
-    except:
+    except Exception as _:
         messages.append(f"Data folder already exists: {settings.data_folder}")
     if not os.path.exists(settings.data_filepath):
         data_handler.init_data(settings.data_filepath)
@@ -59,7 +62,7 @@ def print_version(ctx, param, value):
         return
     console.print("\n[bold green]✨ PyTM ✨")
     console.print(f"version {__version__}")
-    console.print(f"docs: https://pytm.rtfd.org")
+    console.print("docs: https://pytm.rtfd.org")
     ctx.exit()
 
 
@@ -184,7 +187,7 @@ def config_invoice():
                 invoice["logo"], os.path.join(settings.data_folder, "invoice-logo.png")
             )
             invoice["logo"] = os.path.join(settings.data_folder, "invoice-logo.png")
-        except Exception as e:
+        except Exception as _:
             console.print("[bold red] Error occured while saving the logo.")
             console.print_exception()
 
@@ -274,7 +277,7 @@ def auto(project_name):
                         "invoice_number"
                     ] = f'{int(state.get("config").get("invoice").get("invoice_number", "13")) + 1}'
                     data_handler.save_data(state, settings.state_filepath)
-                except:
+                except Exception as _:
                     pass
 
     invoice_texts["title"] = Prompt.ask(
@@ -329,7 +332,7 @@ def auto(project_name):
     )
     try:
         os.makedirs(os.path.join(settings.data_folder, "invoices"))
-    except:
+    except Exception as _:
         pass
 
     html_file = os.path.join(
@@ -365,7 +368,7 @@ def manual():
                         "invoice_number"
                     ] = f'{int(state.get("config").get("invoice").get("invoice_number")) + 1}'
                     data_handler.save_data(state, settings.state_filepath)
-                except:
+                except Exception as _:
                     pass
 
     invoice_texts["title"] = Prompt.ask(
@@ -420,7 +423,7 @@ def manual():
     )
     try:
         os.makedirs(os.path.join(settings.data_folder, "invoices"))
-    except:
+    except Exception as _:
         pass
     html_file = os.path.join(
         settings.data_folder, "invoices", f"{invoice_texts['title']}.html"
@@ -431,12 +434,57 @@ def manual():
     webbrowser.open(f"file:///{html_file}", autoraise=True)
 
 
+@click.command()
+def summary():
+    """
+    - shows summary of all projects.
+    """
+    data = data_handler.load_data()
+    layout = Layout()
+
+    count = 0
+    left, right = [], []
+    for project_name in data:
+        project_data = data.get(project_name, {}).get("tasks", {})
+        tree = Tree(
+            f'[bold blue]{project_name}[/bold blue] ([i]{data.get(project_name, {})["status"]}[/i])'
+        )
+        if project_data == {}:
+            tree.add("[red] No tasks yet. [/red]")
+            right.append(Panel(tree, title=f"{project_name}"))
+            continue
+        duration = 0
+        for task_name, t in project_data.items():
+            task_duration = int(round(t["duration"]))
+            duration += task_duration
+            tree.add(
+                f"[green]{task_name}[/green]: {get_duration_str(task_duration)} ([i]{t['status']}[/i])"
+            )
+        left.append(
+            Panel(
+                tree,
+                title=f"{project_name}",
+                subtitle=f"[blue bold]Total time[/blue bold]: {get_duration_str(duration)}",
+                expand=False,
+            )
+        )
+        count += 1
+    layout.split_row(  # *p)
+        Layout(name="left", size=45),
+        Layout(name="right", size=55),
+    )
+    layout["left"].split_column(*left)
+    layout["right"].split_column(*right)
+    console.print(layout)
+
+
 cli.add_command(init)
 cli.add_command(project)
 cli.add_command(task)
 cli.add_command(show)
 cli.add_command(config)
 cli.add_command(invoice)
+cli.add_command(summary)
 
 if __name__ == "__main__":
     cli()
