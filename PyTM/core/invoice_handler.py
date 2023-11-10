@@ -1,7 +1,7 @@
-from PyTM import settings
-from PyTM.core import data_handler
-from PyTM.commands.project import _get_duration_str
 import datetime
+
+from PyTM import settings
+from PyTM.commands.project import get_duration_str
 
 
 def generate(invoice_number, invoice_texts, user, project, discount=0):
@@ -60,7 +60,7 @@ def generate(invoice_number, invoice_texts, user, project, discount=0):
             <div class="text-left mb-4">
                 <h1 class="text-2xl font-semibold">Project: {project['meta']['title']}</h1>
                 <p>Date: {datetime.datetime.fromisoformat(project['created_at']).date()}</p>
-                <p>Duration: {_get_duration_str(duration)}</p>
+                <p>Duration: {get_duration_str(duration)}</p>
             </div>
             <div class="mt-4">
                 <table class="w-full border-collapse border border-gray-300">
