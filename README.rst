@@ -127,6 +127,9 @@ Check version::
     pytm --version
     pytm -v
 
+Check summary of all the projects::
+
+    pytm summary
 
 For a list of all the available commands try::
 
