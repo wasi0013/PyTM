@@ -11,7 +11,7 @@ from PyTM.core import data_handler
 from PyTM.core import project_handler
 
 
-def _get_duration_str(sum_of_durations):
+def get_duration_str(sum_of_durations):
     m, s = divmod(sum_of_durations, 60)
     duration = ""
     if m > 60:
@@ -168,18 +168,18 @@ def summary(project_name):
     """
     - shows total time of the project with task and duration.
     """
-    project = project_handler.summary(data_handler.load_data(), project_name)
-    project_data = project["tasks"]
+    project_data = project_handler.summary(data_handler.load_data(), project_name)
+    project_data = project_data.get("tasks", {})
     tree = Tree(f'[bold blue]{project_name}[/bold blue] ([i]{project["status"]}[/i])')
     duration = 0
     for task, t in project_data.items():
         task_duration = int(round(t["duration"]))
         duration += task_duration
         tree.add(
-            f"[green]{task}[/green]: {_get_duration_str(task_duration)} ([i]{t['status']}[/i])"
+            f"[green]{task}[/green]: {get_duration_str(task_duration)} ([i]{t['status']}[/i])"
         )
     console.print(Panel.fit(tree))
-    console.print(f"[blue bold]Total time[/blue bold]: {_get_duration_str(duration)}")
+    console.print(f"[blue bold]Total time[/blue bold]: {get_duration_str(duration)}")
 
 
 @project.command()
