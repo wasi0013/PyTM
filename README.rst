@@ -5,7 +5,7 @@
 
 
 
-**PУΓM** -  A CLI time tracker for projects with invoice generation
+**PyTM** -  A CLI time tracker for projects with invoice generation
 -------------------------------------------------------------------
 
 
