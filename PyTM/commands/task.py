@@ -4,7 +4,6 @@ from PyTM.core import task_handler
 from PyTM.core import data_handler
 from PyTM import settings
 from PyTM.console import console
-import json
 
 
 @click.group()
@@ -58,9 +57,9 @@ def finish():
             data_handler.save_data(state, settings.state_filepath)
             console.print(f"Finished task: [green]{task_name}[/green].")
         else:
-            console.print("[red bold]No active  task.")
+            console.print("[red bold]No active task.")
     else:
-        console.print("[red bold]No active  project.")
+        console.print("[red bold]No active project.")
 
 
 @task.command()
@@ -163,7 +162,7 @@ def rename(task_name, new_name):
     project_name = state.get(settings.CURRENT_PROJECT)
     if project_name:
         if not data.get(project_name):
-            console.print(f"[red bold]Project doesn't exist.")
+            console.print(f"[red bold]Project {project_name} doesn't exist.")
             state[settings.CURRENT_PROJECT] = ""
             data_handler.save_data(state, settings.state_filepath)
             return
