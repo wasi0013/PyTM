@@ -124,7 +124,7 @@ def remove(project_name, task_name):
     data_handler.update(
         partial(task_handler.remove, project_name=project_name, task_name=task_name)
     )
-    if state[settings.CURRENT_TASK] == task_name:
+    if state.get(settings.CURRENT_TASK) == task_name:
         state[settings.CURRENT_TASK] = ""
         data_handler.save_data(state, settings.state_filepath)
     console.print(f"Removed task [green]{task_name}[/green].")
@@ -180,8 +180,9 @@ def rename(task_name, new_name):
                 new_name=new_name,
             )
         )
-        state[settings.CURRENT_TASK] = new_name
-        data_handler.save_data(state, settings.state_filepath)
+        if state.get(settings.CURRENT_TASK) == task_name:
+            state[settings.CURRENT_TASK] = new_name
+            data_handler.save_data(state, settings.state_filepath)
         console.print(f"Renamed task: [green]{task_name}[/green] to {new_name}.")
     else:
         console.print("[red bold]No active project.")

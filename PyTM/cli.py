@@ -119,9 +119,9 @@ def show():
             value["status"],
         )
     message = ""
-    if state[settings.CURRENT_PROJECT]:
+    if state.get(settings.CURRENT_PROJECT):
         message += f"Active Project: [bold blue]{state[settings.CURRENT_PROJECT]}[/bold blue]\n"
-    if state[settings.CURRENT_TASK]:
+    if state.get(settings.CURRENT_TASK):
         message += f"Active Task: [bold green]{state[settings.CURRENT_TASK]}"
     if message:
         console.print(message)
@@ -292,14 +292,14 @@ def auto(project_name):
 
     project, user = data[project_name], config.get("user", {})
 
-    if not project["meta"]:
+    if not project.get("meta"):
         project["meta"] = {}
     project["meta"]["title"] = Prompt.ask(
         "Project Name", default=f"{project['meta']['title']}"
     )
     project["created_at"] = Prompt.ask(
         "Project Date (YYYY-MM-DD)",
-        default=f'{project["meta"].get("created_at", datetime.datetime.now())}',
+        default=f'{project.get("created_at", datetime.datetime.now())}',
     )
     user["name"] = Prompt.ask("Your Name", default=user.get("name", ""))
     user["email"] = Prompt.ask("Email", default=user.get("email", ""))
@@ -413,7 +413,7 @@ def manual():
             number += 1
         task["description"] = Prompt.ask("Task description?", default="-")
         task["duration"] = Prompt.ask("How many hours of work? (float)", default=0.0)
-        task["duration"] = float(task["duration"]) * 360
+        task["duration"] = float(task["duration"]) * 3600
         task["status"] = settings.FINISHED
         tasks[task_name] = task
     project["tasks"] = tasks
