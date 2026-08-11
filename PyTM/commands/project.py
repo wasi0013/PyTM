@@ -14,9 +14,9 @@ from PyTM.core import project_handler
 def get_duration_str(sum_of_durations):
     m, s = divmod(sum_of_durations, 60)
     duration = ""
-    if m > 60:
+    if m >= 60:
         h, m = divmod(m, 60)
-        if h > 24:
+        if h >= 24:
             d, h = divmod(h, 24)
             duration = f"{d:d} days {h:d} hours {m:02d} mins {s:02d} secs"
         else:
@@ -28,12 +28,18 @@ def get_duration_str(sum_of_durations):
     return duration
 
 
-@click.group()
-def project():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def project(ctx):
     """
     pytm sub-command for managing projects.
     """
-    pass
+    # Explicit no-args-is-help handling: Click's own default for this
+    # (exit code 0 vs. a `UsageError` with exit code 2) changed between
+    # 8.1.x and 8.2+, so relying on it makes `pytm project`'s exit code
+    # depend on whatever Click version happens to be installed.
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
 
 
 @project.command()
@@ -46,7 +52,7 @@ def abort():
     if project_name:
         data_handler.update(partial(project_handler.abort, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
-        if state[settings.CURRENT_TASK]:
+        if state.get(settings.CURRENT_TASK):
             data_handler.update(
                 partial(
                     task_handler.abort,
@@ -71,7 +77,7 @@ def finish():
     if project_name:
         data_handler.update(partial(project_handler.finish, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
-        if state[settings.CURRENT_TASK]:
+        if state.get(settings.CURRENT_TASK):
             data_handler.update(
                 partial(
                     task_handler.finish,
@@ -96,7 +102,7 @@ def pause():
     if project_name:
         data_handler.update(partial(project_handler.pause, project_name=project_name))
         state[settings.CURRENT_PROJECT] = ""
-        if state[settings.CURRENT_TASK]:
+        if state.get(settings.CURRENT_TASK):
             data_handler.update(
                 partial(
                     task_handler.pause,
@@ -145,7 +151,7 @@ def remove(project_name):
     """
     state = data_handler.load_data(settings.state_filepath)
     data_handler.update(partial(project_handler.remove, project_name=project_name))
-    if state[settings.CURRENT_PROJECT] == project_name:
+    if state.get(settings.CURRENT_PROJECT) == project_name:
         state[settings.CURRENT_PROJECT] = ""
         data_handler.save_data(state, settings.state_filepath)
     console.print(f"[bold blue]{project_name}[/bold blue] removed.")
@@ -168,9 +174,11 @@ def summary(project_name):
     """
     - shows total time of the project with task and duration.
     """
-    project_data = project_handler.summary(data_handler.load_data(), project_name)
-    project_data = project_data.get("tasks", {})
-    tree = Tree(f'[bold blue]{project_name}[/bold blue] ([i]{project["status"]}[/i])')
+    project_info = project_handler.summary(data_handler.load_data(), project_name)
+    project_data = project_info.get("tasks", {})
+    tree = Tree(
+        f'[bold blue]{project_name}[/bold blue] ([i]{project_info.get("status", "")}[/i])'
+    )
     duration = 0
     for task, t in project_data.items():
         task_duration = int(round(t["duration"]))
@@ -217,6 +225,6 @@ def rename(project_name, new_name):
         partial(project_handler.rename, project_name=project_name, new_name=new_name)
     )
     console.print(f"The project: {project_name} is renamed to {new_name}.")
-    if state[settings.CURRENT_PROJECT] == project_name:
+    if state.get(settings.CURRENT_PROJECT) == project_name:
         state[settings.CURRENT_PROJECT] = new_name
         data_handler.save_data(state, settings.state_filepath)

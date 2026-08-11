@@ -120,3 +120,30 @@ History
 * added tests for task handler.
 * added tests for invoice handler.
 * updated make command to update README coverage percentage while testing.
+
+0.0.17 (unreleased)
+--------------------
+
+* **Billing fix:** invoice generation converted task duration to hours using
+  `/360` instead of `/3600`, billing every invoice at 10x the correct
+  amount. If you generated an invoice with a prior version, please
+  regenerate and re-check it before sending.
+* fixed a crash in `project summary` (`TypeError: 'Group' object is not
+  subscriptable`).
+* fixed a crash in `invoice auto` (`KeyError: 'meta'`) for any project that
+  was never configured via `config project`.
+* fixed `task rename` silently overwriting the active task pointer when
+  renaming a task that wasn't the active one.
+* `data.json`/`state.json` writes are now atomic (crash-safe) and
+  file-locked (concurrency-safe).
+* `save_data` no longer silently drops writes of an empty/falsy store
+  (e.g. removing the last project now actually persists).
+* added `--non-interactive` support (with per-field flags) to
+  `config user`, `config invoice`, `config project`, `invoice auto`, and
+  `invoice manual`, so invoices and config can be scripted.
+* corrected a boundary bug in duration formatting where exactly 1 hour or
+  exactly 24 hours displayed as e.g. "60 mins" instead of rolling over.
+* fixed `pytm project`/`task`/`config`/`invoice` (no subcommand) exiting
+  with different codes depending on the installed Click version (exit 0
+  on Click 8.1.x, exit 2 on Click 8.2+); behavior is now pinned to
+  "print help, exit 0" regardless of Click version.

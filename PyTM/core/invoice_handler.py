@@ -18,7 +18,7 @@ def generate(invoice_number, invoice_texts, user, project, discount=0):
         if t["status"] != settings.ABORTED:
             task_duration = int(round(t["duration"]))
             duration += task_duration
-            sub_total += float(t["duration"] / 360) * float(user["hourly_rate"])
+            sub_total += float(t["duration"] / 3600) * float(user["hourly_rate"])
     if discount == "":
         discount = 0
     else:
@@ -78,9 +78,9 @@ def generate(invoice_number, invoice_texts, user, project, discount=0):
                         {"\n".join(f'''<tr>
                             <td class="p-2 border border-gray-300">{task.replace("_", " ").replace("-", " ").title()}</td>
                             <td class="p-2 border border-gray-300">{t.get('description', '-')}</td>
-                            <td class="p-2 border border-gray-300">{float(t['duration']/360):,.02f}</td>
+                            <td class="p-2 border border-gray-300">{float(t['duration']/3600):,.02f}</td>
                             <td class="p-2 border border-gray-300">{float(user['hourly_rate']):,.02f}$</td>
-                            <td class="p-2 border border-gray-300">{float(t['duration']/360) * float(user['hourly_rate']):,.02f}</td>
+                            <td class="p-2 border border-gray-300">{float(t['duration']/3600) * float(user['hourly_rate']):,.02f}</td>
                         </tr>''' for task, t in tasks.items())}
                         
                     </tbody>

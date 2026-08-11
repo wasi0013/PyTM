@@ -1,6 +1,23 @@
-import datetime
-
 import pytest
+
+from PyTM import settings
+
+
+@pytest.fixture()
+def pytm_home(tmp_path, monkeypatch):
+    """
+    Isolates a CLI-level test from the developer's real `~/.pytm` store.
+
+    `data_handler`'s public functions resolve `settings.data_filepath` /
+    `settings.state_filepath` fresh on every call (not as bound function
+    defaults), so patching these attributes here is enough to redirect
+    every command under test to a throwaway directory.
+    """
+    data_folder = tmp_path / "pytm-home"
+    monkeypatch.setattr(settings, "data_folder", str(data_folder))
+    monkeypatch.setattr(settings, "data_filepath", str(data_folder / "data.json"))
+    monkeypatch.setattr(settings, "state_filepath", str(data_folder / "state.json"))
+    return data_folder
 
 
 @pytest.fixture()

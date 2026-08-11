@@ -44,3 +44,6 @@ output/*/index.html
 htmlcov/
 # Sphinx
 docs/_build
+
+# Internal planning docs (not for remote/public repo)
+docs/ideas/

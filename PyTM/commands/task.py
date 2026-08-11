@@ -4,15 +4,20 @@ from PyTM.core import task_handler
 from PyTM.core import data_handler
 from PyTM import settings
 from PyTM.console import console
-import json
 
 
-@click.group()
-def task():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def task(ctx):
     """
     pytm sub-command for managing tasks.
     """
-    pass
+    # Explicit no-args-is-help handling: Click's own default for this
+    # (exit code 0 vs. a `UsageError` with exit code 2) changed between
+    # 8.1.x and 8.2+, so relying on it makes `pytm task`'s exit code
+    # depend on whatever Click version happens to be installed.
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
 
 
 @task.command()
@@ -58,9 +63,9 @@ def finish():
             data_handler.save_data(state, settings.state_filepath)
             console.print(f"Finished task: [green]{task_name}[/green].")
         else:
-            console.print("[red bold]No active  task.")
+            console.print("[red bold]No active task.")
     else:
-        console.print("[red bold]No active  project.")
+        console.print("[red bold]No active project.")
 
 
 @task.command()
@@ -125,7 +130,7 @@ def remove(project_name, task_name):
     data_handler.update(
         partial(task_handler.remove, project_name=project_name, task_name=task_name)
     )
-    if state[settings.CURRENT_TASK] == task_name:
+    if state.get(settings.CURRENT_TASK) == task_name:
         state[settings.CURRENT_TASK] = ""
         data_handler.save_data(state, settings.state_filepath)
     console.print(f"Removed task [green]{task_name}[/green].")
@@ -163,7 +168,7 @@ def rename(task_name, new_name):
     project_name = state.get(settings.CURRENT_PROJECT)
     if project_name:
         if not data.get(project_name):
-            console.print(f"[red bold]Project doesn't exist.")
+            console.print(f"[red bold]Project {project_name} doesn't exist.")
             state[settings.CURRENT_PROJECT] = ""
             data_handler.save_data(state, settings.state_filepath)
             return
@@ -181,8 +186,9 @@ def rename(task_name, new_name):
                 new_name=new_name,
             )
         )
-        state[settings.CURRENT_TASK] = new_name
-        data_handler.save_data(state, settings.state_filepath)
+        if state.get(settings.CURRENT_TASK) == task_name:
+            state[settings.CURRENT_TASK] = new_name
+            data_handler.save_data(state, settings.state_filepath)
         console.print(f"Renamed task: [green]{task_name}[/green] to {new_name}.")
     else:
         console.print("[red bold]No active project.")
