@@ -15,6 +15,7 @@ coverage==7.3.2
 cryptography==41.0.5
 docutils==0.20.1
 entrypoints==0.4
+filelock==3.32.2
 flake8==6.1.0
 future==0.18.3
 idna==3.4
