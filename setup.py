@@ -33,7 +33,7 @@ setup(
     packages=["PyTM", "PyTM.commands", "PyTM.core"],
     package_dir={"python-pytm": "PyTM"},
     include_package_data=True,
-    install_requires=["click", "rich"],
+    install_requires=["click", "rich", "filelock"],
     license="MIT",
     zip_safe=False,
     keywords="PyTM",

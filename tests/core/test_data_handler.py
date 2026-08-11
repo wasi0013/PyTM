@@ -1,5 +1,10 @@
 import json
+import os
+import threading
 
+import pytest
+
+from PyTM import settings
 from PyTM.core import data_handler
 
 
@@ -34,3 +39,84 @@ def test_update(tmpdir):
     tmp_path.write("[]")
     data_handler.update(f, tmp_path)
     assert tmp_path.read() == '{"user": "test"}'
+
+
+def test_save_data_persists_empty_dict(tmpdir):
+    """
+    Regression test: `save_data` used to silently no-op on falsy data, so
+    e.g. removing the last project would leave the old file untouched and
+    the project would reappear on next load. An explicit empty store must
+    actually be written.
+    """
+    tmp_path = tmpdir.join("pytm-test.json")
+    data_handler.save_data({"a": 1}, tmp_path)
+    data_handler.save_data({}, tmp_path)
+    assert tmp_path.read() == "{}"
+    assert data_handler.load_data(tmp_path) == {}
+
+
+def test_save_data_none_is_a_noop(tmpdir):
+    tmp_path = tmpdir.join("pytm-test.json")
+    tmp_path.write(json.dumps({"a": 1}))
+    data_handler.save_data(None, tmp_path)
+    assert tmp_path.read() == json.dumps({"a": 1})
+
+
+def test_default_path_resolved_at_call_time(tmp_path, monkeypatch):
+    """
+    Regression test: the data/state file paths used to be bound as
+    function-default arguments, which freezes them to whatever
+    `settings.data_filepath` was when `data_handler` was first imported.
+    Monkeypatching `settings.data_filepath` afterwards (as tests and any
+    future config-reload need to) must actually take effect.
+    """
+    redirected = tmp_path / "redirected.json"
+    monkeypatch.setattr(settings, "data_filepath", str(redirected))
+    data_handler.save_data({"redirected": True}, path=None)
+    assert redirected.exists()
+    assert data_handler.load_data(path=None) == {"redirected": True}
+
+
+def test_save_data_survives_a_crash_mid_write(tmp_path, monkeypatch):
+    """
+    Crash-injection test: if the write fails partway through (process
+    killed, disk error, etc.) the original file must be left exactly as it
+    was, and no leftover temp file should remain.
+    """
+    target = tmp_path / "data.json"
+    target.write_text('{"existing": true}')
+
+    def boom(*args, **kwargs):
+        raise OSError("simulated crash mid-write")
+
+    monkeypatch.setattr(data_handler.os, "fsync", boom)
+
+    with pytest.raises(OSError):
+        data_handler.save_data({"new": "data"}, str(target))
+
+    assert target.read_text() == '{"existing": true}'
+    leftovers = [p for p in os.listdir(tmp_path) if p.startswith(".pytm-tmp-")]
+    assert leftovers == []
+
+
+def test_update_concurrent_does_not_lose_updates(tmp_path):
+    """
+    Concurrency test scoped to what the lock actually protects: `update()`
+    holds the lock across its whole load-mutate-save cycle, so concurrent
+    callers targeting the same file must not clobber each other.
+    """
+    target = tmp_path / "data.json"
+    data_handler.save_data({"count": 0}, str(target))
+
+    def increment():
+        data_handler.update(
+            lambda d: {**d, "count": d.get("count", 0) + 1}, str(target)
+        )
+
+    threads = [threading.Thread(target=increment) for _ in range(20)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+    assert data_handler.load_data(str(target))["count"] == 20
