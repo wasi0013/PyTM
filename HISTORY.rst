@@ -143,3 +143,7 @@ History
   `invoice manual`, so invoices and config can be scripted.
 * corrected a boundary bug in duration formatting where exactly 1 hour or
   exactly 24 hours displayed as e.g. "60 mins" instead of rolling over.
+* fixed `pytm project`/`task`/`config`/`invoice` (no subcommand) exiting
+  with different codes depending on the installed Click version (exit 0
+  on Click 8.1.x, exit 2 on Click 8.2+); behavior is now pinned to
+  "print help, exit 0" regardless of Click version.

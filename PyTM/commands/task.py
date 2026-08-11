@@ -6,12 +6,18 @@ from PyTM import settings
 from PyTM.console import console
 
 
-@click.group()
-def task():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def task(ctx):
     """
     pytm sub-command for managing tasks.
     """
-    pass
+    # Explicit no-args-is-help handling: Click's own default for this
+    # (exit code 0 vs. a `UsageError` with exit code 2) changed between
+    # 8.1.x and 8.2+, so relying on it makes `pytm task`'s exit code
+    # depend on whatever Click version happens to be installed.
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
 
 
 @task.command()

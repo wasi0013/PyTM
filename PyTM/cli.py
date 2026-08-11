@@ -152,12 +152,18 @@ def show():
     console.print(table)
 
 
-@click.group()
-def config():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def config(ctx):
     """
     - pytm sub-commands for configuration.
     """
-    ...
+    # Explicit no-args-is-help handling: Click's own default for this
+    # (exit code 0 vs. a `UsageError` with exit code 2) changed between
+    # 8.1.x and 8.2+, so relying on it makes `pytm config`'s exit code
+    # depend on whatever Click version happens to be installed.
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
 
 
 @config.command()
@@ -348,12 +354,18 @@ def config_project(
     console.print("\n[green]Project Meta data updated.")
 
 
-@click.group()
-def invoice():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def invoice(ctx):
     """
     - pytm sub-commands for invoice.
     """
-    ...
+    # Explicit no-args-is-help handling: Click's own default for this
+    # (exit code 0 vs. a `UsageError` with exit code 2) changed between
+    # 8.1.x and 8.2+, so relying on it makes `pytm invoice`'s exit code
+    # depend on whatever Click version happens to be installed.
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
 
 
 @invoice.command()
