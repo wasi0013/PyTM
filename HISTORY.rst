@@ -121,7 +121,63 @@ History
 * added tests for invoice handler.
 * updated make command to update README coverage percentage while testing.
 
-0.0.17 (unreleased)
+0.0.18 (unreleased)
+--------------------
+
+* **`pytm task switch NAME`**: atomically pauses the active task (if any)
+  and starts/resumes `NAME` in a single locked operation, closing the gap
+  where switching used to be two separate, independently-locked commands.
+* **`pytm task edit NAME --duration HOURS`**: manually corrects a task's
+  recorded duration (e.g. after a hook mis-tracked it). Recorded as a
+  dated adjustment so `today`/`week` stay consistent with the correction.
+* **`pytm today` / `pytm week`**: digests of time logged today / this
+  week, aggregated per project and task from the new per-task session
+  log. Tasks recorded before this release (no session log) are shown
+  with a best-effort "(legacy, approximate)" attribution bucketed on
+  their finish date. `pytm week`'s start day defaults to Saturday and is
+  configurable via `pytm config user --week-start DAY`.
+* **`pytm hook`**: opt-in ambient tracking. `pytm hook link PROJECT`
+  (run inside a directory) tracks that directory (and its
+  subdirectories) against `PROJECT`; `pytm hook init bash|zsh` prints a
+  shell snippet (`eval "$(pytm hook init zsh)"`) that switches the active
+  project/task automatically on `cd` and git branch changes, based only
+  on directories you've explicitly linked. Never auto-creates a project
+  from an unlinked directory.
+* fixed a crash (`ValueError: Invalid isoformat string`) when `task
+  pause`/`task finish`/`task abort` were called on a task that wasn't
+  currently running (e.g. called twice in a row) — these are now no-ops
+  on a task that isn't in the relevant state, instead of raising. This
+  matters more now that ambient hooks can call them redundantly.
+* fixed `task abort` silently discarding the time logged since the task
+  was last resumed instead of folding it into `duration`.
+* fixed `task start`/`task switch` on an already-running task resetting
+  its start time, which used to silently drop the time already accrued.
+* `task_handler.switch` (and so `pytm task switch` and `pytm hook
+  resolve --apply`) now pauses *every* running task in the project
+  before starting the target task, not just the one `state` happens to
+  be tracking — closes a gap where a task left running in the project
+  you're switching *into* (started manually, or by an earlier hook
+  resolve that didn't get to update state) could end up running
+  alongside the new one, both simultaneously marked "running".
+* fixed `pytm today`/`pytm week` rendering a downward `task edit`
+  correction (one that outweighs other time logged that day) as a
+  misleadingly small or zero duration instead of a real negative value.
+* fixed `task edit` on a task recorded before per-session tracking
+  existed silently dropping its original duration from `today`/`week`
+  the moment it was corrected, instead of preserving that original
+  day's total and dating the correction itself on the day it was made.
+* `pytm hook resolve --apply`'s state updates are now held under one
+  lock for its whole read-modify-write sequence, instead of several
+  separate load/save round trips — this runs automatically and
+  frequently (every shell prompt, potentially from several terminals at
+  once), so two invocations racing could otherwise silently clobber
+  each other's state update.
+* minor: `pytm hook`'s directory matching no longer re-normalizes every
+  linked path (a stat syscall each) on every `cd`/branch check — only
+  the current directory needs it, since linked paths are already
+  normalized when they're stored.
+
+0.0.17 (2026-08-12)
 --------------------
 
 * **Billing fix:** invoice generation converted task duration to hours using
