@@ -26,10 +26,10 @@
    :target: https://pepy.tech/project/python-pytm
    :alt: Download Stats
 .. |DocsStats| image:: https://readthedocs.org/projects/pytm/badge/?version=latest
-   :target: https://pytm.readthedocs.io/en/latest/?badge=latest
+   :target: https://pytm.readthedocs.io/
    :alt: Documentation Status
 .. |coverage| image:: https://img.shields.io/badge/coverage-56%25-blue
-   :target: https://pytm.readthedocs.io/en/latest/?badge=latest
+   :target: https://pytm.readthedocs.io/
    :alt: Documentation Status
 
 Goals
@@ -58,23 +58,30 @@ Screenshots
 Installing PyTM
 ---------------
 
-* First download and install `pyenv <https://github.com/pyenv/pyenv#installation>`_. Use the command::
+PyTM is installed with `uv <https://docs.astral.sh/uv/>`_, a fast, single-binary
+Python package manager. It takes care of getting a suitable Python version for
+you too, so there's nothing else to install first.
 
-    curl https://pyenv.run | bash
+* Install uv (skip this if you already have it)::
 
-* Next, install Python 3.12 using the command::
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 
-    pyenv install 3.12.0
+  Windows, and other install options, are covered in the
+  `uv installation docs <https://docs.astral.sh/uv/getting-started/installation/>`_.
 
-  Alternatively, you can skip pyenv installation and download python 3.12 or above from the official website and setup a virtualenv as well. 
+* Install PyTM as a standalone command-line tool::
 
+    uv tool install python-pytm
 
-* Next, install PyTM from `PyPI <https://pypi.org/project/python-pytm/>`_ using :code:`pip`::
+  This puts a ``pytm`` command on your ``PATH``, isolated in its own
+  environment, without touching any other Python project on your machine.
 
-    python -m pip install python-pytm
+  Prefer not to install anything permanently? Try it in one shot instead::
+
+    uvx python-pytm --help
 
 Check the version by typing the following in your terminal.::
-    
+
      pytm --version
 
 
@@ -108,6 +115,36 @@ Commands related to Task
 * Finish active task: :code:`pytm task finish`
 * Pause active task: :code:`pytm task pause`
 * Abort active task: :code:`pytm task abort`
+* Atomically pause the active task and start/resume another: :code:`pytm task switch TASK_NAME`
+* Correct a task's recorded duration by hand: :code:`pytm task edit TASK_NAME --duration HOURS`
+
+Time digests
+============
+* Time logged today, across all projects: :code:`pytm today`
+* Time logged this week, across all projects: :code:`pytm week`
+* The week's start day (default Saturday) is configurable: :code:`pytm config user --week-start monday`
+
+Ambient tracking (shell hooks)
+===============================
+Automatically start/switch tasks based on the directory you `cd` into and the
+git branch you're on — opt-in, per directory, no auto-detection.
+
+* Link a directory (and its subdirectories) to a project::
+
+    cd ~/code/my-client-project
+    pytm hook link my-client-project
+
+* Enable the hook in your shell rc file (``~/.bashrc`` or ``~/.zshrc``)::
+
+    eval "$(pytm hook init bash)"   # or: pytm hook init zsh
+
+  From then on, `cd`-ing into a linked directory (or any of its
+  subdirectories) starts/resumes its project, and switching git branch
+  there switches to a task named after the branch. Directories that were
+  never linked are left untouched — nothing is inferred automatically.
+
+* Manage links: :code:`pytm hook list`, :code:`pytm hook unlink`
+* See what a directory would resolve to without applying it: :code:`pytm hook resolve`
 
 Others
 ======
@@ -139,15 +176,26 @@ For a list of all the available commands try::
 Running the tests
 -----------------
 
-* Clone this `repository <https://github.com/wasi0013/PyTM>`_
+This is for working on PyTM itself, not for just using it — if you only want
+the ``pytm`` command, see `Installing PyTM`_ above instead.
 
-* Install dependencies::
+* Clone this `repository <https://github.com/wasi0013/PyTM>`_ and ``cd`` into it::
 
-    pip install -r requirements.txt
+    git clone https://github.com/wasi0013/PyTM.git
+    cd PyTM
 
-* run the tests::
+* Create a virtual environment (uv downloads a matching Python for you if
+  needed) and install dependencies into it::
 
-    py.test
+    uv venv
+    uv pip install -r requirements.txt
+
+* Run the tests::
+
+    uv run pytest
+
+  ``uv run`` finds the ``.venv`` created above automatically, so there's no
+  need to manually activate it first.
 
 
 Notes

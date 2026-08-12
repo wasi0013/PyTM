@@ -70,11 +70,16 @@ local development.
 Now you can make your changes locally.
 
 4. When you're done making changes, check that your changes pass style and unit
-   tests, including testing other Python versions with tox::
+   tests, including testing other Python versions with tox. Using
+   `uv <https://docs.astral.sh/uv/>`_ (see the `README <README.rst>`_ for how
+   to install it), you can run tox without a separate install step::
 
+    $ uvx tox
+
+   Or, if you'd rather install tox once and reuse it::
+
+    $ uv tool install tox
     $ tox
-
-To get tox, just pip install it.
 
 5. Commit your changes and push your branch to GitHub::
 
@@ -104,6 +109,7 @@ Before you submit a pull request, check that it meets these guidelines:
 Tips
 ----
 
-To run a subset of tests::
+To run a subset of tests (after the ``uv venv`` / ``uv pip install`` setup
+described in the README's "Running the tests" section)::
 
-	 $ py.test test/test_PyTM.py
+    $ uv run pytest tests/test_cli.py

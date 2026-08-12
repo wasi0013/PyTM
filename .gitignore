@@ -4,6 +4,7 @@
 .idea/
 .env/
 .cli_env/
+.venv/
 # C extensions
 *.so
 
