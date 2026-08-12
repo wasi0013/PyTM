@@ -120,3 +120,42 @@ def test_update_concurrent_does_not_lose_updates(tmp_path):
         t.join()
 
     assert data_handler.load_data(str(target))["count"] == 20
+
+
+def test_locked_serializes_concurrent_readmodifywrite_sequences(tmp_path):
+    """
+    Regression: `hook resolve --apply` reads state, then makes up to two
+    separate load/mutate/save round trips — more than a single `update()`
+    call covers — on a path invoked automatically and frequently (every
+    shell prompt change, potentially from several terminals at once). A
+    plain load/mutate/save per step lets one caller's write be silently
+    clobbered by another's stale in-memory copy. `locked()` +
+    `write_unlocked()` exist so a caller can hold the lock across its
+    whole multi-step sequence instead.
+    """
+    target = tmp_path / "state.json"
+    data_handler.save_data({"count": 0}, str(target))
+
+    def increment_twice():
+        with data_handler.locked(str(target)):
+            data = data_handler.load_data(str(target))
+            data["count"] = data.get("count", 0) + 1
+            data_handler.write_unlocked(data, str(target))
+            data = data_handler.load_data(str(target))
+            data["count"] = data.get("count", 0) + 1
+            data_handler.write_unlocked(data, str(target))
+
+    threads = [threading.Thread(target=increment_twice) for _ in range(10)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+    assert data_handler.load_data(str(target))["count"] == 20
+
+
+def test_write_unlocked_none_is_a_noop(tmp_path):
+    target = tmp_path / "state.json"
+    data_handler.save_data({"a": 1}, str(target))
+    data_handler.write_unlocked(None, str(target))
+    assert data_handler.load_data(str(target)) == {"a": 1}

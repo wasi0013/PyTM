@@ -97,6 +97,150 @@ def test_task_rename_updates_current_task_when_it_is_the_active_task(pytm_home):
     assert state[settings.CURRENT_TASK] == "task-a-renamed"
 
 
+def test_task_switch_pauses_current_and_starts_target(pytm_home):
+    runner = CliRunner()
+    runner.invoke(cli, ["project", "start", "demo"])
+    runner.invoke(cli, ["task", "start", "task-a"])
+    result = runner.invoke(cli, ["task", "switch", "task-b"])
+    assert result.exit_code == 0, result.output
+
+    data = data_handler.load_data()
+    tasks = data["demo"]["tasks"]
+    assert tasks["task-a"]["status"] == "paused"
+    assert tasks["task-b"]["status"] == "running"
+    state = data_handler.load_data(settings.state_filepath)
+    assert state[settings.CURRENT_TASK] == "task-b"
+
+
+def test_task_switch_to_active_task_is_a_noop(pytm_home):
+    runner = CliRunner()
+    runner.invoke(cli, ["project", "start", "demo"])
+    runner.invoke(cli, ["task", "start", "task-a"])
+    result = runner.invoke(cli, ["task", "switch", "task-a"])
+    assert result.exit_code == 0, result.output
+    assert "already the active task" in result.output
+
+
+def test_task_switch_without_active_project_errors_cleanly(pytm_home):
+    runner = CliRunner()
+    result = runner.invoke(cli, ["task", "switch", "task-a"])
+    assert result.exit_code == 0, result.output
+    assert "No active project" in result.output
+
+
+def test_task_edit_corrects_duration(pytm_home):
+    runner = CliRunner()
+    runner.invoke(cli, ["project", "start", "demo"])
+    runner.invoke(cli, ["task", "start", "task-a"])
+    runner.invoke(cli, ["task", "finish"])
+
+    result = runner.invoke(cli, ["task", "edit", "task-a", "--duration", "2.5"])
+    assert result.exit_code == 0, result.output
+
+    data = data_handler.load_data()
+    task = data["demo"]["tasks"]["task-a"]
+    assert task["duration"] == 2.5 * 3600
+    assert task["sessions"][-1]["delta"] is not None
+
+
+def test_task_edit_unknown_task_errors_cleanly(pytm_home):
+    runner = CliRunner()
+    runner.invoke(cli, ["project", "start", "demo"])
+    result = runner.invoke(cli, ["task", "edit", "nope", "--duration", "1"])
+    assert result.exit_code == 0, result.output
+    assert "doesn't exist" in result.output
+
+
+def test_today_shows_time_logged_today(pytm_home):
+    runner = CliRunner()
+    runner.invoke(cli, ["project", "start", "demo"])
+    runner.invoke(cli, ["task", "start", "task-a"])
+    runner.invoke(cli, ["task", "finish"])
+
+    result = runner.invoke(cli, ["today"])
+    assert result.exit_code == 0, result.output
+    assert "demo" in result.output
+    assert "task-a" in result.output
+
+
+def test_today_with_nothing_logged_does_not_crash(pytm_home):
+    runner = CliRunner()
+    result = runner.invoke(cli, ["today"])
+    assert result.exit_code == 0, result.output
+    assert "Nothing logged" in result.output
+
+
+def test_format_signed_duration_handles_negative_seconds():
+    """
+    Regression: `get_duration_str` assumes non-negative elapsed time.
+    A downward `task edit` correction can make a digest total go
+    negative (it outweighs other time logged that day), and feeding
+    that straight into `get_duration_str` silently mangled it instead of
+    showing the true sign/magnitude — e.g. `-10800` (a 3-hour reduction)
+    rendered as "00 seconds", and `-90` rendered as "30 seconds".
+    """
+    from PyTM.cli import _format_signed_duration
+
+    assert _format_signed_duration(-10800) == "-3 hours 00 mins 00 secs"
+    assert _format_signed_duration(-90) == "-01 mins 30 secs"
+    assert _format_signed_duration(90) == "01 mins 30 secs"
+
+
+def test_today_reflects_a_downward_edit_correction_without_crashing(pytm_home):
+    """
+    Regression: `task edit --duration` to a value lower than a task's
+    current duration produces a negative delta. `pytm today` must render
+    that as a real negative value, not crash, and not silently show a
+    misleadingly small/zero duration.
+    """
+    runner = CliRunner()
+    runner.invoke(cli, ["project", "start", "demo"])
+    runner.invoke(cli, ["task", "start", "task-a"])
+    runner.invoke(cli, ["task", "finish"])
+    # Force the task's duration up, then correct it down — a hook
+    # over-tracking and being corrected is the motivating case for edit.
+    data = data_handler.load_data()
+    data["demo"]["tasks"]["task-a"]["duration"] = 14400  # 4h
+    data_handler.save_data(data)
+
+    result = runner.invoke(cli, ["task", "edit", "task-a", "--duration", "1"])
+    assert result.exit_code == 0, result.output
+
+    result = runner.invoke(cli, ["today"])
+    assert result.exit_code == 0, result.output
+    assert result.exception is None
+    assert "-" in result.output  # a real negative value is shown somewhere
+
+
+def test_week_shows_time_logged_this_week(pytm_home):
+    runner = CliRunner()
+    runner.invoke(cli, ["project", "start", "demo"])
+    runner.invoke(cli, ["task", "start", "task-a"])
+    runner.invoke(cli, ["task", "finish"])
+
+    result = runner.invoke(cli, ["week"])
+    assert result.exit_code == 0, result.output
+    assert "demo" in result.output
+
+
+def test_week_uses_configured_week_start_day(pytm_home):
+    runner = CliRunner()
+    runner.invoke(
+        cli,
+        ["config", "user", "--non-interactive", "--week-start", "monday"],
+        input="",
+    )
+    state = data_handler.load_data(settings.state_filepath)
+    assert state["config"]["user"]["week_start"] == "monday"
+
+
+def test_config_user_defaults_week_start_to_saturday(pytm_home):
+    runner = CliRunner()
+    runner.invoke(cli, ["config", "user", "--non-interactive", "--name", "X"], input="")
+    state = data_handler.load_data(settings.state_filepath)
+    assert state["config"]["user"]["week_start"] == "saturday"
+
+
 def test_config_user_non_interactive_never_prompts(pytm_home):
     runner = CliRunner()
     result = runner.invoke(

@@ -13,10 +13,11 @@ from rich.panel import Panel
 from rich.layout import Layout
 
 from PyTM import __version__, settings
+from PyTM.commands.hook import hook
 from PyTM.commands.project import project, get_duration_str
 from PyTM.commands.task import task
 from PyTM.console import console
-from PyTM.core import data_handler, invoice_handler
+from PyTM.core import data_handler, digest_handler, invoice_handler
 
 
 def init_data_store(show_messages=False):
@@ -176,12 +177,21 @@ def config(ctx):
     "--hourly-rate", "hourly_rate", default=None, help="Your hourly rate in USD."
 )
 @click.option(
+    "--week-start",
+    "week_start",
+    default=None,
+    type=click.Choice(list(settings.WEEKDAYS), case_sensitive=False),
+    help="Day `pytm week` treats as the start of the week.",
+)
+@click.option(
     "--non-interactive",
     is_flag=True,
     default=False,
     help="Never prompt; use the flags above (or the existing/blank value) for anything not passed.",
 )
-def user(name, email, phone, address, website, hourly_rate, non_interactive):
+def user(
+    name, email, phone, address, website, hourly_rate, week_start, non_interactive
+):
     """
     - config default user.
     """
@@ -212,6 +222,17 @@ def user(name, email, phone, address, website, hourly_rate, non_interactive):
         current_user.get("hourly_rate", ""),
         non_interactive,
     )
+    default_week_start = current_user.get("week_start", settings.DEFAULT_WEEK_START)
+    if week_start is not None:
+        current_user["week_start"] = week_start
+    elif non_interactive:
+        current_user["week_start"] = default_week_start
+    else:
+        current_user["week_start"] = Prompt.ask(
+            "Week start day",
+            choices=list(settings.WEEKDAYS),
+            default=default_week_start,
+        )
     state["config"]["user"] = current_user
     data_handler.save_data(state, settings.state_filepath)
     console.print("\n[green]Default user info updated.")
@@ -772,13 +793,103 @@ def summary():
     console.print(layout)
 
 
+def _configured_week_start():
+    state = data_handler.load_data(settings.state_filepath)
+    return (
+        state.get("config", {})
+        .get("user", {})
+        .get("week_start", settings.DEFAULT_WEEK_START)
+    )
+
+
+def _format_signed_duration(seconds):
+    """
+    `get_duration_str` assumes non-negative elapsed time, true for every
+    other caller (a task's total time worked can't be negative). Digest
+    entries can go negative, though: a `task edit` correction can
+    outweigh the other time logged that day. Feeding a negative number
+    straight into `get_duration_str` silently mangles it instead of
+    raising (e.g. `divmod(-10800, 60)` renders as "00 seconds"), so
+    negative values are formatted as a sign plus the magnitude instead.
+    """
+    seconds = int(round(seconds))
+    if seconds < 0:
+        return f"-{get_duration_str(-seconds)}"
+    return get_duration_str(seconds)
+
+
+def _print_digest(title, window_start, window_end):
+    breakdown = digest_handler.collect(
+        data_handler.load_data(), window_start, window_end
+    )
+    console.print(
+        f"[bold blue]{title}[/bold blue] "
+        f"({window_start:%Y-%m-%d %H:%M} through now)"
+    )
+    if not breakdown:
+        console.print("[i]Nothing logged in this window.[/i]")
+        return
+
+    total = 0
+    has_legacy = False
+    for project_name, tasks in breakdown.items():
+        tree = Tree(f"[bold blue]{project_name}[/bold blue]")
+        project_total = 0
+        for task_name, info in tasks.items():
+            project_total += info["seconds"]
+            total += info["seconds"]
+            has_legacy = has_legacy or info["legacy"]
+            suffix = " [i](legacy, approximate)[/i]" if info["legacy"] else ""
+            tree.add(
+                f"[green]{task_name}[/green]: "
+                f"{_format_signed_duration(info['seconds'])}{suffix}"
+            )
+        console.print(
+            Panel(
+                tree,
+                title=project_name,
+                subtitle=f"[blue bold]Subtotal[/blue bold]: "
+                f"{_format_signed_duration(project_total)}",
+                expand=False,
+            )
+        )
+    console.print(f"[bold blue]Total[/bold blue]: {_format_signed_duration(total)}")
+    if has_legacy:
+        console.print(
+            "[i]Entries marked (legacy, approximate) predate per-session "
+            "tracking; they're bucketed on their finish date rather than "
+            "time-weighted within the window.[/i]"
+        )
+
+
+@click.command()
+def today():
+    """
+    - shows time logged today, across all projects.
+    """
+    start, end = digest_handler.day_window()
+    _print_digest("Today", start, end)
+
+
+@click.command()
+def week():
+    """
+    - shows time logged this week, across all projects.
+    """
+    start, end = digest_handler.week_window(_configured_week_start())
+    _print_digest("This week", start, end)
+
+
 cli.add_command(init)
 cli.add_command(project)
 cli.add_command(task)
+cli.add_command(hook)
 cli.add_command(show)
 cli.add_command(config)
 cli.add_command(invoice)
 cli.add_command(summary)
+cli.add_command(today)
+cli.add_command(week)
 
 if __name__ == "__main__":
     cli()

@@ -17,3 +17,15 @@ ABORTED = "aborted"
 # State keys
 CURRENT_PROJECT = "current_project"
 CURRENT_TASK = "current_task"
+
+# `pytm week` digest
+WEEKDAYS = (
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+)
+DEFAULT_WEEK_START = "saturday"

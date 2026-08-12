@@ -94,3 +94,34 @@ def update(func, path=None):
     with FileLock(_lock_path(path)):
         data = load_data(path)
         _atomic_write(func(data), path)
+
+
+def locked(path=None, timeout=-1):
+    """
+    Returns the same file lock `save_data`/`update` use for `path`, for a
+    caller that needs several reads/writes on `path` to happen as one
+    atomic unit — more than a single `update()` call covers. `timeout` is
+    in seconds; -1 (the default) blocks indefinitely, matching
+    `save_data`/`update`.
+
+    Callers must write with `write_unlocked` inside the `with` block, not
+    `save_data`/`update` — those acquire this same lock themselves, and a
+    second acquisition from within the first, via a different `FileLock`
+    instance on the same path, would deadlock rather than reentering.
+    """
+    path = _default_path(path)
+    os.makedirs(_directory_of(path), exist_ok=True)
+    return FileLock(_lock_path(path), timeout=timeout)
+
+
+def write_unlocked(data, path=None):
+    """
+    Writes `data` to `path` atomically without acquiring the lock. For
+    use only inside a `with locked(path):` block; everywhere else, use
+    `save_data`.
+    """
+    path = _default_path(path)
+    if data is None:
+        return
+    os.makedirs(_directory_of(path), exist_ok=True)
+    _atomic_write(data, path)
