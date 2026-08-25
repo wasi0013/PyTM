@@ -159,3 +159,20 @@ def test_write_unlocked_none_is_a_noop(tmp_path):
     data_handler.save_data({"a": 1}, str(target))
     data_handler.write_unlocked(None, str(target))
     assert data_handler.load_data(str(target)) == {"a": 1}
+
+
+def test_save_data_survives_a_broken_backup_hook(tmp_path, monkeypatch):
+    """
+    A failure in the git auto-backup hook (a bug in `backup_handler`
+    included) must never surface as a write failure — the hook is
+    best-effort by design, layered behind its own writes.
+    """
+    from PyTM.core import backup_handler
+
+    def boom(*args, **kwargs):
+        raise RuntimeError("simulated backup_handler bug")
+
+    monkeypatch.setattr(backup_handler, "auto_commit", boom)
+    target = tmp_path / "data.json"
+    data_handler.save_data({"a": 1}, str(target))
+    assert data_handler.load_data(str(target)) == {"a": 1}

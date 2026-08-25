@@ -45,6 +45,25 @@ def _atomic_write(data, path):
         if os.path.exists(tmp_path):
             os.remove(tmp_path)
         raise
+    _notify_backup(path)
+
+
+def _notify_backup(path):
+    """
+    Best-effort git auto-commit hook, fired after every successful write.
+    Imported lazily (not at module load time) to avoid a hard import
+    cycle: `backup_handler` reads state via this module, so this module
+    can't import it back at the top level. Wrapped in its own try/except
+    on top of `backup_handler.auto_commit`'s internal one — a failure
+    here (a bug in backup_handler included) must never surface as a
+    write failure.
+    """
+    try:
+        from PyTM.core import backup_handler
+
+        backup_handler.auto_commit(path)
+    except Exception:
+        pass
 
 
 def init_data(path=None, data=None):

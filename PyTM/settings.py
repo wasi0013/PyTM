@@ -29,3 +29,6 @@ WEEKDAYS = (
     "sunday",
 )
 DEFAULT_WEEK_START = "saturday"
+
+# `pytm backup`
+DEFAULT_BACKUP_REMOTE = "origin"

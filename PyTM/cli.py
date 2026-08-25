@@ -13,6 +13,7 @@ from rich.panel import Panel
 from rich.layout import Layout
 
 from PyTM import __version__, settings
+from PyTM.commands.backup import backup
 from PyTM.commands.hook import hook
 from PyTM.commands.project import project, get_duration_str
 from PyTM.commands.task import task
@@ -884,6 +885,7 @@ cli.add_command(init)
 cli.add_command(project)
 cli.add_command(task)
 cli.add_command(hook)
+cli.add_command(backup)
 cli.add_command(show)
 cli.add_command(config)
 cli.add_command(invoice)
