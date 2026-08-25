@@ -28,7 +28,7 @@
 .. |DocsStats| image:: https://readthedocs.org/projects/pytm/badge/?version=latest
    :target: https://pytm.readthedocs.io/
    :alt: Documentation Status
-.. |coverage| image:: https://img.shields.io/badge/coverage-56%25-blue
+.. |coverage| image:: https://img.shields.io/badge/coverage-84%25-blue
    :target: https://pytm.readthedocs.io/
    :alt: Documentation Status
 
@@ -145,6 +145,52 @@ git branch you're on — opt-in, per directory, no auto-detection.
 
 * Manage links: :code:`pytm hook list`, :code:`pytm hook unlink`
 * See what a directory would resolve to without applying it: :code:`pytm hook resolve`
+
+Backup (git-based, local by default)
+=====================================
+Turns ``~/.pytm`` into its own git repo and commits every write
+automatically. Opt-in and commit-only by default — no remote is
+configured or pushed to unless you explicitly ask.
+
+* Turn it on::
+
+    pytm backup enable
+
+* Check status (enabled/disabled, working-tree clean/dirty, last commit,
+  configured remote)::
+
+    pytm backup status
+
+* Point it at a remote you control (a private GitHub/GitLab repo, or any
+  git host, including self-hosted) — this only configures the remote, it
+  doesn't push::
+
+    pytm backup remote set git@github.com:you/pytm-backup.git
+
+* Push manually when you want an off-site copy. Auto-backup never pushes
+  on its own — it only commits locally::
+
+    pytm backup push
+
+* Manually flush any pending changes (works whether auto-backup is on or
+  off)::
+
+    pytm backup commit
+
+* Turn it off (history and any configured remote are left untouched)::
+
+    pytm backup disable
+
+**Restoring on a new machine** (after a lost/stolen laptop, say) is a
+plain git clone — there's no separate ``pytm backup restore`` command,
+because none is needed::
+
+    git clone git@github.com:you/pytm-backup.git ~/.pytm
+
+If you never configured a remote, commit-only backup protects against a
+corrupted write or an accidental ``rm``, but not against losing the
+machine itself — run ``pytm backup remote set`` and ``pytm backup push``
+if you want that guarantee too.
 
 Others
 ======

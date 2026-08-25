@@ -121,6 +121,27 @@ History
 * added tests for invoice handler.
 * updated make command to update README coverage percentage while testing.
 
+0.0.19 (unreleased)
+--------------------
+
+* **`pytm backup`**: opt-in, git-based local backup. `pytm backup
+  enable` turns `~/.pytm` into its own git repo and commits every write
+  automatically — commit-only by default, nothing is pushed anywhere
+  unless you explicitly configure a remote (`pytm backup remote set
+  URL`) and push (`pytm backup push`). `pytm backup status` shows
+  enabled/disabled, working-tree clean/dirty, last commit, and any
+  configured remote; `pytm backup commit` manually flushes pending
+  changes; `pytm backup disable` turns off auto-commit without touching
+  existing history. Restoring on a new machine is a plain `git clone` of
+  the configured remote into `~/.pytm` — no separate restore command.
+* Commits made by PyTM always carry an explicit git identity
+  (`user.name`/`user.email`), so backup never fails just because the
+  machine has no global git identity configured.
+* Concurrent writes (e.g. from two terminals with ambient hooks) commit
+  safely: git operations are serialized under their own lock, separate
+  from `data_handler`'s per-file locks, so two `pytm` processes can't
+  race on git's own index lock and silently drop one commit.
+
 0.0.18 (unreleased)
 --------------------
 
